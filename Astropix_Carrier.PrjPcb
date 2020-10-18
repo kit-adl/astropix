@@ -38,23 +38,6 @@ PrefsVaultGUID=
 PrefsRevisionGUID=
 
 [Document1]
-DocumentPath=CAMtastic1.Cam
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=
-
-[Document2]
 DocumentPath=Altium\PCI_express\PCI_custom_98.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -71,7 +54,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=NAJQOCFO
 
-[Document3]
+[Document2]
 DocumentPath=Altium\PCI_express\PCI_custom_98.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -88,7 +71,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document4]
+[Document3]
 DocumentPath=PCI_ASTROPIX_carrier.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -105,7 +88,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=ZYTATNQY
 
-[Document5]
+[Document4]
 DocumentPath=PCI_ASTROPIX_carrier.PcbDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -122,7 +105,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=SVNTALQC
 
-[Document6]
+[Document5]
 DocumentPath=AstroPix.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -139,7 +122,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document7]
+[Document6]
 DocumentPath=AstroPix.SchLib
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -155,6 +138,10 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
+
+[GeneratedDocument1]
+DocumentPath=Project Outputs for Astropix_Carrier\Design Rule Check - PCI_ASTROPIX_carrier.html
+DItemRevisionGUID=
 
 [Configuration1]
 Name=Sources

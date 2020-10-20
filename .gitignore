@@ -1,0 +1,6 @@
+Astropix_v1_202004/Apix_v1_Software/debug/
+**/build*
+Astropix_v1_202004/Apix_v1_Software/release/
+**/.vs/*
+**/*.log
+**/*.user*

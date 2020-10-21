@@ -455,55 +455,126 @@ MainWindow::MainWindow(QWidget *parent) :
     //----------------------
     //  GUI Building
     //----------------------
-
-
     std::cout << "Setting up GUI DACS" << std::endl;
     std::cout << std::flush;
 
-    //Prepare the GUI:
-    //  hide the reference labels:
-    ui->L_ParentAnchorDAC->setVisible(false);
-    ui->L_ParentAnchorConfig->setVisible(false);
-    ui->L_ParentAnchorVDAC->setVisible(false);
-    ui->L_ParentAnchorTDAC->setVisible(false);
-    ui->L_ParentAnchorRow->setVisible(false);
-    ui->L_ParentAnchorColumn->setVisible(false);
 
     // Configuration Tabs
     //------------------------------
 
-    // Each Config set will be a tab in the gui
-    for (ASIC_Config2*config : this->asicConfigs) {
+    //-- Each Config set will be a tab in the gui
+    //----------
+    QTabWidget * asicConfigTabW = this->ui->asicConfigTabWidget;
+    for (ASIC_Config2* config : this->asicConfigs) {
 
+        //-- Create Vertical Layout container and scroll area
+        QScrollArea * tabScrollArea = new QScrollArea();
+        //tabScrollArea->setWidget(configContainer);
+
+        QWidget * configContainer = new QWidget(tabScrollArea);
+        configContainer->setLayout(new QVBoxLayout());
+        configContainer->layout()->setAlignment(Qt::AlignTop);
+
+
+
+        // Insert to tab
+        asicConfigTabW->insertTab(-1,tabScrollArea,QString::fromStdString(config->GetDeviceName()));
+
+        //-- Insert entries
+        for(unsigned int i = 0; i < config->GetEntries(); ++i) {
+
+            // Optional parameters are not set
+            if (config->ParameterIsOptional(i)) {
+                continue;
+            }
+
+            //-- Create HBOX to hold parameter GUI
+            QWidget * containerWidget = new QWidget();
+            QHBoxLayout * hLayout = new QHBoxLayout(containerWidget);
+            configContainer->layout()->addWidget(containerWidget);
+
+            //-- Parameter with more than 1 bit get a Slider and Spinbox
+            if(config->GetParameterWidth(i) > 1) {
+
+                // Label
+                QLabel* lb = new QLabel();
+                hLayout->addWidget(lb);
+
+                lb->setText(config->GetParameterName(i).c_str());
+
+
+                // Slider to change value
+                QSlider* sl = new QSlider(Qt::Horizontal);
+                hLayout->addWidget(sl);
+
+                sl->setRange(0, (1 << config->GetParameterWidth(i)) - 1);
+                sl->setValue(config->GetParameter(i));
+
+                // Spin Box to change value
+                QSpinBox* sb = new QSpinBox();
+                hLayout->addWidget(sb);
+
+                sb->setRange(0, (1 <<config->GetParameterWidth(i)) - 1);
+                sb->setValue(config->GetParameter(i));
+                sb->setAlignment(Qt::AlignRight);
+
+                // Events
+                // - Slider changes value of Box on release
+                // - Box updates using global updateFromGUI() when value changes
+                connect(sl,&QSlider::valueChanged, [=](int val){ sb->setValue(val); });
+                //connect(sb, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
+
+            }
+            //-- Parameter with 1 bit are a check box
+            else {
+
+                // Checkbox
+                QCheckBox* cb = new QCheckBox();
+                hLayout->addWidget(cb);
+
+                cb->setText(config->GetParameterName(i).c_str());
+                cb->setChecked(config->GetParameter(i) != 0);
+
+                // Label
+                /*QLabel* lb = new QLabel();
+                hLayout->addWidget(lb);
+
+                lb->setText(config->GetParameterName(i).c_str());
+                lb->setVisible(false);*/
+
+                /*dac_sliders.push_back(nullptr);
+                dac_spinboxes.push_back(nullptr);
+                dac_labels.push_back(lb);
+                dac_checkboxes.push_back(cb);*/
+
+                connect(cb, &QCheckBox::stateChanged,[=](int val){
+                   config->SetParameter(i,val);
+                });
+               // connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
+
+            }
+
+        }
 
 
     }
 
     //  add the controls for configuration:
     unsigned int srCount = 1;
-    ASIC_Config2* configs[1] = {&atlaspix_dac};
+    //ASIC_Config2* configs[1] = {&atlaspix_dac};
     /*QWidget* parents[srCount] = {ui->L_ParentAnchorDAC->parentWidget(),
                            ui->L_ParentAnchorConfig->parentWidget(),
                            ui->L_ParentAnchorVDAC->parentWidget(),
                            ui->L_ParentAnchorTDAC->parentWidget(),
                            ui->L_ParentAnchorRow->parentWidget(),
                            ui->L_ParentAnchorColumn->parentWidget()};*/
-    QWidget* parents[1] = {ui->DACScrollAreaVLayout};
+    //QWidget* parents[1] = {ui->DACScrollAreaVLayout};
 
 
-    for(int sr = 0; sr < 1; ++sr)
+   /* for(int sr = 0; sr < 1; ++sr)
     {
         //make the scroll area fill the whole tab:
-        /*int width = parents[sr]->parentWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget()->width();
-        int height = parents[sr]->parentWidget()->parentWidget()->parentWidget()->parentWidget()->parentWidget()->height();
-        QScrollArea* scroll = qobject_cast<QScrollArea*>(parents[sr]->parentWidget()->parentWidget());
-        scroll->setGeometry(-1, -1, width + 2 - 6, height + 2 - 26);
 
-        //add a groupbox as container for the sliders,...
-        QGroupBox* gb = new QGroupBox("",parents[sr]->parentWidget()->parentWidget());
-        gb->setGeometry(0,0,20,50);
-        scroll->setWidget(gb);
-        parents[sr] = gb;*/
 
         // Richard
         //this->ui->DACScrollAreaVLayout
@@ -600,22 +671,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
                     connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
 
-                    /*QCheckBox* cb = new QCheckBox(parents[sr]);
-                   // cb->setGeometry(100, 10 + (int(i) - offset) * 20, 160, 19);
-                    cb->setText(configs[sr]->GetParameterName(i).c_str());
-                    cb->setChecked(configs[sr]->GetParameter(i) != 0);
-
-                    QLabel* lb = new QLabel(parents[sr]);
-                    //lb->setGeometry(10, 10 + (int(i) - offset) * 20, 75, 16);
-                    lb->setText(configs[sr]->GetParameterName(i).c_str());
-                    lb->setVisible(false);
-
-                    dac_sliders.push_back(nullptr);
-                    dac_spinboxes.push_back(nullptr);
-                    dac_labels.push_back(lb);
-                    dac_checkboxes.push_back(cb);
-
-                    connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));*/
                 }
             }
             else
@@ -636,9 +691,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->CB_Config_HB, SIGNAL(clicked(bool)), this, SLOT(CB_Config_AmpOut_HB_stateChanged(bool)));
     connect(ui->SB_TDAC_Config_Col, SIGNAL(valueChanged(int)), this, SLOT(SB_TDAC_Address_valueChanged(int)));
     connect(ui->SB_TDAC_Config_Row, SIGNAL(valueChanged(int)), this, SLOT(SB_TDAC_Address_valueChanged(int)));
-
+*/
     //Injection:
-    ui->L_ParentAnchorInjection->setVisible(false);
+    //--------------------------
+    //ui->L_ParentAnchorInjection->setVisible(false);
 
     connect(ui->SB_Injection_ClockDiv, SIGNAL(valueChanged(int)),this, SLOT(UpdateFromGUI()));
     connect(ui->SB_Injection_InitDelay, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
@@ -735,7 +791,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //chip configuration:
     //-------------------------
     int fm_index = 0;
-    QWidget* fm_parent = ui->L_ParentAnchorFM->parentWidget();
+    /*QWidget* fm_parent = ui->L_ParentAnchorFM->parentWidget();
     ui->L_ParentAnchorFM->setVisible(false);
     for(unsigned int i = 0; i < fm_resets.GetNumFlags(); ++i, ++fm_index)
     {
@@ -766,7 +822,7 @@ MainWindow::MainWindow(QWidget *parent) :
         fm_checkboxes.push_back(cb);
 
         connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
-    }
+    }*/
 
     //configure the SPI communication class:
     spiconfig.SetBufferSize(1024);
@@ -1060,7 +1116,7 @@ void MainWindow::UpdateFromGUI()
         else
             on_B_WriteVoltageBoards_clicked();*/
     }
-    else if(obj->parent() == ui->L_ParentAnchorFM->parent())
+    /*else if(obj->parent() == ui->L_ParentAnchorFM->parent())
     {
         QCheckBox* cb = qobject_cast<QCheckBox*>(obj);
         if(fm_resets.GetFlag(cb->text().toStdString()) >= 0)
@@ -1079,7 +1135,7 @@ void MainWindow::UpdateFromGUI()
         }
         else
             on_B_PinConfig_Update_clicked();
-    }
+    }*/
 }
 
 void MainWindow::UpdateFromConfig()
@@ -1200,10 +1256,12 @@ void MainWindow::UpdateFromConfig()
     //ui->SB_FastRO_TrigWindow->setValue(fastro.GetTriggerLength());
     ui->SB_FastRO_TSPhase->setValue(fastro.GetTSPhase());
     ui->CB_FastRO_TriggeredRO->setChecked(fastro.GetReadoutMode());
+
     //fastRO speed settings:
-    ui->CB_FastRO_DataIn_JB->setChecked(fastro_clockshifts.GetFlag("datainonjb"));
-    ui->CB_FastRO_Disable_HitW1->setChecked(fastro_clockshifts.GetFlag("disablehitword1"));
-    ui->CB_FastRO_Disable_HitW2->setChecked(fastro_clockshifts.GetFlag("disablehitword2"));
+   // ui->CB_FastRO_DataIn_JB->setChecked(fastro_clockshifts.GetFlag("datainonjb"));
+   // ui->CB_FastRO_Disable_HitW1->setChecked(fastro_clockshifts.GetFlag("disablehitword1"));
+   // ui->CB_FastRO_Disable_HitW2->setChecked(fastro_clockshifts.GetFlag("disablehitword2"));
+
     ui->CB_FastRO_ShiftBitClock->setChecked(fastro_clockshifts.GetFlag("chipclock"));
     ui->CB_FastRO_ShiftDataEdge->setChecked(fastro_clockshifts.GetFlag("recedge"));
     ui->CB_FastRO_ShiftDataClock->setChecked(fastro_clockshifts.GetFlag("recclock"));
@@ -1213,9 +1271,9 @@ void MainWindow::UpdateFromConfig()
     ui->SB_FastRO_TrigDelay->setValue(fastro_triggersettings.GetFlag("distance"));
 
     //update the Col/Row/TDAC tab:
-    SB_Config_Injection_valueChanged(0);
+   /* SB_Config_Injection_valueChanged(0);
     on_SB_Config_AmpOut_HB_Col_valueChanged(ui->SB_Config_AmpOut_HB_Col->value());
-    SB_TDAC_Address_valueChanged(0);
+    SB_TDAC_Address_valueChanged(0);*/
 
     //update trigger settings:
     ui->CB_Trig_PosEdge->setChecked(trigger_fm.GetFlag("posedge"));
@@ -1247,8 +1305,8 @@ void MainWindow::UpdateFromConfig()
             ui->B_WriteVoltageBoards->setText(ui->B_WriteVoltageBoards->text() + " (!)");
         if(ui->B_Injection_StartStop->text().toStdString().find("(!)") == std::string::npos)
             ui->B_Injection_StartStop->setText(ui->B_Injection_StartStop->text() + " (!)");
-        if(ui->B_PinConfig_Update->text().toStdString().find("(!)") == std::string::npos)
-            ui->B_PinConfig_Update->setText(ui->B_PinConfig_Update->text() + " (!)");
+       // if(ui->B_PinConfig_Update->text().toStdString().find("(!)") == std::string::npos)
+       //     ui->B_PinConfig_Update->setText(ui->B_PinConfig_Update->text() + " (!)");
         if(ui->B_UDP_Update->text().toStdString().find("(!)") == std::string::npos)
             ui->B_UDP_Update->setText(ui->B_UDP_Update->text() + " (!)");
 
@@ -2497,10 +2555,10 @@ void MainWindow::on_B_Config_Injection_wholerow_clicked()
         atlaspix_row.SetParameter(s.str(), 0);
     }
     std::stringstream s("");
-    s << "eninj_row_" << ui->SB_Config_Injection_Row->value();
+   // s << "eninj_row_" << ui->SB_Config_Injection_Row->value();
     atlaspix_row.SetParameter(s.str(), 1);
 
-    ui->CB_Config_Injection->setChecked(true);
+   // ui->CB_Config_Injection->setChecked(true);
 
     UpdateFromConfig();
 }
@@ -2521,10 +2579,10 @@ void MainWindow::on_B_Config_Injection_wholecol_clicked()
         atlaspix_row.SetParameter(s.str(), 1);
     }
     std::stringstream s("");
-    s << "en_inject_col_" << ui->SB_Config_Injection_Row->value();
-    atlaspix_column.SetParameter(s.str(), 1);
+    //s << "en_inject_col_" << ui->SB_Config_Injection_Row->value();
+    //atlaspix_column.SetParameter(s.str(), 1);
 
-    ui->CB_Config_Injection->setChecked(true);
+   // ui->CB_Config_Injection->setChecked(true);
 
     UpdateFromConfig();
 }
@@ -2534,24 +2592,24 @@ void MainWindow::SB_Config_Injection_valueChanged(int arg1)
     (void) arg1;
 
     std::stringstream sc("");
-    sc << "en_inject_col_" << ui->SB_Config_Injection_Col->value();
+    //sc << "en_inject_col_" << ui->SB_Config_Injection_Col->value();
 
     std::stringstream sr("");
-    sr << "eninj_row_" << ui->SB_Config_Injection_Row->value();
+   // sr << "eninj_row_" << ui->SB_Config_Injection_Row->value();
 
-    if(atlaspix_column.GetParameter(sc.str()) != 0 && atlaspix_row.GetParameter(sr.str()) != 0)
-        ui->CB_Config_Injection->setChecked(true);
-    else
-        ui->CB_Config_Injection->setChecked(false);
+    //if(atlaspix_column.GetParameter(sc.str()) != 0 && atlaspix_row.GetParameter(sr.str()) != 0)
+    //    ui->CB_Config_Injection->setChecked(true);
+    //else
+    //    ui->CB_Config_Injection->setChecked(false);
 }
 
 void MainWindow::on_CB_Config_Injection_clicked(bool checked)
 {
     std::stringstream sc("");
-    sc << "en_inject_col_" << ui->SB_Config_Injection_Col->value();
+   // sc << "en_inject_col_" << ui->SB_Config_Injection_Col->value();
 
     std::stringstream sr("");
-    sr << "eninj_row_" << ui->SB_Config_Injection_Row->value();
+   // sr << "eninj_row_" << ui->SB_Config_Injection_Row->value();
 
     if(checked)
     {
@@ -2576,23 +2634,23 @@ void MainWindow::on_SB_Config_AmpOut_HB_Col_valueChanged(int arg1)
     std::stringstream sh("");
     sh << "en_hitbus_col_" << arg1;
 
-    ui->CB_Config_AmpOut->setChecked(atlaspix_column.GetParameter(sa.str()) != 0);
-    ui->CB_Config_HB->setChecked(atlaspix_column.GetParameter(sh.str()) != 0);
+   // ui->CB_Config_AmpOut->setChecked(atlaspix_column.GetParameter(sa.str()) != 0);
+   // ui->CB_Config_HB->setChecked(atlaspix_column.GetParameter(sh.str()) != 0);
 }
 
 void MainWindow::CB_Config_AmpOut_HB_stateChanged(bool checked)
 {
     QObject* obj = sender();
     std::stringstream s("");
-    if(obj == ui->CB_Config_HB)
-        s << "en_hitbus_col_" << ui->SB_Config_AmpOut_HB_Col->value();
-    else if(obj == ui->CB_Config_AmpOut)
-        s << "en_ampout_col_" << ui->SB_Config_AmpOut_HB_Col->value();
-    else
-    {
-        logit("Error: unknown sender in AmpOut/HB state changed");
-        return;
-    }
+   //if(obj == ui->CB_Config_HB)
+   //     s << "en_hitbus_col_" << ui->SB_Config_AmpOut_HB_Col->value();
+   // else if(obj == ui->CB_Config_AmpOut)
+   //     s << "en_ampout_col_" << ui->SB_Config_AmpOut_HB_Col->value();
+   // else
+   // {
+   //     logit("Error: unknown sender in AmpOut/HB state changed");
+   //     return;
+   // }
 
     atlaspix_column.SetParameter(s.str(), (checked != 0)?1:0);
 
@@ -2626,35 +2684,37 @@ void MainWindow::on_B_Config_AmpOut_HB_Clear_clicked()
 
 void MainWindow::on_SB_TDAC_Config_TDAC_valueChanged(int arg1)
 {
-    if(!tdacs.SetTDACValue(static_cast<unsigned int>(ui->SB_TDAC_Config_Col->value()),
+   /* if(!tdacs.SetTDACValue(static_cast<unsigned int>(ui->SB_TDAC_Config_Col->value()),
                            static_cast<unsigned int>(ui->SB_TDAC_Config_Row->value()),
                            static_cast<unsigned int>(arg1)))
         ui->SB_TDAC_Config_TDAC->setValue(
                     tdacs.GetTDACValue(static_cast<unsigned int>(ui->SB_TDAC_Config_Col->value()),
                                      static_cast<unsigned int>(ui->SB_TDAC_Config_Row->value())));
+                                     */
 }
 
 void MainWindow::on_B_TDAC_Config_SetAllToValue_clicked()
 {
-    tdacs.SetAllToValue(static_cast<unsigned int>(ui->SB_TDAC_Config_TDAC->value()));
+   // tdacs.SetAllToValue(static_cast<unsigned int>(ui->SB_TDAC_Config_TDAC->value()));
 }
 
 void MainWindow::SB_TDAC_Address_valueChanged(int arg1)
 {
-    (void) arg1;
+   /* (void) arg1;
     ui->SB_TDAC_Config_TDAC->setValue(
                 tdacs.GetTDACValue(static_cast<unsigned int>(ui->SB_TDAC_Config_Col->value()),
                                    static_cast<unsigned int>(ui->SB_TDAC_Config_Row->value())));
+                                   */
 }
 
 void MainWindow::on_B_TDAC_Config_WriteRow_clicked()
 {
-    int row = ui->SB_TDAC_Config_Row->value();
+    /*int row = ui->SB_TDAC_Config_Row->value();
 
     if(!config.WriteRAMRow(row))
         logit("Writing RAM not successful");
     else
-        logit("RAM written for row " + QString::number(row).toStdString());
+        logit("RAM written for row " + QString::number(row).toStdString());*/
 }
 
 void MainWindow::on_B_TDAC_Config_WriteMatrix_clicked()
@@ -2669,7 +2729,7 @@ void MainWindow::on_B_PinConfig_Update_clicked()
 {
     if(!nexys->is_open())
         return;
-
+/*
     if(config.ConfigurePins(true))
     {
         unsigned int pos = ui->B_PinConfig_Update->text().toStdString().find(" (!)");
@@ -2677,7 +2737,7 @@ void MainWindow::on_B_PinConfig_Update_clicked()
             ui->B_PinConfig_Update->setText(ui->B_PinConfig_Update->text().toStdString().substr(0,pos).c_str());
 
         logit("FPGA pins updated");
-    }
+    }*/
 }
 
 void MainWindow::on_CB_Configuration_Config_currentIndexChanged(int index)
@@ -2966,16 +3026,18 @@ void MainWindow::on_B_SCurve_clicked()
 
 void MainWindow::on_B_TDAC_Config_SetRowToValue_clicked()
 {
-    for(unsigned int i = 0; i < columns; ++i)
+   /* for(unsigned int i = 0; i < columns; ++i)
         tdacs.SetTDACValue(i, static_cast<unsigned int>(ui->SB_TDAC_Config_Row->value()),
                            static_cast<unsigned int>(ui->SB_TDAC_Config_TDAC->value()));
+                           */
 }
 
 void MainWindow::on_B_TDAC_Config_SetColToValue_clicked()
 {
-    for(unsigned int i = 0; i < rows; ++i)
+   /* for(unsigned int i = 0; i < rows; ++i)
         tdacs.SetTDACValue(static_cast<unsigned int>(ui->SB_TDAC_Config_Col->value()), i,
                            static_cast<unsigned int>(ui->SB_TDAC_Config_TDAC->value()));
+                           */
 }
 
 void MainWindow::on_B_AllSCurves_clicked()
@@ -3984,29 +4046,29 @@ bool MainWindow::ChangeConfig(std::string command)
             on_B_Config_Injection_clearall_clicked();
         else if(command.substr(0,6).compare("column") == 0)
         {
-            std::stringstream s("");
+           /* std::stringstream s("");
             s << command.substr(7);
             int col;
             s >> col;
             ui->SB_Config_Injection_Col->setValue(col);
             QApplication::processEvents();
             on_B_Config_Injection_wholecol_clicked();
-            config.SendUpdate(Configuration::colrow);
+            config.SendUpdate(Configuration::colrow);*/
         }
         else if(command.substr(0,3).compare("row") == 0)
         {
-            std::stringstream s("");
+           /* std::stringstream s("");
             s << command.substr(4);
             int row;
             s >> row;
             ui->SB_Config_Injection_Row->setValue(row);
             QApplication::processEvents();
             on_B_Config_Injection_wholerow_clicked();
-            config.SendUpdate(Configuration::colrow);
+            config.SendUpdate(Configuration::colrow);*/
         }
         else
         {
-            std::stringstream s("");
+            /*std::stringstream s("");
             s << command;
             int x,y;
             std::string onoff;
@@ -4016,7 +4078,7 @@ bool MainWindow::ChangeConfig(std::string command)
             QApplication::processEvents();
             on_CB_Config_Injection_clicked((onoff.compare("on") == 0));
             QApplication::processEvents();
-            config.SendUpdate(Configuration::colrow);
+            config.SendUpdate(Configuration::colrow);*/
         }
 
         return true;
@@ -4045,11 +4107,11 @@ bool MainWindow::ChangeConfig(std::string command)
             s >> row >> value;
             if(!s.fail())
             {
-                ui->SB_TDAC_Config_Row->setValue(row);
+                /*ui->SB_TDAC_Config_Row->setValue(row);
                 ui->SB_TDAC_Config_TDAC->setValue(value);
                 QApplication::processEvents();
                 on_B_TDAC_Config_SetRowToValue_clicked();
-                config.WriteRAMRow(row);
+                config.WriteRAMRow(row);*/
                 return true;
             }
             else
@@ -4063,10 +4125,10 @@ bool MainWindow::ChangeConfig(std::string command)
             s >> col >> value;
             if(!s.fail())
             {
-                ui->SB_TDAC_Config_Col->setValue(col);
+                /*ui->SB_TDAC_Config_Col->setValue(col);
                 ui->SB_TDAC_Config_TDAC->setValue(value);
                 QApplication::processEvents();
-                on_B_TDAC_Config_SetColToValue_clicked();
+                on_B_TDAC_Config_SetColToValue_clicked();*/
                 config.WriteRAMMatrix();
                 return true;
             }

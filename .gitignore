@@ -4,3 +4,11 @@ Astropix_v1_202004/Apix_v1_Software/release/
 **/.vs/*
 **/*.log
 **/*.user*
+**/*pid*
+*.tmp
+**/vivado*
+**/*.runs*
+**/*.cache*
+**/*blk_mem_gen*
+**/*.mcs
+**/*.autosave*

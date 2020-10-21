@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="trash">Andy_Trash_Can.png</file>
+        <file>images/Gecco_Logo_3_square.png</file>
+        <file>images/gecco_logo_3_square_4Qt_1.ico</file>
+    </qresource>
+</RCC>

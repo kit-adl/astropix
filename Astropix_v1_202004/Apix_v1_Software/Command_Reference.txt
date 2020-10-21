@@ -1,0 +1,88 @@
+Commands for Automatic Processor:
+
+The commands are structured in groups:
+
+	- config
+	- fastro
+	- scurve (which includes trimming)
+	- timing
+	- visa `text to write`
+	- echo `text`
+			-> output text
+	- sleep `time in ms`
+	- regwrite `register index` `value`
+			-> to write registers on the FPGA
+	- exit
+			-> stops execution of the command list
+			
+In the following, the subgroups are listed:
+
+config:
+	- dac `register name` `new value`
+	- config `register name` `new value`
+	- vdac `register name` `new value`
+	- column `register name` `new value`
+	- row `register name` `new value`
+	- pixinj
+			-> subgroup for configuring injections to pixels
+	- tdac {`column` `row` `value`|{all|column|row} `value`}
+			-> sets a TDAC or a set of TDACs, it is directly written to the chip
+	- configpins {reset|work|config} `register name` `new value`
+	- injconfig
+			-> subgroup for configuring the injections and pattern generator
+	- save
+			-> saves the complete configuration to the set file names in the GUI checkboxes
+	- load
+			-> loads te configuration from the files set in the GUI checkboxes
+	- {save|load} {config|tdac} `filename`
+			-> saves/loads the configuration/TDAC configuration to/from the passed filename
+	- send {dac|config|vdac|column|row|colrow|flush}
+			-> writes the specified shift register to the chip or flushes the data
+
+fastro:  do the same as the buttons in the GUI
+	- start
+	- stop
+	- resetfifo
+	- readtofile `readlength`
+	
+scurve:
+	- interval `start` `step` `end`
+			-> defines the parameters for SCurves to measure
+	- numsignals `number`
+			-> defines the number of signals to inject per measurement point
+	- measure
+			-> measures a single SCurve with current configuration
+	- measureall `start column` `end column (inclusive)` `start row` `end row (inclusive)`
+			-> measures all SCurves in the specified area [TODO: not working at the moment]
+	- trimchip `start column` `end column (inclusive)` `start row` `end row (inclusive)`
+			-> initiates trimming of the chip in the specified area [TODO: not working at the moment]
+
+timing:
+	- numsignals `number`
+			-> number of signals to use per measurement point
+	- interval `start` `end`
+			-> scanned interval with the delay for timing measurements
+	- target `timestamp`
+			-> the desired time stamp for the measurement
+	- measure `start column` `column step` `end column (inclusive)` `number of columns at once` `start row` `row step` `end row (inclusive)` `number of rows to measure at once`
+			-> initiates a timing measurement for the specified area with the same types of parameters as used in the GUI
+
+pixinj:
+	- clearall
+			-> clears all injection flags
+	- column `column number`
+			-> turns on injections for a whole column
+	- row `row number`
+			-> turns on injections for a whol row
+	- `column` `row` {on|off}
+			-> turns on/off the injection for the specified pixel
+
+injconfig:
+	- numsets `number`
+			-> number of signal sets to send on a trigger
+	- numperset `number`
+			-> number of signals in a single set
+	- initdelay `delay after trigger`
+	- period `period of the pattern generator`
+	- clockdiv `clock divider used for the pattern generator`
+	- mode {async|sync|tssync}

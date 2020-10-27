@@ -74,9 +74,9 @@ VB_Config& VB_Config::AddDAC(std::string name, int bits, int sparebits, int shif
 
     shiftdir.push_back(shiftdirection);
     width.push_back(std::make_pair(bits, sparebits));
-    if (initialVoltage < 0 || initialVoltage > Vmax) {
+    if (sparebits>0 && (initialVoltage < 0 || initialVoltage > Vmax)) {
         values.push_back(0);
-        throw std::runtime_error( (QString("Vini parameter must be between 0 and ") + Vmax).toStdString());
+        throw std::runtime_error( (QString().asprintf("Vini parameter must be between 0 and %f",Vmax)).toStdString());
     } else {
         // Save initial voltage in values list
         values.push_back(initialVoltage);
@@ -90,6 +90,8 @@ VB_Config& VB_Config::addLoadShiftRegister(unsigned int position) {
     if (position < 1 || position > 8) {
         throw std::runtime_error("Card Position must be 1-8");
     }
+
+    // The Shift Register is added as a set of single
 
     return this->AddDAC(
                 (QString().asprintf("Ld_%d",position)).toStdString(),

@@ -192,6 +192,10 @@ public:
 
     int                 GetConfigMeans();
     bool                SetConfigMeans(int means);
+
+    // Richard
+    bool SendASICConfigsViaSR(std::vector<ASIC_Config2*> config, bool print);
+
     /// creates a new int to have a separate option compared to the other instances
     /// makes only sense to call on copies (for the "original" object, this method will only
     /// change the configmeans as SetConfigMeans() would do

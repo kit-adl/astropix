@@ -576,6 +576,70 @@ bool Configuration::SeparateConfigMeans(int newmeans)
     return true;
 }
 
+bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, bool print) {
+
+    if(!nexys->is_open()) {
+        logit("Nexys is not opened");
+         return false;
+    }
+
+    // Setup
+    //-------------
+
+    //-- Length of config for progress
+    size_t bitLength = std::accumulate(
+                configs.begin(),
+                configs.end(),
+                0,
+                [](const size_t previous, ASIC_Config2 * config) {
+       return previous + config->GenerateBitVector().size();
+    });
+
+    // Update Progress Bar
+    //-----------
+    if(!progressbarblocked) {
+        SetProgressBarMaximum(int(bitLength));
+        SetProgressBarValue(0);
+        ProcessEvents();
+    }
+
+    // Loop over Configs
+    // Send using neys interface
+    //------------
+    for (ASIC_Config2 * config : configs) {
+
+        // Send
+        //----------
+        std::vector<bool> bits = config->GenerateBitVector(ASIC_Config2::GlobalInvertedLSBFirst);
+
+        bool result = nexys->WriteASIC(
+                    0x00,
+                    bits,
+                    false);
+
+        if (!result) {
+
+            logit(
+               QString().asprintf("Error writing SR Config: %s",config->GetDeviceName().c_str())
+                        .toStdString()
+            );
+
+            return false;
+        }
+
+        // Update Progress
+        //------------
+        if(!progressbarblocked)  {
+            SetProgressBarValue(GetProgressBarValue() + bits.size());
+            ProcessEvents();
+        }
+
+    }
+
+
+    return true;
+}
+
 bool Configuration::SendUpdateViaSR(int configflags, bool print)
 {
     if(!nexys->is_open() || configflags == 0)

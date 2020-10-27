@@ -341,27 +341,16 @@ MainWindow::MainWindow(QWidget *parent) :
     voltageboards[1].SetDeviceName("VB2");*/
     injection.SetDeviceName("InjectionBoard");
 
-    // Add 8 DAC per board, since the VB/Injection have 8 DACs
-    // The DACs here are first dummies:
-    //      - The DAC bits are in series
-    //      - Add all DACs to the board config so they are all configured
-    //      - If not, the software will not shift enough bits to set all the DACS
-    /*for(int i = 8; i > 0; --i)
-    {
-        std::stringstream s("");
-        s << "Ld_" << i;
-        voltageboards[0].AddDAC(s.str(), -1, 0, 1, i == 7);
-       // voltageboards[1].AddDAC(s.str(), -1, 0, 1, i == 8);
-        injection.AddDAC(s.str(), -1, 0, 1, i == 3);
-    }*/
-
     // First DAC entry is not a DAC
     // it is the Shift Register on the GECCO which controls the Load
     // This DAC value is fixed and should be set to a one hot value
     // The 1 in the value will activate the appropriate Load signal
+    injection.addLoadShiftRegister(2);
+    voltageboards[0]->addLoadShiftRegister(1);
 
-    voltageboards[0]->addLoadShiftRegister(1)
-            .AddDAC("BL", 14, 2, 1, 1.0);
+    // DAC  Config
+    voltageboards[0]->AddDAC("BL", 14, 2, 1, 1.0);
+
            /* .AddDAC("Th"    , 14, 2, 1, 0)
             .AddDAC("Ld_DUMMYLOAD"    , 14, 2, 1, 0);*/
 
@@ -475,8 +464,6 @@ MainWindow::MainWindow(QWidget *parent) :
         configContainer->setLayout(new QVBoxLayout());
         configContainer->layout()->setAlignment(Qt::AlignTop);
 
-
-
         // Insert to tab
         asicConfigTabW->insertTab(-1,tabScrollArea,QString::fromStdString(config->GetDeviceName()));
 
@@ -522,6 +509,9 @@ MainWindow::MainWindow(QWidget *parent) :
                 // - Slider changes value of Box on release
                 // - Box updates using global updateFromGUI() when value changes
                 connect(sl,&QSlider::valueChanged, [=](int val){ sb->setValue(val); });
+                connect(sb, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
+                    config->SetParameter(i,val);
+                });
                 //connect(sb, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
 
             }
@@ -560,7 +550,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     //  add the controls for configuration:
-    unsigned int srCount = 1;
+    //unsigned int srCount = 1;
     //ASIC_Config2* configs[1] = {&atlaspix_dac};
     /*QWidget* parents[srCount] = {ui->L_ParentAnchorDAC->parentWidget(),
                            ui->L_ParentAnchorConfig->parentWidget(),
@@ -696,15 +686,108 @@ MainWindow::MainWindow(QWidget *parent) :
     //--------------------------
     //ui->L_ParentAnchorInjection->setVisible(false);
 
-    connect(ui->SB_Injection_ClockDiv, SIGNAL(valueChanged(int)),this, SLOT(UpdateFromGUI()));
-    connect(ui->SB_Injection_InitDelay, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
-    connect(ui->SB_Injection_NumTrains, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
-    connect(ui->SB_Injection_PulsesInTrain, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
-    connect(ui->SB_Injection_Period, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
+    /*
+     *
+     * if(obj == ui->SB_Injection_ClockDiv)
+            config_inj->SetClockDiv(static_cast<unsigned int>(ui->SB_Injection_ClockDiv->value()));
+        else if(obj == ui->SB_Injection_InitDelay)
+            config_inj->SetInitDelay(static_cast<unsigned int>(ui->SB_Injection_InitDelay->value()));
+        else if(obj == ui->SB_Injection_NumTrains)
+            config_inj->SetNumPulseSets(static_cast<unsigned int>(ui->SB_Injection_NumTrains->value()));
+        else if(obj == ui->SB_Injection_PulsesInTrain)
+            config_inj->SetNumPulsesInaSet(static_cast<unsigned int>(ui->SB_Injection_PulsesInTrain->value()));
+        else if(obj == ui->SB_Injection_Period)
+            config_inj->SetPeriod(static_cast<unsigned int>(ui->SB_Injection_Period->value()));
+        else if(obj == ui->CB_Injection_SyncState)
+        {
+            switch(ui->CB_Injection_SyncState->currentIndex())
+            {
+            case(0):
+                config_inj->SetSynced(0);
+                config_inj->SetTSOverflowSync(0);
+                break;
+            case(1):
+                config_inj->SetTSOverflowSync(0);
+                config_inj->SetSynced(1);
+                break;
+            case(2):
+                config_inj->SetTSOverflowSync(1);
+                config_inj->SetSynced(1);
+                break;
+            }
+        }
+        else if(obj == ui->CB_Injection_Output)
+        {
+            if(ui->CB_Injection_Output->currentIndex() >= 0)
+                config_inj->SetOutputChannel(1 << ui->CB_Injection_Output->currentIndex());
+            else
+                config_inj->SetOutputChannel(0);
+        }
+        else if(obj == ui->SB_Injection_SignalSize)
+            config_inj->SetDAC("Out1", ui->SB_Injection_SignalSize->value());
+     * */
+
+
+    connect(ui->SB_Injection_ClockDiv, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
+       this->injection.SetClockDiv(val);
+    });
+
+    connect(ui->SB_Injection_InitDelay, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
+       this->injection.SetInitDelay(val);
+    });
+
+    connect(ui->SB_Injection_NumTrains, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
+       this->injection.SetNumPulseSets(val);
+    });
+
+    connect(ui->SB_Injection_PulsesInTrain, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
+       this->injection.SetNumPulsesInaSet(val);
+    });
+
+    connect(ui->SB_Injection_Period, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
+       this->injection.SetPeriod(val);
+    });
+
+    connect(ui->CB_Injection_SyncState, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),[=](int val) {
+        switch(val)
+        {
+        case(0):
+            this->injection.SetSynced(0);
+            this->injection.SetTSOverflowSync(0);
+            break;
+        case(1):
+            this->injection.SetTSOverflowSync(0);
+            this->injection.SetSynced(1);
+            break;
+        case(2):
+            this->injection.SetTSOverflowSync(1);
+            this->injection.SetSynced(1);
+            break;
+        }
+    });
+
+    connect(ui->CB_Injection_Output, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),[=](int val) {
+        logit(QString().asprintf("Changed Injection Output to %d",val).toStdString(),"Injection");
+        if(val >= 0)
+            this->injection.SetOutputChannel(1 << val);
+        else
+           this->injection.SetOutputChannel(0);
+    });
+
+    connect(ui->SB_Injection_SignalSize, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),[=](double val) {
+       this->injection.SetDAC("Out1", val);
+    });
+
+
+    /*connect(ui->SB_Injection_ClockDiv, SIGNAL(valueChanged(int)),this, SLOT(UpdateInjectionBoardFromGUI()));
+    connect(ui->SB_Injection_InitDelay, SIGNAL(valueChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
+    connect(ui->SB_Injection_NumTrains, SIGNAL(valueChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
+    connect(ui->SB_Injection_PulsesInTrain, SIGNAL(valueChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
+    connect(ui->SB_Injection_Period, SIGNAL(valueChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
     //connect(ui->SL_Injection_Synced, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
-    connect(ui->CB_Injection_SyncState, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateFromGUI()));
-    connect(ui->CB_Injection_Output, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateFromGUI()));
-    connect(ui->SB_Injection_SignalSize, SIGNAL(valueChanged(double)), this, SLOT(UpdateFromGUI()));
+    connect(ui->CB_Injection_SyncState, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
+    connect(ui->CB_Injection_Output, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
+    connect(ui->SB_Injection_SignalSize, SIGNAL(valueChanged(double)), this, SLOT(UpdateInjectionBoardFromGUI()));*/
 
     //VoltageBoards:
     //----------------------
@@ -721,8 +804,6 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         for(unsigned int i = 0; i < voltageboards[index]->GetEntries(); ++i, ++vbindex)
         {
-
-
 
             // Create HBOX for:
             //   - Spin Box and Label
@@ -976,6 +1057,10 @@ void MainWindow::logit(std::string logstream, std::string header)
     ui->Log->setTextCursor(c);
 
     ++linecounter;
+}
+
+void MainWindow::UpdateInjectionBoardFromGUI() {
+
 }
 
 void MainWindow::UpdateFromGUI()
@@ -1509,11 +1594,16 @@ void MainWindow::on_CloseDevice_clicked()
 
 void MainWindow::on_Update_clicked()
 {
-    if(!nexys->is_open())
+    if(!nexys->is_open()) {
+        logit("Nexys is not opened");
         return;
+    }
 
+
+    // Update Counter displaying number of updates performed
     int count = ui->UpdateCounterEdit->text().toInt();
     ui->UpdateCounterEdit->setText(QString::number(++count));
+
     //remove the not updated marker:
     if(ui->Update->text().toStdString().find("(!)") != std::string::npos)
     {
@@ -1522,13 +1612,17 @@ void MainWindow::on_Update_clicked()
         ui->Update->setText(caption.c_str());
     }
 
-    int configflags = 0;
+    // Send Update of selected DAC parts
+    //-----------
+    bool result = config.SendASICConfigsViaSR(this->asicConfigs,true);
+
+    /*int configflags = 0;
     configflags += (ui->CB_Config_DAC->isChecked())?Configuration::dac:0;
     configflags += (ui->CB_Config_Config->isChecked())?Configuration::config:0;
     configflags += (ui->CB_Config_VDAC->isChecked())?Configuration::vdac:0;
     configflags += (ui->CB_Config_ColRow->isChecked())?Configuration::colrow:0;
-
-    if(!config.SendUpdate(configflags, true))
+*/
+    if(!result)
         logit("WriteASIC failed!");
     else
         logit("WriteASIC successful");

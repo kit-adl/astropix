@@ -109,6 +109,7 @@ private slots:
 
 
     void UpdateFromConfig();
+    void UpdateInjectionBoardFromGUI();
 
     bool ConfigureInjections(bool flush);
     bool StartInjections(bool flush);

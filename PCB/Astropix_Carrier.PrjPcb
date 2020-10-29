@@ -191,7 +191,7 @@ GenerateClassCluster=0
 DocumentUniqueId=SXFDOEKB
 
 [Document10]
-DocumentPath=SOT23-5.PcbLib
+DocumentPath=Opamp.PcbLib
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0

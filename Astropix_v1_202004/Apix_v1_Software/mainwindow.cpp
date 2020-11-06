@@ -137,200 +137,6 @@ MainWindow::MainWindow(QWidget *parent) :
                 .AddParameter("vpbiasrec"  , "5,4,3,2,1,0",	 8)
                 .AddParameter("vnbiasrec"  , "5,4,3,2,1,0",  8);
 
-   /* atlaspix_config.SetDeviceName("atlaspix_config");
-    atlaspix_config.AddParameter("LdDAC"            , "0"                       ,   0, true);
-    atlaspix_config.AddParameter("LdConfig"         , "0"                       ,   1, true);
-    atlaspix_config.AddParameter("LdVDAC"           , "0"                       ,   0, true);
-    atlaspix_config.AddParameter("LdTDAC"           , "0"                       ,   0, true);
-    atlaspix_config.AddParameter("LdRow"            , "0"                       ,   0, true);
-    atlaspix_config.AddParameter("LdColumn"         , "0"                       ,   0, true);
-    atlaspix_config.AddParameter("NU4"              , "1,0"                     ,   0, true);
-    atlaspix_config.AddParameter("WrRam"            , "0,1,2,3"                 ,   0, true);
-    atlaspix_config.AddParameter("NU5"              , "0,1,2,3"                 ,   0, true);
-    atlaspix_config.AddParameter("unsortedin"       , "0"                       ,   0);
-    atlaspix_config.AddParameter("resetin"          , "0"                       ,   0);
-    atlaspix_config.AddParameter("triggeredroen"    , "0"                       ,   0);
-    atlaspix_config.AddParameter("NU1"              , "0"                       ,   0);
-    atlaspix_config.AddParameter("resetanalogB"     , "0"                       ,   0);
-    atlaspix_config.AddParameter("extinjen"         , "0"                       ,   0);
-    atlaspix_config.AddParameter("NU2"              , "0"                       ,   0);
-    atlaspix_config.AddParameter("selslow"          , "0"                       ,   0);
-    atlaspix_config.AddParameter("usespiro"         , "0"                       ,   0);
-    atlaspix_config.AddParameter("invert"           , "0"                       ,   0);
-    atlaspix_config.AddParameter("triggerwidthautot", "3,2,!1,0"                ,   2);
-    atlaspix_config.AddParameter("triggerdelayautot", "9,8,7,6,!5,!4,!3,!2,1,!0",  61);
-    atlaspix_config.AddParameter("inttriggersource" , "1,0"                     ,   0);
-    atlaspix_config.AddParameter("exttrigen"        , "0"                       ,   0);
-    atlaspix_config.AddParameter("injectphase"      , "1,0"                     ,   0);
-    atlaspix_config.AddParameter("bxphase"          , "1,0"                     ,   0);
-    atlaspix_config.AddParameter("monitoruserk"     , "7,6,5,4,3,2,1,0"         ,   0); // also used for untriggered RO in a different manner...
-    atlaspix_config.AddParameter("waittosend"       , "1,!0"                    ,   1); //10th and 9th bit of user k-word sending period
-    atlaspix_config.AddParameter("blocktosend"      , "1,!0"                    ,   1);
-    atlaspix_config.AddParameter("NU3"              , "3,2,1,0"                 ,   0);
-    atlaspix_config.AddParameter("maxcycend"        , "!7,!6,!5,!4,!3,!2,!1,!0" , 255);
-    atlaspix_config.AddParameter("slowdowndpixelend", "3,2,!1,!0"               ,   3);
-    atlaspix_config.AddParameter("slowdownend"      , "3,2,!1,!0"               ,   3);
-    atlaspix_config.AddParameter("timerendpixel"    , "3,2,1,0"                 ,   0);
-    atlaspix_config.AddParameter("timerend"         , "3,2,1,0"                 ,   0);
-    atlaspix_config.AddParameter("ckdivend2"        , "5,4,3,2,1,0"             ,   0);
-    atlaspix_config.AddParameter("ckdivend"         , "5,4,3,2,1,0"             ,   0);
-    atlaspix_config.AddParameter("tsformat"         , "0"                       ,   0);
-    atlaspix_config.AddParameter("forcedread"       , "0"                       ,   0);
-    atlaspix_config.AddParameter("trigdelay"        , "9,8,7,!6,5,4,3,2,1,0"    ,  64);
-    atlaspix_config.AddParameter("roreset"          , "0"                       ,   0);
-    atlaspix_config.AddParameter("serializereset"   , "0"                       ,   0);
-    atlaspix_config.AddParameter("aurreset"         , "0"                       ,   0);
-
-    atlaspix_vdac.SetDeviceName("atlaspix_vdac");
-    atlaspix_vdac.AddParameter("LdDAC"   , "0"              ,   0, true);
-    atlaspix_vdac.AddParameter("LdConfig", "0"              ,   0, true);
-    atlaspix_vdac.AddParameter("LdVDAC"  , "0"              ,   1, true);
-    atlaspix_vdac.AddParameter("LdTDAC"  , "0"              ,   0, true);
-    atlaspix_vdac.AddParameter("LdRow"   , "0"              ,   0, true);
-    atlaspix_vdac.AddParameter("LdColumn", "0"              ,   0, true);
-    atlaspix_vdac.AddParameter("NU4"     , "1,0"            ,   0, true);
-    atlaspix_vdac.AddParameter("WrRam"   , "0,1,2,3"        ,   0, true);
-    atlaspix_vdac.AddParameter("NU5"     , "0,1,2,3"        ,   0, true);
-    atlaspix_vdac.AddParameter("Th"      , "0,1,2,3,4,5,6,7", 255);
-    atlaspix_vdac.AddParameter("BL"      , "0,1,2,3,4,5,6,7",   0);
-    atlaspix_vdac.AddParameter("plus"    , "0,1,2,3,4,5,6,7", 159);
-    atlaspix_vdac.AddParameter("minus"   , "0,1,2,3,4,5,6,7", 255);
-    atlaspix_vdac.AddParameter("inject"  , "0,1,2,3,4,5,6,7",   0);*/
-
-   /* atlaspix_vdac.SetDeviceName("astropix_vdac");
-    atlaspix_vdac.AddParameter("Th"      , "0,1,2,3,4,5,6,7", 255);
-    atlaspix_vdac.AddParameter("BL"      , "0,1,2,3,4,5,6,7",   0);
-    atlaspix_vdac.AddParameter("inject"  , "0,1,2,3,4,5,6,7",   0);*/
-
-   /* atlaspix_dac.SetDeviceName("atlaspix_dac");
-    atlaspix_dac.AddParameter("LdDAC"      , "0"          ,   1, true);
-    atlaspix_dac.AddParameter("LdConfig"   , "0"          ,   0, true);
-    atlaspix_dac.AddParameter("LdVDAC"     , "0"          ,   0, true);
-    atlaspix_dac.AddParameter("LdTDAC"     , "0"          ,   0, true);
-    atlaspix_dac.AddParameter("LdRow"      , "0"          ,   0, true);
-    atlaspix_dac.AddParameter("LdColumn"   , "0"          ,   0, true);
-    atlaspix_dac.AddParameter("NU4"        , "1,0"        ,   0, true);
-    atlaspix_dac.AddParameter("WrRam"      , "0,1,2,3"    ,   0, true);
-    atlaspix_dac.AddParameter("NU5"        , "0,1,2,3"    ,   0, true);
-    atlaspix_dac.AddParameter("q00"        , "0"          ,  0);
-    atlaspix_dac.AddParameter("q01"        , "0"          ,  0);
-    atlaspix_dac.AddParameter("qon0"       , "0"          ,  0);
-    atlaspix_dac.AddParameter("qon1"       , "0"          ,  1);
-    atlaspix_dac.AddParameter("qon2"       , "0"          ,  0);
-    atlaspix_dac.AddParameter("qon3"       , "0"          ,  1);
-    atlaspix_dac.AddParameter("blres"      , "5,4,3,2,1,0",  8);
-    atlaspix_dac.AddParameter("ithres"     , "5,4,3,2,1,0",  8);    //NU
-    atlaspix_dac.AddParameter("vn1"        , "5,4,3,2,1,0", 12);
-    atlaspix_dac.AddParameter("vnfb"       , "5,4,3,2,1,0",  8);
-    atlaspix_dac.AddParameter("vnfoll"     , "5,4,3,2,1,0",  8);
-    atlaspix_dac.AddParameter("vnregc"     , "5,4,3,2,1,0",  8);    //NU
-    atlaspix_dac.AddParameter("vnpdel"     , "5,4,3,2,1,0",  8);
-    atlaspix_dac.AddParameter("vpcomp"     , "5,4,3,2,1,0",  8);
-    atlaspix_dac.AddParameter("vpdac"      , "5,4,3,2,1,0",  8);    //NU
-    atlaspix_dac.AddParameter("vn2"        , "5,4,3,2,1,0",  8);
-    atlaspix_dac.AddParameter("vblresdig"  , "5,4,3,2,1,0",  8);    //NU
-    atlaspix_dac.AddParameter("vnbias"     , "5,4,3,2,1,0",  8);
-    atlaspix_dac.AddParameter("vpload"     , "5,4,3,2,1,0",  8);
-    atlaspix_dac.AddParameter("vnout"      , "5,4,3,2,1,0",  8);    //NU
-    atlaspix_dac.AddParameter("vpvco"      , "5,4,3,2,1,0", 16);
-    atlaspix_dac.AddParameter("vnvco"      , "5,4,3,2,1,0", 16);
-    atlaspix_dac.AddParameter("vpdclmux"   , "5,4,3,2,1,0", 32);
-    atlaspix_dac.AddParameter("vndclmux"   , "5,4,3,2,1,0", 32);
-    atlaspix_dac.AddParameter("vpdeldcl"   , "5,4,3,2,1,0", 32);
-    atlaspix_dac.AddParameter("vndeldcl"   , "5,4,3,2,1,0", 32);
-    atlaspix_dac.AddParameter("vpdelpreemp", "5,4,3,2,1,0", 32);
-    atlaspix_dac.AddParameter("vndelpreemp", "5,4,3,2,1,0", 32);
-    atlaspix_dac.AddParameter("vpdcl"      , "5,4,3,2,1,0", 32);
-    atlaspix_dac.AddParameter("vndcl"      , "5,4,3,2,1,0", 32);
-    atlaspix_dac.AddParameter("vnlvds"     , "5,4,3,2,1,0", 16);
-    atlaspix_dac.AddParameter("vnlvdsdel"  , "5,4,3,2,1,0",  0);
-    atlaspix_dac.AddParameter("vppump"     , "5,4,3,2,1,0", 16);
-    atlaspix_dac.AddParameter("vpregcasc"  , "5,4,3,2,1,0", 16);	//NU
-    atlaspix_dac.AddParameter("vprampdig"  , "5,4,3,2,1,0", 16);	//NU
-    atlaspix_dac.AddParameter("vncomp"     , "5,4,3,2,1,0", 12);
-    atlaspix_dac.AddParameter("vpfoll"     , "5,4,3,2,1,0", 16);
-    atlaspix_dac.AddParameter("vndac"      , "5,4,3,2,1,0",  0);
-    atlaspix_dac.AddParameter("vpbiasrec"  , "5,4,3,2,1,0",	 8);
-    atlaspix_dac.AddParameter("vnbiasrec"  , "5,4,3,2,1,0",  8);*/
-	
-   /*atlaspix_tdac.SetDeviceName("atlaspix_tdac");
-    atlaspix_tdac.AddParameter("LdDAC"   , "0"      , 0, true);
-    atlaspix_tdac.AddParameter("LdConfig", "0"      , 0, true);
-    atlaspix_tdac.AddParameter("LdVDAC"  , "0"      , 0, true);
-    atlaspix_tdac.AddParameter("LdTDAC"  , "0"      , 1, true);
-    atlaspix_tdac.AddParameter("LdRow"   , "0"      , 0, true);
-    atlaspix_tdac.AddParameter("LdColumn", "0"      , 0, true);
-    atlaspix_tdac.AddParameter("NU4"     , "1,0"    , 0, true);
-    atlaspix_tdac.AddParameter("WrRam"   , "0,1,2,3", 0, true);
-    atlaspix_tdac.AddParameter("NU5"     , "0,1,2,3", 0, true);
-    atlaspix_row.SetDeviceName("atlaspix_row");
-    atlaspix_row.AddParameter("LdDAC"   , "0"       , 0, true);
-    atlaspix_row.AddParameter("LdConfig", "0"       , 0, true);
-    atlaspix_row.AddParameter("LdVDAC"  , "0"       , 0, true);
-    atlaspix_row.AddParameter("LdTDAC"  , "0"       , 0, true);
-    atlaspix_row.AddParameter("LdRow"   , "0"       , 1, true);
-    atlaspix_row.AddParameter("LdColumn", "0"       , 0, true);
-    atlaspix_row.AddParameter("NU4"     , "1,0"     , 0, true);
-    atlaspix_row.AddParameter("WrRam"   , "0,1,2,3" , 0, true);
-    atlaspix_row.AddParameter("NU5"     , "0,1,2,3" , 0, true);
-    atlaspix_column.SetDeviceName("atlaspix_column");
-    atlaspix_column.AddParameter("LdDAC"    , "0"      , 0, true);
-    atlaspix_column.AddParameter("LdConfig" , "0"      , 0, true);
-    atlaspix_column.AddParameter("LdVDAC"   , "0"      , 0, true);
-    atlaspix_column.AddParameter("LdTDAC"   , "0"      , 0, true);
-    atlaspix_column.AddParameter("LdRow"    , "0"      , 0, true);
-    atlaspix_column.AddParameter("LdColumn" , "0"      , 1, true);
-    atlaspix_column.AddParameter("NU4"      , "1,0"    , 0, true);
-    atlaspix_column.AddParameter("WrRam"    , "0,1,2,3", 0, true);
-    atlaspix_column.AddParameter("NU5"      , "0,1,2,3", 0, true);*/
-
-    /*for(int i = 0; i < 132; ++i)
-	{
-		std::stringstream st("");
-		st << "TDAC_in_col_" << i;
-		atlaspix_tdac.AddParameter(st.str(), "0", 0);
-		
-		for(int j = 0; j < 3; ++j)
-		{
-			std::stringstream sr("");
-			sr << "enWrRAM_row_" << i*3+j;
-			atlaspix_row.AddParameter(sr.str(), "0", 0);
-		}
-		for(int j = 0; j < 3; ++j)
-		{
-			std::stringstream sr("");
-			sr << "eninj_row_" << i*3+j;
-			atlaspix_row.AddParameter(sr.str(), "0", 0);
-		}
-		
-		std::stringstream sc1("");
-		sc1 << "en_ampout_col_" << i;
-        atlaspix_column.AddParameter(sc1.str(), "0", 0);
-		
-		std::stringstream sc2("");
-		sc2 << "en_inject_col_" << i;
-		atlaspix_column.AddParameter(sc2.str(), "0", 0);
-		
-		std::stringstream sc3("");
-		sc3 << "en_hitbus_col_" << i;
-		atlaspix_column.AddParameter(sc3.str(), "0", 0);
-	}
-
-    atlaspix_sr_loads.SetDeviceName("atlaspix_sr_loads");
-    atlaspix_sr_loads.AddParameter("LdDAC"            , "0"                       ,   0);
-    atlaspix_sr_loads.AddParameter("LdConfig"         , "0"                       ,   0);
-    atlaspix_sr_loads.AddParameter("LdVDAC"           , "0"                       ,   0);
-    atlaspix_sr_loads.AddParameter("LdTDAC"           , "0"                       ,   0);
-    atlaspix_sr_loads.AddParameter("LdRow"            , "0"                       ,   0);
-    atlaspix_sr_loads.AddParameter("LdColumn"         , "0"                       ,   0);
-    atlaspix_sr_loads.AddParameter("NU4"              , "1,0"                     ,   0);
-    atlaspix_sr_loads.AddParameter("WrRam"            , "0,1,2,3"                 ,   0);
-    atlaspix_sr_loads.AddParameter("NU5"              , "0,1,2,3"                 ,   0);
-
-    tdacs.SetDeviceName("TDAC_values");
-    tdacs.UpdateMatrix(132,372);
-    tdacs.SetAllToValue(0);*/
-
     //configure voltage cards and injection card:
     //  load signals for GECCO board:
     voltageboards.push_back(new VB_Config(3.3, 1.8));
@@ -345,8 +151,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // it is the Shift Register on the GECCO which controls the Load
     // This DAC value is fixed and should be set to a one hot value
     // The 1 in the value will activate the appropriate Load signal
-    injection.addLoadShiftRegister(2);
-    voltageboards[0]->addLoadShiftRegister(1);
+    // Here 4 and 5 means the 1 will be in position 3 and 4 in the one-hot but, activating Slots 4 and 5
+    voltageboards[0]->addLoadShiftRegister(4);
+    injection.addLoadShiftRegister(5);
 
     // DAC  Config
     voltageboards[0]->AddDAC("BL", 14, 2, 1, 1.0);
@@ -456,13 +263,18 @@ MainWindow::MainWindow(QWidget *parent) :
     QTabWidget * asicConfigTabW = this->ui->asicConfigTabWidget;
     for (ASIC_Config2* config : this->asicConfigs) {
 
+
+        std::cout << "-" << config->GetDeviceName() << std::endl;
+        std::cout << std::flush;
+
         //-- Create Vertical Layout container and scroll area
         QScrollArea * tabScrollArea = new QScrollArea();
-        //tabScrollArea->setWidget(configContainer);
-
-        QWidget * configContainer = new QWidget(tabScrollArea);
+        QWidget * configContainer = new QWidget();
         configContainer->setLayout(new QVBoxLayout());
         configContainer->layout()->setAlignment(Qt::AlignTop);
+
+
+        //tabScrollArea->setWidget();
 
         // Insert to tab
         asicConfigTabW->insertTab(-1,tabScrollArea,QString::fromStdString(config->GetDeviceName()));
@@ -546,6 +358,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
         }
 
+        // Add Config Widget to scroll area here not before otherwise it is not drawn correctly
+        tabScrollArea->setWidget(configContainer);
 
     }
 

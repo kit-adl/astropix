@@ -166,5 +166,6 @@ RESOURCES  = "./resources.qrc"
 RC_ICONS = "images/gecco_logo_3_square_4Qt_1.ico"
 
 DISTFILES += \
+    REAMDE.md \
     resources.qrc \
     test_qml_form.qml

@@ -78,7 +78,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Register Configurations:
     //----------------------------
-
     //-- Digital Config
     //---------------
     asicConfigs.push_back(new ASIC_Config2("Config"));
@@ -646,6 +645,11 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         for(unsigned int i = 0; i < voltageboards[index]->GetEntries(); ++i, ++vbindex)
         {
+            //Dont create QWidget for DACs with "unused" in Name
+            if(voltageboards[index]->GetDACName(i).find("unused") != std::string::npos)
+            {
+                continue;
+            }
 
             // Create HBOX for:
             //   - Spin Box and Label
@@ -673,7 +677,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
                 ++vboffset;
                 continue;
-            }  
+            }
+
 
            //-- Add Label
             QLabel* lb = new QLabel();

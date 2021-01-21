@@ -5099,7 +5099,7 @@ void MainWindow::on_ChipStart_clicked()
     else
         logit("WriteASIC successful");
 
-    on_B_TDAC_Config_WriteMatrix_clicked();
+    //on_B_TDAC_Config_WriteMatrix_clicked();
 
 
     //on_B_TDAC_Config_WriteRow_clicked();

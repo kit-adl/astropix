@@ -583,6 +583,10 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
          return false;
     }
 
+    // Reverse the list of Configs since they must be written in reversed order in the ASIC
+    //----------------
+    std::reverse(configs.begin(),configs.end());
+
     // Setup
     //-------------
 
@@ -594,6 +598,8 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
                 [](const size_t previous, ASIC_Config2 * config) {
        return previous + config->GenerateBitVector().size();
     });
+
+     logit(QString().asprintf("Number of bits in config: %llu",bitLength).toStdString());
 
     // Update Progress Bar
     //-----------
@@ -611,6 +617,8 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
         // Send
         //----------
         std::vector<bool> bits = config->GenerateBitVector(ASIC_Config2::GlobalInvertedLSBFirst);
+
+        logit(QString().asprintf("- Writing %llu bits for %s",bits.size(),config->GetDeviceName().c_str()).toStdString());
 
         bool result = nexys->WriteASIC(
                     0x00,

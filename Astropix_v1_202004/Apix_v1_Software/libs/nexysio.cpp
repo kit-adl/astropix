@@ -97,7 +97,7 @@ bool NexysIO::AddBytes(unsigned char command, unsigned int clockdiv)
 {
     bool noneedtosend = true;
 
-    // printf("---> Adding command: %x\n",command);
+     //printf("---> Adding command: %x\n",command);
 
     if (FTDIBuffPos + clockdiv > FTDIBuffSize-1) {
          Flush();
@@ -133,7 +133,7 @@ bool NexysIO::Flush()
     if(ftdi == nullptr)
         return false;
 
-    std::cout << "Flushing" << std::endl;
+    //std::cout << "Flushing" << std::endl;
 
     //std::cout << FTDIBuff[i]<< std::endl;
     bool ftStatus = false;

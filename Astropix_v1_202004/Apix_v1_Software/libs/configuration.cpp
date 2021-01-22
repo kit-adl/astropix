@@ -644,16 +644,6 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
             return false;
         }
 
-        // Send Load after all registers
-       // nexys->SendLoad(0x00,NexysIO::Ld);
-       /* nexys->WriteASIC( 0x00,
-                           std::vector<bool>(),
-                            NexysIO::SinA,
-                            NexysIO::Ld,
-                           true);*/
-        // Flush
-        nexys->Flush();
-
         // Update Progress
         //------------
         if(!progressbarblocked)  {
@@ -661,7 +651,13 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
             ProcessEvents();
         }
 
-    }
+    } // EOF Loop
+
+    // Send Load after all registers
+    nexys->SendLoad(0x00,NexysIO::Ld);
+
+    // Flush
+    nexys->Flush();
 
 
     return true;

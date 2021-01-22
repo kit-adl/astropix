@@ -731,6 +731,7 @@ void MainWindow::buildASIConfigUI() {
     //-- Each Config set will be a tab in the gui
     //----------
     QTabWidget * asicConfigTabW = this->ui->asicConfigTabWidget;
+    asicConfigTabW->clear();
     for (ASIC_Config2* config : this->asicConfigs) {
 
 
@@ -742,9 +743,6 @@ void MainWindow::buildASIConfigUI() {
         QWidget * configContainer = new QWidget();
         configContainer->setLayout(new QVBoxLayout());
         configContainer->layout()->setAlignment(Qt::AlignTop);
-
-
-        //tabScrollArea->setWidget();
 
         // Insert to tab
         asicConfigTabW->insertTab(-1,tabScrollArea,QString::fromStdString(config->GetDeviceName()));
@@ -820,7 +818,8 @@ void MainWindow::buildASIConfigUI() {
                 dac_checkboxes.push_back(cb);*/
 
                 connect(cb, &QCheckBox::stateChanged,[=](int val){
-                   config->SetParameter(i,val);
+                    //logit(QString().asprintf("Changing Param %d to %d",i, val).toStdString());
+                   config->SetParameter(i,val == Qt::Checked? 1 : 0);
                 });
                // connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
 

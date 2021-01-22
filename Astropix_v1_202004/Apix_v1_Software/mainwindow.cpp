@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //--------------
     lasersetupgui = new LaserControl();
     lct = lasersetupgui;
-    lasersetupgui->setWaiter(lctevents);
+    //lasersetupgui->setWaiter(lctevents);
 
     // Create FTDI Class for communication with board
     //-------------

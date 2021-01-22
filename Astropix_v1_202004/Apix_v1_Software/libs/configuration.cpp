@@ -645,7 +645,7 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
         }
 
         // Send Load after all registers
-        nexys->SendLoad(0x00,NexysIO::Ld);
+       // nexys->SendLoad(0x00,NexysIO::Ld);
        /* nexys->WriteASIC( 0x00,
                            std::vector<bool>(),
                             NexysIO::SinA,

@@ -642,6 +642,15 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
             return false;
         }
 
+        // Send Load after all registers
+        nexys->WriteASIC(
+                           0x00,
+                           std::vector<bool>(),
+                           true);
+
+        // Flush
+        nexys->Flush();
+
         // Update Progress
         //------------
         if(!progressbarblocked)  {

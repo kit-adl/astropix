@@ -149,8 +149,8 @@ public:
      * @param clockdiv  - factor for sending each byte multiple times to slow down the data transmission
      * @return          - false if a flush() was necessary, true otherwise
      */
-    bool WriteASIC(unsigned char address, std::vector<bool> values, unsigned char Sin = SinA,
-                   unsigned char ld = Ld, bool sendload = true, const int clockdiv = 8);
+    bool WriteASIC(unsigned char address, std::vector<bool> values,NexysIO::Value  Sin = SinA,
+                   NexysIO::Value  ld = Ld, bool sendload = true, const int clockdiv = 8);
     /**
      * @brief ConfigureLoad for configuring a shift register driven by ck1 without shifting the
      *          data in the chip

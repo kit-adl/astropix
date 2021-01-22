@@ -306,10 +306,12 @@ bool NexysIO::Write(std::vector<std::pair<byte, byte> > values, bool flush, unsi
 }
 
 
-bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, unsigned char Sin, unsigned char ld, bool sendload, const int clockdiv)
+bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, NexysIO::Value Sin, NexysIO::Value ld, bool sendload, const int clockdiv)
 {
     if(ftdi == nullptr)
         return false;
+
+    std::cout << "Selected Sin and Load!   : " << Sin << " -> " << ld << std::endl;
 
     //unsigned int initialPosition = FTDIBuffPos;
 
@@ -355,10 +357,13 @@ bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, unsigne
     unsigned int ckdiv = static_cast<unsigned int>(clockdiv);
 
    // for (auto it = values.begin(); it != values.end(); ++it)      //Send Values
-   for (auto it : values)
+   for (bool it : values)
     {
 
-        pattern = ((it)?Sin:0);  //ld is used as !OE for shift registers (ICs) -> needs to be 1 during Ck1 pulses
+
+        pattern = ((it )?Sin:0);  //ld is used as !OE for shift registers (ICs) -> needs to be 1 during Ck1 pulses
+        printf("Pattern for %d: %x\n",it,pattern);
+       // std::cout << "Pattern for : " << it << "->" << std::atoi(pattern) << " -> " << Sin << std::endl;
 
         AddBytes(pattern,       ckdiv);
         AddBytes(pattern | Ck1, ckdiv);

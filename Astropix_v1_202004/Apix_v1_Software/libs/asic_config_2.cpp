@@ -825,6 +825,30 @@ ASIC_Config2 ASIC_Config2_Manager::GetConfig(std::string devicename)
     return ASIC_Config2();
 }
 
+tinyxml2::XMLElement* ASIC_Config2_Manager::GetConfigNode(std::string devicename)
+{
+    tinyxml2::XMLElement* node = doc.FirstChildElement();
+
+    while(node != nullptr)
+    {
+        if(std::string(node->Value()).compare("ShiftRegister") == 0)
+        {
+            const char* nam = node->Attribute("name");
+            if(std::string((nam != 0)?nam:"").compare(devicename) == 0)
+            {
+                return node;
+            }
+        }
+
+        if(node != doc.LastChildElement())
+            node = node->NextSiblingElement();
+        else
+            node = nullptr;
+    }
+
+    return nullptr;
+}
+
 tinyxml2::XMLElement *ASIC_Config2_Manager::GetTreeSourceNode(std::string value, std::string devicename)
 {
     if(value != "")

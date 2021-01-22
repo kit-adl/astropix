@@ -93,6 +93,10 @@ public:
     friend void SetTrimThreshold(double thr, void* mw);
 
     double MeasureDelay();
+
+    // UI Building
+    void buildASIConfigUI();
+
 public slots:
     void ProcessEvents();
     void setWaiter(WaitFunction newwaiter);

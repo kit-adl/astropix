@@ -257,111 +257,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Configuration Tabs
     //------------------------------
-
-    //-- Each Config set will be a tab in the gui
-    //----------
-    QTabWidget * asicConfigTabW = this->ui->asicConfigTabWidget;
-    for (ASIC_Config2* config : this->asicConfigs) {
+    buildASIConfigUI();
 
 
-        std::cout << "-" << config->GetDeviceName() << std::endl;
-        std::cout << std::flush;
-
-        //-- Create Vertical Layout container and scroll area
-        QScrollArea * tabScrollArea = new QScrollArea();
-        QWidget * configContainer = new QWidget();
-        configContainer->setLayout(new QVBoxLayout());
-        configContainer->layout()->setAlignment(Qt::AlignTop);
-
-
-        //tabScrollArea->setWidget();
-
-        // Insert to tab
-        asicConfigTabW->insertTab(-1,tabScrollArea,QString::fromStdString(config->GetDeviceName()));
-
-        //-- Insert entries
-        for(unsigned int i = 0; i < config->GetEntries(); ++i) {
-
-            // Optional parameters are not set
-            if (config->ParameterIsOptional(i)) {
-                continue;
-            }
-
-            //-- Create HBOX to hold parameter GUI
-            QWidget * containerWidget = new QWidget();
-            QHBoxLayout * hLayout = new QHBoxLayout(containerWidget);
-            configContainer->layout()->addWidget(containerWidget);
-
-            //-- Parameter with more than 1 bit get a Slider and Spinbox
-            if(config->GetParameterWidth(i) > 1) {
-
-                // Label
-                QLabel* lb = new QLabel();
-                hLayout->addWidget(lb);
-
-                lb->setText(config->GetParameterName(i).c_str());
-
-
-                // Slider to change value
-                QSlider* sl = new QSlider(Qt::Horizontal);
-                hLayout->addWidget(sl);
-
-                sl->setRange(0, (1 << config->GetParameterWidth(i)) - 1);
-                sl->setValue(config->GetParameter(i));
-
-                // Spin Box to change value
-                QSpinBox* sb = new QSpinBox();
-                hLayout->addWidget(sb);
-
-                sb->setRange(0, (1 <<config->GetParameterWidth(i)) - 1);
-                sb->setValue(config->GetParameter(i));
-                sb->setAlignment(Qt::AlignRight);
-
-                // Events
-                // - Slider changes value of Box on release
-                // - Box updates using global updateFromGUI() when value changes
-                connect(sl,&QSlider::valueChanged, [=](int val){ sb->setValue(val); });
-                connect(sb, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
-                    config->SetParameter(i,val);
-                });
-                //connect(sb, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
-
-            }
-            //-- Parameter with 1 bit are a check box
-            else {
-
-                // Checkbox
-                QCheckBox* cb = new QCheckBox();
-                hLayout->addWidget(cb);
-
-                cb->setText(config->GetParameterName(i).c_str());
-                cb->setChecked(config->GetParameter(i) != 0);
-
-                // Label
-                /*QLabel* lb = new QLabel();
-                hLayout->addWidget(lb);
-
-                lb->setText(config->GetParameterName(i).c_str());
-                lb->setVisible(false);*/
-
-                /*dac_sliders.push_back(nullptr);
-                dac_spinboxes.push_back(nullptr);
-                dac_labels.push_back(lb);
-                dac_checkboxes.push_back(cb);*/
-
-                connect(cb, &QCheckBox::stateChanged,[=](int val){
-                   config->SetParameter(i,val);
-                });
-               // connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
-
-            }
-
-        }
-
-        // Add Config Widget to scroll area here not before otherwise it is not drawn correctly
-        tabScrollArea->setWidget(configContainer);
-
-    }
 
     //  add the controls for configuration:
     //unsigned int srCount = 1;
@@ -792,6 +690,117 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->SB_ToTCal_End, SIGNAL(valueChanged(int)), this, SLOT(SB_Trim_valueChanged(int)));
 
     LoadFileList();
+}
+
+void MainWindow::buildASIConfigUI() {
+
+
+    //-- Each Config set will be a tab in the gui
+    //----------
+    QTabWidget * asicConfigTabW = this->ui->asicConfigTabWidget;
+    for (ASIC_Config2* config : this->asicConfigs) {
+
+
+        std::cout << "-" << config->GetDeviceName() << std::endl;
+        std::cout << std::flush;
+
+        //-- Create Vertical Layout container and scroll area
+        QScrollArea * tabScrollArea = new QScrollArea();
+        QWidget * configContainer = new QWidget();
+        configContainer->setLayout(new QVBoxLayout());
+        configContainer->layout()->setAlignment(Qt::AlignTop);
+
+
+        //tabScrollArea->setWidget();
+
+        // Insert to tab
+        asicConfigTabW->insertTab(-1,tabScrollArea,QString::fromStdString(config->GetDeviceName()));
+
+        //-- Insert entries
+        for(unsigned int i = 0; i < config->GetEntries(); ++i) {
+
+            // Optional parameters are not set
+            if (config->ParameterIsOptional(i)) {
+                continue;
+            }
+
+            //-- Create HBOX to hold parameter GUI
+            QWidget * containerWidget = new QWidget();
+            QHBoxLayout * hLayout = new QHBoxLayout(containerWidget);
+            configContainer->layout()->addWidget(containerWidget);
+
+            //-- Parameter with more than 1 bit get a Slider and Spinbox
+            if(config->GetParameterWidth(i) > 1) {
+
+                // Label
+                QLabel* lb = new QLabel();
+                hLayout->addWidget(lb);
+
+                lb->setText(config->GetParameterName(i).c_str());
+
+
+                // Slider to change value
+                QSlider* sl = new QSlider(Qt::Horizontal);
+                hLayout->addWidget(sl);
+
+                sl->setRange(0, (1 << config->GetParameterWidth(i)) - 1);
+                sl->setValue(config->GetParameter(i));
+
+                // Spin Box to change value
+                QSpinBox* sb = new QSpinBox();
+                hLayout->addWidget(sb);
+
+                sb->setRange(0, (1 <<config->GetParameterWidth(i)) - 1);
+                sb->setValue(config->GetParameter(i));
+                sb->setAlignment(Qt::AlignRight);
+
+                // Events
+                // - Slider changes value of Box on release
+                // - Box updates using global updateFromGUI() when value changes
+                connect(sl,&QSlider::valueChanged, [=](int val){ sb->setValue(val); });
+                connect(sb, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
+                    config->SetParameter(i,val);
+                });
+                //connect(sb, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
+
+            }
+            //-- Parameter with 1 bit are a check box
+            else {
+
+                // Checkbox
+                QCheckBox* cb = new QCheckBox();
+                hLayout->addWidget(cb);
+
+                cb->setText(config->GetParameterName(i).c_str());
+                cb->setChecked(config->GetParameter(i) != 0);
+
+                // Label
+                /*QLabel* lb = new QLabel();
+                hLayout->addWidget(lb);
+
+                lb->setText(config->GetParameterName(i).c_str());
+                lb->setVisible(false);*/
+
+                /*dac_sliders.push_back(nullptr);
+                dac_spinboxes.push_back(nullptr);
+                dac_labels.push_back(lb);
+                dac_checkboxes.push_back(cb);*/
+
+                connect(cb, &QCheckBox::stateChanged,[=](int val){
+                   config->SetParameter(i,val);
+                });
+               // connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
+
+            }
+
+        }
+
+        // Add Config Widget to scroll area here not before otherwise it is not drawn correctly
+        tabScrollArea->setWidget(configContainer);
+
+    }
+
+
 }
 
 MainWindow::~MainWindow()
@@ -1459,7 +1468,16 @@ void MainWindow::on_B_Config_Load_clicked()
             logit("Configuration loaded from \"" + text + "\"");
 
             //atlaspix3 configurations:
-            ASIC_Config2 config;
+            // Add Configs
+            for(auto it : this->asicConfigs) {
+
+               auto savedConfigNode =  atlaspix_config_manager.GetConfigNode(it->GetDeviceName());
+               if (savedConfigNode!=nullptr) {
+                    it->LoadFromXMLElement(savedConfigNode);
+               }
+                //atlaspix_config_manager.AddConfig(*it, it->GetDeviceName());
+            }
+            /*ASIC_Config2 config;
             config = atlaspix_config_manager.GetConfig(atlaspix_config.GetDeviceName());
             if(config.GetEntries() == atlaspix_config.GetEntries())
                 atlaspix_config = config;
@@ -1477,7 +1495,7 @@ void MainWindow::on_B_Config_Load_clicked()
                 atlaspix_row = config;
             config = atlaspix_config_manager.GetConfig(atlaspix_column.GetDeviceName());
             if(config.GetEntries() == atlaspix_column.GetEntries())
-                atlaspix_column = config;
+                atlaspix_column = config;*/
 
             //voltage boards:
             tinyxml2::XMLElement* node;
@@ -1628,12 +1646,17 @@ void MainWindow::on_B_Config_Save_clicked()
     {
         atlaspix_config_manager.ClearFile();
 
-        atlaspix_config_manager.AddConfig(atlaspix_config, atlaspix_config.GetDeviceName());
+        // Add Configs
+        for(auto it : this->asicConfigs) {
+            atlaspix_config_manager.AddConfig(*it, it->GetDeviceName());
+        }
+        //this->asicConfigs.fo
+        /*atlaspix_config_manager.AddConfig(atlaspix_config, atlaspix_config.GetDeviceName());
         atlaspix_config_manager.AddConfig(atlaspix_vdac, atlaspix_vdac.GetDeviceName());
         atlaspix_config_manager.AddConfig(atlaspix_dac, atlaspix_dac.GetDeviceName());
         atlaspix_config_manager.AddConfig(atlaspix_tdac, atlaspix_tdac.GetDeviceName());
         atlaspix_config_manager.AddConfig(atlaspix_row, atlaspix_row.GetDeviceName());
-        atlaspix_config_manager.AddConfig(atlaspix_column, atlaspix_column.GetDeviceName());
+        atlaspix_config_manager.AddConfig(atlaspix_column, atlaspix_column.GetDeviceName());*/
 
         for (auto vb : voltageboards) {
             atlaspix_config_manager.AddConfigTree(

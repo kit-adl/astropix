@@ -307,6 +307,7 @@ public:
      *                          configuration object on an error (e.g. device name not found)
      */
     ASIC_Config2       GetConfig(std::string devicename);
+    tinyxml2::XMLElement* GetConfigNode(std::string devicename);
 
     /**
      * @brief GetTreeSourceNode provides an XMLElement as root node of the data structure to export

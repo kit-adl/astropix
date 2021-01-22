@@ -97,6 +97,8 @@ bool NexysIO::AddBytes(unsigned char command, unsigned int clockdiv)
 {
     bool noneedtosend = true;
 
+    // printf("---> Adding command: %x\n",command);
+
     if (FTDIBuffPos + clockdiv > FTDIBuffSize-1)
         Flush();
 
@@ -376,20 +378,20 @@ bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, NexysIO
     if(sendload)
     {
         //additional Ck1 pulse for updating the shift registers:
-        AddBytes(ld | Ck1, ckdiv);
+        //AddBytes(ld | Ck1, ckdiv);
         AddBytes(ld,       10 * ckdiv);
         //inverted Ld pulse:
         AddBytes(0,  20 * ckdiv);
-        AddBytes(ld, 75 * ckdiv); //give time for the pull-down resistors to discharge the load lines
+       // AddBytes(ld, 75 * ckdiv); //give time for the pull-down resistors to discharge the load lines
 
         //fill the shift registers with 0, and keep outputs off (-> ld on)
-        for(int i = 0; i < 16; ++i)
+       /* for(int i = 0; i < 16; ++i)
         {
             AddBytes(ld | Ck2, ckdiv);
             AddBytes(ld,       ckdiv);
         }
         AddBytes(ld | Ck1, ckdiv);
-        AddBytes(ld,       ckdiv);
+        AddBytes(ld,       ckdiv);*/
     }
 
     return true; //(initialPosition < FTDIBuffPos);

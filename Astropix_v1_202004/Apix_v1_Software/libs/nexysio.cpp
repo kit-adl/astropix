@@ -354,9 +354,11 @@ bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, unsigne
 
     unsigned int ckdiv = static_cast<unsigned int>(clockdiv);
 
-    for (auto it = values.begin(); it != values.end(); ++it)      //Send Values
+   // for (auto it = values.begin(); it != values.end(); ++it)      //Send Values
+   for (auto it : values)
     {
-        pattern = ld + ((*it)?Sin:0);  //ld is used as !OE for shift registers (ICs) -> needs to be 1 during Ck1 pulses
+
+        pattern = ((it)?Sin:0);  //ld is used as !OE for shift registers (ICs) -> needs to be 1 during Ck1 pulses
 
         AddBytes(pattern,       ckdiv);
         AddBytes(pattern | Ck1, ckdiv);

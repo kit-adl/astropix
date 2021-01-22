@@ -99,8 +99,11 @@ bool NexysIO::AddBytes(unsigned char command, unsigned int clockdiv)
 
     // printf("---> Adding command: %x\n",command);
 
-    if (FTDIBuffPos + clockdiv > FTDIBuffSize-1)
-        Flush();
+    if (FTDIBuffPos + clockdiv > FTDIBuffSize-1) {
+         Flush();
+
+    }
+
 
     for(unsigned int i = 0; i < clockdiv; ++i)
         FTDIBuff[FTDIBuffPos++] = command;
@@ -129,6 +132,8 @@ bool NexysIO::Flush()
 {
     if(ftdi == nullptr)
         return false;
+
+    std::cout << "Flushing" << std::endl;
 
     //std::cout << FTDIBuff[i]<< std::endl;
     bool ftStatus = false;
@@ -320,7 +325,7 @@ bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, NexysIO
     int length = int(values.size()) * 5 * clockdiv;
     if(sendload)
         length += 140 * clockdiv;  //(1 + 10 + 95 + 16*2 + 2) * clockdiv;
-    if (length > 64000)
+    /*if (length > 64000)
     {
         unsigned int index = 0;
         unsigned int bitspercommand = static_cast<unsigned int>(63800/ (5 * clockdiv));
@@ -348,7 +353,7 @@ bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, NexysIO
         length = int(values.size()) * 5 * clockdiv;
         if(sendload)
             length += 115 * clockdiv;
-    }
+    }*/
     unsigned char pattern = 0;
 
     AddByte(NexysIO::HWrite);           //Send Header
@@ -364,7 +369,7 @@ bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, NexysIO
 
 
         pattern = ((it )?Sin:0);  //ld is used as !OE for shift registers (ICs) -> needs to be 1 during Ck1 pulses
-        printf("Pattern for %d: %x\n",it,pattern);
+      //  printf("Pattern for %d: %x\n",it,pattern);
        // std::cout << "Pattern for : " << it << "->" << std::atoi(pattern) << " -> " << Sin << std::endl;
 
         AddBytes(pattern,       ckdiv);

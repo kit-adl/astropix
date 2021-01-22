@@ -164,7 +164,7 @@ public:
      * @brief SendLoad separate command to send a load signal to the chip for fast reconfigurations
      * @return          - true on succesful send false otherwise
      */
-    bool SendLoad(unsigned char address, unsigned char Ld);
+    bool SendLoad(unsigned char address, unsigned char Ld, unsigned int clockdiv=6);
 
     /**
      * Configure Function Cards.

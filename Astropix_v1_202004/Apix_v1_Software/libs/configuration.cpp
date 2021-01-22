@@ -653,8 +653,8 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
 
     } // EOF Loop
 
-    // Send Load after all registers
-    nexys->SendLoad(0x00,NexysIO::Ld);
+    // Send Load after all registers clkdiv=24 => 1.6us high
+    nexys->SendLoad(0x00,NexysIO::Ld,24);
 
     // Flush
     nexys->Flush();

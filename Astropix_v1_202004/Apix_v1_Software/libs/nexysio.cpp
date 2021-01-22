@@ -449,12 +449,12 @@ bool NexysIO::ConfigureLoad(unsigned char address, std::vector<bool> values, boo
     return true; // (initialPosition < FTDIBuffPos);
 }
 
-bool NexysIO::SendLoad(unsigned char address, unsigned char Ld)
+bool NexysIO::SendLoad(unsigned char address, unsigned char Ld, unsigned int clockdiv)
 {
     if(ftdi == nullptr) // || FTDIBuffPos != 0)
         return false;
 
-    const int clockdiv = 6;
+    //const int clockdiv = 6;
     int length = 8 * clockdiv;
 
     AddByte(NexysIO::HWrite);           //Send Header

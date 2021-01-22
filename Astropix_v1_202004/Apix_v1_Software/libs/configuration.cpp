@@ -620,6 +620,13 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
 
         logit(QString().asprintf("- Writing %llu bits for %s",bits.size(),config->GetDeviceName().c_str()).toStdString());
 
+        auto bStr = QString();
+        for (auto bit : bits) {
+            bStr.append(bit ? '1' : '0');
+        }
+        logit(QString().asprintf("-- Value: %s",bStr.toStdString().c_str()).toStdString());
+
+
         bool result = nexys->WriteASIC(
                     0x00,
                     bits,

@@ -125,18 +125,18 @@ module main_top(
     input        por_test_reset,
     
     output       reset_analog_b,
-    input        regulator_reset_out,
+    //input        regulator_reset_out,
     
-    output       reset_digital_b,
-    input        por,
+    //output       reset_digital_b,
+    //input        por,
     
     //chip configuration configuration:
-    output       use_spi,
+    //output       use_spi,
     output       bypass_cmd,
     output       encdr,
     output       en_pll,
     output       sel_ext,
-    output       cmd_clock_invert,
+    //output       cmd_clock_invert,
     output       interface_speed,
     output       take_fast,
 
@@ -144,28 +144,39 @@ module main_top(
     input        hitbus,
     output       always_enable_b,
 
-    output       untriggered_ro_en,
+    //output       untriggered_ro_en,
     output       trigro_reset_n,
     
     //digital readout / command decoder:
     output       cmd_p,
     output       cmd_n,    
     
-    output       ckref_p,
-    output       ckref_n,
-    output       ck_ext_p,
-    output       ck_ext_n,
-    output       sync_rst_p,
-    output       sync_rst_n,
-    output       ext_trigger_chip_p,
-    output       ext_trigger_chip_n,
+    //output       ckref_p,
+    //output       ckref_n,
+    //output       ck_ext_p,
+    //output       ck_ext_n,
+    //output       sync_rst_p,
+    //output       sync_rst_n,
+    //output       ext_trigger_chip_p,
+    //output       ext_trigger_chip_n,
     input        data_p,
     input        data_n,
-    input        data_fmc_p,
-    input        data_fmc_n,
+    //input        data_fmc_p,
+    //input        data_fmc_n,
     
     input        ckref_chipout_p,
-    input        ckref_chipout_n //,
+    input        ckref_chipout_n,
+	
+    //Astropix test
+    input interrupt,
+    input spi_miso,
+    
+    output spi_clk,
+    output spi_mosi,
+    output spi_csn,
+    output res_n
+    //output sample_clk_n,
+    //output sample_clk_p,
     
     // Loopback data out test
    // output      loopback_data_p,
@@ -214,6 +225,11 @@ assign set_vadj[0]  = 1;
     
 assign prog_siwun = 1;   //important for reading from FPGA
 
+//Astropix test
+assign res_n      = 1;
+assign spi_clk    = 1;
+assign spi_mosi    = 1;
+assign spi_csn    = 1;
 
 // Ethernet configuration:    
 wire [47:0] ethernet_mac;
@@ -665,7 +681,7 @@ wire phasemsb;
 
 wire TS_clk;
 
-fastreadout fastreadout_I(
+/*fastreadout fastreadout_I(
 
     .fast_clk_1200(fast_clk_1200),   
     .fast_clk_600(fast_clk_600),
@@ -752,7 +768,7 @@ fastreadout fastreadout_I(
     
     //,
     //.bitselect(sw[5:3])
-);
+);*/
 
 spi_readout spi_readout_i(
     .clock(clk),

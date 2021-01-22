@@ -78,18 +78,36 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Register Configurations:
     //----------------------------
-
     //-- Digital Config
     //---------------
     asicConfigs.push_back(new ASIC_Config2("Config"));
     ASIC_Config2 * asic_config = asicConfigs.back();
-    asic_config->AddParameter("maxcycend"        , "!7,!6,!5,!4,!3,!2,!1,!0" , 255)
-                .AddParameter("slowdowndpixelend", "3,2,!1,!0"               ,   3)
-                .AddParameter("slowdownend"      , "3,2,!1,!0"               ,   3)
-                .AddParameter("timerendpixel"    , "3,2,1,0"                 ,   0)
+    asic_config->AddParameter("interrupt_pushpull"        , "0" , 0)
+                .AddParameter("En_Inj1", "0"               ,   0)
+                .AddParameter("En_Inj2", "0"               ,   0)
+                .AddParameter("En_Inj3", "0"               ,   0)
+                .AddParameter("En_Inj4", "0"               ,   0)
+                .AddParameter("En_Inj5", "0"               ,   0)
+                .AddParameter("En_Inj6", "0"               ,   0)
+                .AddParameter("En_Inj7", "0"               ,   0)
+                .AddParameter("En_Inj8", "0"               ,   0)
+                .AddParameter("En_Inj9", "0"               ,   0)
+                .AddParameter("En_Inj10", "0"               ,   0)
+                .AddParameter("En_Inj11", "0"               ,   0)
+                .AddParameter("En_Inj12", "0"               ,   0)
+                .AddParameter("En_Inj13", "0"               ,   0)
+                .AddParameter("En_Inj14", "0"               ,   0)
+                .AddParameter("En_Inj15", "0"               ,   0)
+                .AddParameter("En_Inj16", "0"               ,   0)
+                .AddParameter("En_Inj17", "0"               ,   0)
+                .AddParameter("En_Inj18", "0"               ,   0)
+                .AddParameter("ResetB Biasblock"      , "0"               ,   0)
+                .AddParameter("Extra bits"      , "14,13,12,11,10,9,8,7,6,5,4,3,2,1,0"               ,   0);
+
+                /*.AddParameter("timerendpixel"    , "3,2,1,0"                 ,   0)
                 .AddParameter("timerend"         , "3,2,1,0"                 ,   0)
                 .AddParameter("ckdivend2"        , "5,4,3,2,1,0"             ,   0)
-                .AddParameter("ckdivend"         , "5,4,3,2,1,0"             ,   0);
+                .AddParameter("ckdivend"         , "5,4,3,2,1,0"             ,   0);*/
 
     // Bias Block DACS
     //------------------
@@ -102,40 +120,40 @@ MainWindow::MainWindow(QWidget *parent) :
                 .AddParameter("qon1"       , "0"          ,  1)
                 .AddParameter("qon2"       , "0"          ,  0)
                 .AddParameter("qon3"       , "0"          ,  1)
-                .AddParameter("blres"      , "5,4,3,2,1,0",  8)
-                .AddParameter("ithres"     , "5,4,3,2,1,0",  8)   //NU
-                .AddParameter("vn1"        , "5,4,3,2,1,0", 12)
-                .AddParameter("vnfb"       , "5,4,3,2,1,0",  8)
-                .AddParameter("vnfoll"     , "5,4,3,2,1,0",  8)
-                .AddParameter("vnregc"     , "5,4,3,2,1,0",  8)    //NU
-                .AddParameter("vnpdel"     , "5,4,3,2,1,0",  8)
-                .AddParameter("vpcomp"     , "5,4,3,2,1,0",  8)
-                .AddParameter("vpdac"      , "5,4,3,2,1,0",  8)    //NU
-                .AddParameter("vn2"        , "5,4,3,2,1,0",  8)
-                .AddParameter("vblresdig"  , "5,4,3,2,1,0",  8)    //NU
-                .AddParameter("vnbias"     , "5,4,3,2,1,0",  8)
-                .AddParameter("vpload"     , "5,4,3,2,1,0",  8)
-                .AddParameter("vnout"      , "5,4,3,2,1,0",  8)    //NU
-                .AddParameter("vpvco"      , "5,4,3,2,1,0", 16)
-                .AddParameter("vnvco"      , "5,4,3,2,1,0", 16)
-                .AddParameter("vpdclmux"   , "5,4,3,2,1,0", 32)
-                .AddParameter("vndclmux"   , "5,4,3,2,1,0", 32)
-                .AddParameter("vpdeldcl"   , "5,4,3,2,1,0", 32)
-                .AddParameter("vndeldcl"   , "5,4,3,2,1,0", 32)
-                .AddParameter("vpdelpreemp", "5,4,3,2,1,0", 32)
-                .AddParameter("vndelpreemp", "5,4,3,2,1,0", 32)
-                .AddParameter("vpdcl"      , "5,4,3,2,1,0", 32)
-                .AddParameter("vndcl"      , "5,4,3,2,1,0", 32)
-                .AddParameter("vnlvds"     , "5,4,3,2,1,0", 16)
+                .AddParameter("blres"      , "5,4,3,2,1,0",  5)
+                .AddParameter("ithres"     , "5,4,3,2,1,0",  0)   //NU
+                .AddParameter("vn1"        , "5,4,3,2,1,0", 2)
+                .AddParameter("vnfb"       , "5,4,3,2,1,0",  5)
+                .AddParameter("vnfoll"     , "5,4,3,2,1,0",  5)
+                .AddParameter("vnregc"     , "5,4,3,2,1,0",  0)    //NU
+                .AddParameter("vnpdel"     , "5,4,3,2,1,0",  0)
+                .AddParameter("vpcomp"     , "5,4,3,2,1,0",  0)
+                .AddParameter("vpdac"      , "5,4,3,2,1,0",  0)    //NU
+                .AddParameter("vn2"        , "5,4,3,2,1,0",  2)
+                .AddParameter("vnfoll2"  , "5,4,3,2,1,0",  5)    //NU
+                .AddParameter("vnbias"     , "5,4,3,2,1,0",  5)
+                .AddParameter("vpload"     , "5,4,3,2,1,0",  5)
+                .AddParameter("vnout"      , "5,4,3,2,1,0",  0)    //NU
+                .AddParameter("vpvco"      , "5,4,3,2,1,0", 0)
+                .AddParameter("vnvco"      , "5,4,3,2,1,0", 0)
+                .AddParameter("vpdclmux"   , "5,4,3,2,1,0", 0)
+                .AddParameter("vndclmux"   , "5,4,3,2,1,0", 0)
+                .AddParameter("vpdeldcl"   , "5,4,3,2,1,0", 0)
+                .AddParameter("vndeldcl"   , "5,4,3,2,1,0", 0)
+                .AddParameter("vpdelpreemp", "5,4,3,2,1,0", 0)
+                .AddParameter("vndelpreemp", "5,4,3,2,1,0", 0)
+                .AddParameter("vpdcl"      , "5,4,3,2,1,0", 0)
+                .AddParameter("vndcl"      , "5,4,3,2,1,0", 0)
+                .AddParameter("vnlvds"     , "5,4,3,2,1,0", 0)
                 .AddParameter("vnlvdsdel"  , "5,4,3,2,1,0",  0)
-                .AddParameter("vppump"     , "5,4,3,2,1,0", 16)
-                .AddParameter("vpregcasc"  , "5,4,3,2,1,0", 16)	//NU
-                .AddParameter("vprampdig"  , "5,4,3,2,1,0", 16)	//NU
-                .AddParameter("vncomp"     , "5,4,3,2,1,0", 12)
-                .AddParameter("vpfoll"     , "5,4,3,2,1,0", 16)
+                .AddParameter("vppump"     , "5,4,3,2,1,0", 0)
+                .AddParameter("vpregcasc"  , "5,4,3,2,1,0", 0)	//NU
+                .AddParameter("vprampdig"  , "5,4,3,2,1,0", 0)	//NU
+                .AddParameter("vncomp"     , "5,4,3,2,1,0", 5)
+                .AddParameter("vpfoll"     , "5,4,3,2,1,0", 0)
                 .AddParameter("vndac"      , "5,4,3,2,1,0",  0)
-                .AddParameter("vpbiasrec"  , "5,4,3,2,1,0",	 8)
-                .AddParameter("vnbiasrec"  , "5,4,3,2,1,0",  8);
+                .AddParameter("vpbiasrec"  , "5,4,3,2,1,0",	 0)
+                .AddParameter("vnbiasrec"  , "5,4,3,2,1,0",  0);
 
     //configure voltage cards and injection card:
     //  load signals for GECCO board:
@@ -156,7 +174,16 @@ MainWindow::MainWindow(QWidget *parent) :
     injection.addLoadShiftRegister(5);
 
     // DAC  Config
+    voltageboards[0]->AddDAC("unused", 14, 2, 1, 0);
+    voltageboards[0]->AddDAC("unused", 14, 2, 1, 0);
+    voltageboards[0]->AddDAC("VCasc2", 14, 2, 1, 0.6);
     voltageboards[0]->AddDAC("BL", 14, 2, 1, 1.0);
+    voltageboards[0]->AddDAC("unused", 14, 2, 1, 0);
+    voltageboards[0]->AddDAC("unused", 14, 2, 1, 0);
+    voltageboards[0]->AddDAC("Vminuspix", 14, 2, 1, 0);
+    voltageboards[0]->AddDAC("Vth", 14, 2, 1, 0.02);
+
+
 
            /* .AddDAC("Th"    , 14, 2, 1, 0)
             .AddDAC("Ld_DUMMYLOAD"    , 14, 2, 1, 0);*/
@@ -516,6 +543,11 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         for(unsigned int i = 0; i < voltageboards[index]->GetEntries(); ++i, ++vbindex)
         {
+            //Dont create QWidget for DACs with "unused" in Name
+            if(voltageboards[index]->GetDACName(i).find("unused") != std::string::npos)
+            {
+                continue;
+            }
 
             // Create HBOX for:
             //   - Spin Box and Label
@@ -543,7 +575,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
                 ++vboffset;
                 continue;
-            }  
+            }
+
 
            //-- Add Label
             QLabel* lb = new QLabel();
@@ -5089,7 +5122,7 @@ void MainWindow::on_ChipStart_clicked()
     else
         logit("WriteASIC successful");
 
-    on_B_TDAC_Config_WriteMatrix_clicked();
+    //on_B_TDAC_Config_WriteMatrix_clicked();
 
 
     //on_B_TDAC_Config_WriteRow_clicked();

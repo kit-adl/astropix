@@ -102,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 .AddParameter("En_Inj17", "0"               ,   0)
                 .AddParameter("En_Inj18", "0"               ,   0)
                 .AddParameter("ResetB Biasblock"      , "0"               ,   0)
-                .AddParameter("Extra bits"      , "14,13,12,11,10,9,8,7,6,5,4,3,2,1,0"               ,   0);
+                .AddParameter("Extrabits_unused"      , "14,13,12,11,10,9,8,7,6,5,4,3,2,1,0"               ,   0);
 
                 /*.AddParameter("timerendpixel"    , "3,2,1,0"                 ,   0)
                 .AddParameter("timerend"         , "3,2,1,0"                 ,   0)
@@ -121,39 +121,39 @@ MainWindow::MainWindow(QWidget *parent) :
                 .AddParameter("qon2"       , "0"          ,  0)
                 .AddParameter("qon3"       , "0"          ,  1)
                 .AddParameter("blres"      , "5,4,3,2,1,0",  5)
-                .AddParameter("ithres"     , "5,4,3,2,1,0",  0)   //NU
+                .AddParameter("ithres_unused"     , "5,4,3,2,1,0",  0)   //NU
                 .AddParameter("vn1"        , "5,4,3,2,1,0", 2)
                 .AddParameter("vnfb"       , "5,4,3,2,1,0",  5)
                 .AddParameter("vnfoll"     , "5,4,3,2,1,0",  5)
-                .AddParameter("vnregc"     , "5,4,3,2,1,0",  0)    //NU
-                .AddParameter("vnpdel"     , "5,4,3,2,1,0",  0)
-                .AddParameter("vpcomp"     , "5,4,3,2,1,0",  0)
-                .AddParameter("vpdac"      , "5,4,3,2,1,0",  0)    //NU
+                .AddParameter("vnregc_unused"     , "5,4,3,2,1,0",  0)    //NU
+                .AddParameter("vnpdel_unused"     , "5,4,3,2,1,0",  0)
+                .AddParameter("vpcomp_unused"     , "5,4,3,2,1,0",  0)
+                .AddParameter("vpdac_unused"      , "5,4,3,2,1,0",  0)    //NU
                 .AddParameter("vn2"        , "5,4,3,2,1,0",  2)
                 .AddParameter("vnfoll2"  , "5,4,3,2,1,0",  5)    //NU
                 .AddParameter("vnbias"     , "5,4,3,2,1,0",  5)
                 .AddParameter("vpload"     , "5,4,3,2,1,0",  5)
-                .AddParameter("vnout"      , "5,4,3,2,1,0",  0)    //NU
-                .AddParameter("vpvco"      , "5,4,3,2,1,0", 0)
-                .AddParameter("vnvco"      , "5,4,3,2,1,0", 0)
-                .AddParameter("vpdclmux"   , "5,4,3,2,1,0", 0)
-                .AddParameter("vndclmux"   , "5,4,3,2,1,0", 0)
-                .AddParameter("vpdeldcl"   , "5,4,3,2,1,0", 0)
-                .AddParameter("vndeldcl"   , "5,4,3,2,1,0", 0)
-                .AddParameter("vpdelpreemp", "5,4,3,2,1,0", 0)
-                .AddParameter("vndelpreemp", "5,4,3,2,1,0", 0)
-                .AddParameter("vpdcl"      , "5,4,3,2,1,0", 0)
-                .AddParameter("vndcl"      , "5,4,3,2,1,0", 0)
-                .AddParameter("vnlvds"     , "5,4,3,2,1,0", 0)
-                .AddParameter("vnlvdsdel"  , "5,4,3,2,1,0",  0)
-                .AddParameter("vppump"     , "5,4,3,2,1,0", 0)
-                .AddParameter("vpregcasc"  , "5,4,3,2,1,0", 0)	//NU
-                .AddParameter("vprampdig"  , "5,4,3,2,1,0", 0)	//NU
+                .AddParameter("vnout_unused"      , "5,4,3,2,1,0",  0)    //NU
+                .AddParameter("vpvco_unused"      , "5,4,3,2,1,0", 0)
+                .AddParameter("vnvco_unused"      , "5,4,3,2,1,0", 0)
+                .AddParameter("vpdclmu_unusedx"   , "5,4,3,2,1,0", 0)
+                .AddParameter("vndclmux_unused"   , "5,4,3,2,1,0", 0)
+                .AddParameter("vpdeldcl_unused"   , "5,4,3,2,1,0", 0)
+                .AddParameter("vndeldcl_unused"   , "5,4,3,2,1,0", 0)
+                .AddParameter("vpdelpreemp_unused", "5,4,3,2,1,0", 0)
+                .AddParameter("vndelpreemp_unused", "5,4,3,2,1,0", 0)
+                .AddParameter("vpdcl_unused"      , "5,4,3,2,1,0", 0)
+                .AddParameter("vndcl_unused"      , "5,4,3,2,1,0", 0)
+                .AddParameter("vnlvds_unused"     , "5,4,3,2,1,0", 0)
+                .AddParameter("vnlvdsdel_unused"  , "5,4,3,2,1,0",  0)
+                .AddParameter("vppump_unused"     , "5,4,3,2,1,0", 0)
+                .AddParameter("vpregcasc_unused"  , "5,4,3,2,1,0", 0)	//NU
+                .AddParameter("vprampdig_unused"  , "5,4,3,2,1,0", 0)	//NU
                 .AddParameter("vncomp"     , "5,4,3,2,1,0", 5)
-                .AddParameter("vpfoll"     , "5,4,3,2,1,0", 0)
-                .AddParameter("vndac"      , "5,4,3,2,1,0",  0)
-                .AddParameter("vpbiasrec"  , "5,4,3,2,1,0",	 0)
-                .AddParameter("vnbiasrec"  , "5,4,3,2,1,0",  0);
+                .AddParameter("vpfoll_unused"     , "5,4,3,2,1,0", 0)
+                .AddParameter("vndac_unused"      , "5,4,3,2,1,0",  0)
+                .AddParameter("vpbiasrec_unused"  , "5,4,3,2,1,0",	 0)
+                .AddParameter("vnbiasrec_unused"  , "5,4,3,2,1,0",  0);
 
     //configure voltage cards and injection card:
     //  load signals for GECCO board:
@@ -749,6 +749,10 @@ void MainWindow::buildASIConfigUI() {
 
         //-- Insert entries
         for(unsigned int i = 0; i < config->GetEntries(); ++i) {
+            //Dont create HBOX for unused Parameters
+            if(config->GetParameterName(i).find("unused") != std::string::npos){
+                continue;
+            }
 
             // Optional parameters are not set
             if (config->ParameterIsOptional(i)) {

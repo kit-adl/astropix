@@ -174,7 +174,15 @@ module main_top(
     output spi_clk,
     output spi_mosi,
     output spi_csn,
-    output res_n
+    output res_n,
+    
+    //Chip Config debug output
+    output config_ck1_test,
+    output config_ck2_test,
+    output config_sin_test,
+    output config_ld_test
+    
+    //Astropix Sample Clk
     //output sample_clk_n,
     //output sample_clk_p,
     
@@ -880,6 +888,12 @@ endgenerate
 //always @(posedge clk) begin
 //    test <= test + {1'b0,delayed_clock};
 //end
+
+//Chip config JB Debug output
+assign config_ck1_test = config_ck1;
+assign config_ck2_test = config_ck2;
+assign config_sin_test = config_sin;
+assign config_ld_test = config_ld;
 
 
 //LED contents:

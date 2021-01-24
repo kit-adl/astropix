@@ -190,14 +190,14 @@ set_property -dict { PACKAGE_PIN M17  IOSTANDARD LVCMOS25 } [get_ports { sw[7] }
 
 
 ## Pmod header JB
-set_property PACKAGE_PIN V9 [get_ports {data_p}]; #{jb[0]}]
-set_property IOSTANDARD LVDS_25 [get_ports {data_p}]; #{jb[0]}]
-set_property PACKAGE_PIN V8 [get_ports {data_n}]; #{jb[1]}]
-set_property IOSTANDARD LVDS_25 [get_ports {data_n}]; #{jb[1]}]
-#set_property PACKAGE_PIN V7 [get_ports {jb[2]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {jb[2]}]
-#set_property PACKAGE_PIN W7 [get_ports {jb[3]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {jb[3]}]
+set_property PACKAGE_PIN V9 [get_ports {config_ck1_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {config_ck1_test}]
+set_property PACKAGE_PIN V8 [get_ports {config_ck2_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {config_ck2_test}]
+set_property PACKAGE_PIN V7 [get_ports {config_sin_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {config_sin_test}]
+set_property PACKAGE_PIN W7 [get_ports {config_ld_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {config_ld_test}]
 #set_property PACKAGE_PIN W9 [get_ports {jb[4]}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {jb[4]}]
 #set_property PACKAGE_PIN Y9 [get_ports {jb[5]}]

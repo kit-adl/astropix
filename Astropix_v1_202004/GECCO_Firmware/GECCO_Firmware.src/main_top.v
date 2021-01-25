@@ -74,15 +74,16 @@ module main_top(
     input        phy_int_n,
     input        phy_pme_n,
     
-    //config:
+    //config: LA30-32 single-ended LA33 diff
     output       config_sin_p, // In1 -> ConfigCard -> C1
-    output       config_sin_n, // In1 -> ConfigCard -> C1
+    //output       config_sin_n, // In1 -> ConfigCard -> C1
     output       config_ck1_p, // In2 -> ConfigCard -> C2
-    output       config_ck1_n, // In2 -> ConfigCard -> C2
+    //output       config_ck1_n, // In2 -> ConfigCard -> C2
     output       config_ck2_p, // In3 -> ConfigCard -> C3
     output       config_ck2_n, // In3 -> ConfigCard -> C3
     output       config_ld_p, // In4 -> ConfigCard -> C4
-    output       config_ld_n, // In4 -> ConfigCard -> C4
+    //output       config_ld_n, // In4 -> ConfigCard -> C4
+    
     output       out_ld_dac,
     output       out_ld_config,
     output       out_ld_vdac,
@@ -844,25 +845,39 @@ cmd_decoder cmddec(
 
 
 // Buffers:
-wire [8:0] obuf_p;
-wire [8:0] obuf_n;
-wire [8:0] obuf_i;
-assign obuf_i = {config_sin, config_ck1, config_ck2, config_ld, gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, cmd};
+wire [5:0] obuf_p;
+wire [5:0] obuf_n;
+wire [5:0] obuf_i;
+assign obuf_i = {/*config_sin, config_ck1,*/ config_ck2, /*config_ld,*/ gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, cmd};
             //vb_clock and vb_load are connected inverted to the receivers on GECCO board
-assign obuf_p = {config_sin_p, config_ck1_p, config_ck2_p, config_ld_p, 
+assign obuf_p = {/*config_sin_p, config_ck1_p,*/ config_ck2_p, /*config_ld_p, */
                         gecco_inj_chopper_p, vb_clock_p, vb_data_p, vb_load_p, cmd_p};
-assign obuf_n = {config_sin_n, config_ck1_n, config_ck2_n, config_ld_n, 
+assign obuf_n = {/*config_sin_n, config_ck1_n,*/ config_ck2_n, /*config_ld_n, */
                         gecco_inj_chopper_n, vb_clock_n, vb_data_n, vb_load_n, cmd_n};
 
 genvar i;
 generate
-    for (i = 0; i < 9; i = i + 1) begin
+    for (i = 0; i < 6; i = i + 1) begin
         OBUFDS #(
             .IOSTANDARD("LVDS_25")
         ) OBUFDS_I (
             .I(obuf_i[i]),
             .O(obuf_p[i]),
             .OB(obuf_n[i])
+        );
+    end
+endgenerate
+
+//tristate outputs for configuration:
+wire [2:0] config1_out = {config_ck1_p, config_ld_p, config_sin_p};
+wire [2:0] config1_in = {config_ck1, config_ld, config_sin};
+generate
+    for (i = 0; i <= 2; i = i + 1) begin
+        OBUF #(
+            .IOSTANDARD("LVCMOS25")
+        ) OBUF_I (
+            .I(config1_in[i]),
+            .O(config1_out[i])
         );
     end
 endgenerate

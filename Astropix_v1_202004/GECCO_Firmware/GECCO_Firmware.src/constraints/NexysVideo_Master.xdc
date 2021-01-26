@@ -439,10 +439,10 @@ set_property -dict { PACKAGE_PIN E19   IOSTANDARD LVCMOS25 } [get_ports { take_f
 
 #BEGIN Astropix FMC
 #interrupt: Hit interrupt
-set_property -dict { PACKAGE_PIN B16   IOSTANDARD LVCMOS25 } [get_ports { interrupt }]; #IO_L7N_T1_16 Sch=fmc_la_n[24]
+set_property -dict { PACKAGE_PIN B15   IOSTANDARD LVCMOS25 } [get_ports { interrupt }]; #IO_L7P_T1_16 Sch=fmc_la_p[24]
 
-#res_n: negedge async resetnegedge async reset
-set_property -dict { PACKAGE_PIN B15   IOSTANDARD LVCMOS25 } [get_ports { res_n }]; #IO_L7P_T1_16 Sch=fmc_la_p[24]
+#res_n: negedge async reset
+set_property -dict { PACKAGE_PIN B16   IOSTANDARD LVCMOS25 } [get_ports { res_n }]; #IO_L7N_T1_16 Sch=fmc_la_n[24]
 
 #sample_clk
 set_property -dict { PACKAGE_PIN C17   IOSTANDARD LVDS_25 } [get_ports { sample_clk_n }]; #IO_L12N_T1_MRCC_16 Sch=fmc_la18_cc_n

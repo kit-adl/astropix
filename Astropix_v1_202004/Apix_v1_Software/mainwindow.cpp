@@ -181,7 +181,7 @@ MainWindow::MainWindow(QWidget *parent) :
     voltageboards[0]->AddDAC("unused", 14, 2, 1, 0);
     voltageboards[0]->AddDAC("unused", 14, 2, 1, 0);
     voltageboards[0]->AddDAC("Vminuspix", 14, 2, 1, 0);
-    voltageboards[0]->AddDAC("Vth", 14, 2, 1, 0.02);
+    voltageboards[0]->AddDAC("Vth", 14, 2, 1, 1.02);
 
 
 

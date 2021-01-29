@@ -60,9 +60,19 @@ int main(int argc, char *argv[])
 
     //-- Config Setting
     //-------------------
+
+    /**
+        This route simulates a click to the Update ASIC button
+      */
     httpServer.route("/asic/config/@send",
-                     []() {
-        return QString("Sending Config");
+                     [&w]() {
+        w.on_Update_clicked();
+        return  QJsonObject {
+            {
+                {"result" , "success"},
+                {"message","Config  Send"}
+            }
+        };
     });
 
     /**

@@ -111,7 +111,7 @@ public slots:
     bool TimingCommand(std::string command);
 
     void UpdateFromGUI();
-private slots:
+public slots:
     void logit(std::string logstream, std::string header = "");
 
 

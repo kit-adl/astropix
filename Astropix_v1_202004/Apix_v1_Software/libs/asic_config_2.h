@@ -50,7 +50,7 @@
 #define ASIC_CONFIG2_MAJORVERSION 2
 #define ASIC_CONFIG2_MINORVERSION 4
 
-
+#include <QObject>
 #include <map>
 #include <vector>
 #include <string>
@@ -69,8 +69,16 @@ typedef unsigned int uint;
 
 class ASIC_Config2
 {
+
+
+
 public:
     ASIC_Config2(std::string devicename = "device");
+
+    // UI ----
+    std::vector<QWidget*> widgets;
+    //--------
+
 
     enum ShiftDirection {MSBFirst = 0, LSBFirst = 1, GlobalInvertedMSBFirst = 2, GlobalInvertedLSBFirst = 3};
         //when loading from a file, any other string than "LSBFirst" will be interpreted as "MSBFirst"
@@ -306,7 +314,7 @@ public:
      * @return              - the configuration data container object with the content or an empty
      *                          configuration object on an error (e.g. device name not found)
      */
-    ASIC_Config2       GetConfig(std::string devicename);
+    ASIC_Config2      GetConfig(std::string devicename);
     tinyxml2::XMLElement* GetConfigNode(std::string devicename);
 
     /**

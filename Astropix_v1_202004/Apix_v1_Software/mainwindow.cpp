@@ -19,6 +19,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 static LaserControl* lct = nullptr;
 
 void lctevents()
@@ -784,6 +785,7 @@ void MainWindow::buildASIConfigUI() {
                 // Spin Box to change value
                 QSpinBox* sb = new QSpinBox();
                 hLayout->addWidget(sb);
+                config->widgets.push_back(sb);
 
                 sb->setRange(0, (1 <<config->GetParameterWidth(i)) - 1);
                 sb->setValue(config->GetParameter(i));
@@ -792,9 +794,21 @@ void MainWindow::buildASIConfigUI() {
                 // Events
                 // - Slider changes value of Box on release
                 // - Box updates using global updateFromGUI() when value changes
-                connect(sl,&QSlider::valueChanged, [=](int val){ sb->setValue(val); });
+                connect(sl,&QSlider::valueChanged, [=](int val){
+                    // Update Box if necessary
+                    if (sb->value()!=val) {
+                         sb->setValue(val);
+                    }
+
+                });
                 connect(sb, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
+                    // Update Config
                     config->SetParameter(i,val);
+
+                    // Update Slider if not already correct
+                    if (sl->value()!=val) {
+                        sl->setValue(val);
+                    }
                 });
                 //connect(sb, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
 
@@ -805,26 +819,20 @@ void MainWindow::buildASIConfigUI() {
                 // Checkbox
                 QCheckBox* cb = new QCheckBox();
                 hLayout->addWidget(cb);
+                config->widgets.push_back(cb);
 
                 cb->setText(config->GetParameterName(i).c_str());
                 cb->setChecked(config->GetParameter(i) != 0);
 
-                // Label
-                /*QLabel* lb = new QLabel();
-                hLayout->addWidget(lb);
-
-                lb->setText(config->GetParameterName(i).c_str());
-                lb->setVisible(false);*/
-
-                /*dac_sliders.push_back(nullptr);
-                dac_spinboxes.push_back(nullptr);
-                dac_labels.push_back(lb);
-                dac_checkboxes.push_back(cb);*/
-
                 connect(cb, &QCheckBox::stateChanged,[=](int val){
-                    //logit(QString().asprintf("Changing Param %d to %d",i, val).toStdString());
+                    logit(QString().asprintf("Changing Param %d to %d",i, val).toStdString());
                    config->SetParameter(i,val == Qt::Checked? 1 : 0);
                 });
+
+                /*connect(config,&ASIC_Config2::valueChanged,[=](unsigned int index,int val) {
+                    logit(QString().asprintf("Param changed, updating ui %d to %d",i, val).toStdString());
+                    cb->setChecked(val != 0);
+                });*/
                // connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
 
             }
@@ -1455,7 +1463,7 @@ void MainWindow::on_Update_clicked()
 {
     if(!nexys->is_open()) {
         logit("Nexys is not opened");
-        return;
+        //return;
     }
 
 
@@ -3606,15 +3614,15 @@ void MainWindow::on_B_OsciTiming_Matrix_clicked()
     ui->CB_Autoupdate->setChecked(false);
 
     //backup the settings
-    ASIC_Config2* col_backup = config.GetATLASPixConfig(Configuration::column);
+   /* ASIC_Config2* col_backup = config.GetATLASPixConfig(Configuration::column);
     ASIC_Config2* row_backup = config.GetATLASPixConfig(Configuration::row);
     ASIC_Config2* columnreg = new ASIC_Config2(*col_backup);
-    ASIC_Config2* rowreg    = new ASIC_Config2(*row_backup);
-    config.SetATLASPixConfig(Configuration::column, columnreg);
-    config.SetATLASPixConfig(Configuration::row, rowreg);
+    ASIC_Config2* rowreg    = new ASIC_Config2(*row_backup);*/
+   // config.SetATLASPixConfig(Configuration::column, columnreg);
+  //  config.SetATLASPixConfig(Configuration::row, rowreg);
 
     //  turn off injections and hitbus for all pixels:
-    for(int row = 0; row < AP3rows; ++row)
+   /* for(int row = 0; row < AP3rows; ++row)
     {
         std::stringstream s("");
         s << "eninj_row_" << row;
@@ -3623,7 +3631,9 @@ void MainWindow::on_B_OsciTiming_Matrix_clicked()
     //  everything off:
     for(unsigned int index = 0; index < columnreg->GetEntries(); ++index)
         columnreg->SetParameter(index, 0);
+*/
 
+    /*
     bool tdacoff = ui->CB_OsciTiming_alloff->isChecked();
 
     if(tdacoff)
@@ -3741,7 +3751,7 @@ void MainWindow::on_B_OsciTiming_Matrix_clicked()
     columnreg = nullptr;
     delete rowreg;
     rowreg = nullptr;
-
+*/
     config.GetInjectionConfig()->SetTSOverflowSync(tsoverflow_backup);
     config.GetInjectionConfig()->SetSynced(sync_backup);
 

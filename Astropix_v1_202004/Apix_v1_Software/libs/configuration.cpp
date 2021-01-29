@@ -579,8 +579,8 @@ bool Configuration::SeparateConfigMeans(int newmeans)
 bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, bool print) {
 
     if(!nexys->is_open()) {
-        logit("Nexys is not opened");
-         return false;
+        logit("Nexys is not opened, no configuration will be written");
+         //return false;
     }
 
     // Reverse the list of Configs since they must be written in reversed order in the ASIC
@@ -627,22 +627,26 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
         logit(QString().asprintf("-- Value: %s",bStr.toStdString().c_str()).toStdString());
 
 
-        bool result = nexys->WriteASIC(
-                    0x00,
-                    bits,
-                    NexysIO::SinA,
-                    NexysIO::Ld,
-                    false,8);
+        if (nexys->is_open()) {
+            bool result = nexys->WriteASIC(
+                        0x00,
+                        bits,
+                        NexysIO::SinA,
+                        NexysIO::Ld,
+                        false,8);
+            if (!result) {
 
-        if (!result) {
+                logit(
+                   QString().asprintf("Error writing SR Config: %s",config->GetDeviceName().c_str())
+                            .toStdString()
+                );
 
-            logit(
-               QString().asprintf("Error writing SR Config: %s",config->GetDeviceName().c_str())
-                        .toStdString()
-            );
-
-            return false;
+                return false;
+            }
         }
+
+
+
 
         // Update Progress
         //------------

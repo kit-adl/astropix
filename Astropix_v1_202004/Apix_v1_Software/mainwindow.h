@@ -84,6 +84,10 @@ public:
 
     enum ATLASPix3 {columns = 132, rows = 372};
 
+    //> This is a list of ASIC SR configs
+    //>  This will generate a tab UI and be updated after each other in Chip
+    std::vector<ASIC_Config2*> asicConfigs;
+
     bool ResetFastROFifo(bool flush = true);
 
     static std::string WriteToFile(std::string filename, std::string data);
@@ -360,9 +364,7 @@ private:
     SPINexys spiconfig;
     CMDConfig    cmd;
 
-    //> This is a list of ASIC SR configs
-    //>  This will generate a tab UI and be updated after each other in Chip
-    std::vector<ASIC_Config2*> asicConfigs;
+
 
     ASIC_Config2 atlaspix_config;
     ASIC_Config2 atlaspix_dac;

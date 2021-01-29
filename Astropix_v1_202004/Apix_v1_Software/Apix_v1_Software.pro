@@ -26,7 +26,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui serialport
+QT       += core gui serialport network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -148,10 +148,13 @@ FORMS    += mainwindow.ui \
     lasercontrol.ui
 
 win32 {
-LIBS     += -L$$PWD/libs -L./libs -L$$PWD/libs/ -lftd2xx
-LIBS     += "C:/Windows/System32/visa32.dll"
-
-INCLUDEPATH += "C:\Program Files\IVI Foundation\VISA\Win64\Include"
+    LIBS     += -L$$PWD/libs -L./libs -L$$PWD/libs/ -lftd2xx
+    LIBS     += "C:/Windows/System32/visa32.dll"
+    LIBS     += "$$PWD/libs/Qt5HttpServer.dll"
+    INCLUDEPATH += "C:\Program Files\IVI Foundation\VISA\Win64\Include"
+    INCLUDEPATH += "./includes"
+    INCLUDEPATH += "./includes/QtHttpServer"
+    INCLUDEPATH += "./includes/QtSslServer"
 }
 unix {
 LIBS += "/usr/lib/librsvisa.so"

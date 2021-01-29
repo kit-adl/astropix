@@ -825,8 +825,8 @@ void MainWindow::buildASIConfigUI() {
                 cb->setChecked(config->GetParameter(i) != 0);
 
                 connect(cb, &QCheckBox::stateChanged,[=](int val){
-                    logit(QString().asprintf("Changing Param %d to %d",i, val).toStdString());
-                   config->SetParameter(i,val == Qt::Checked? 1 : 0);
+                    //logit(QString().asprintf("Changing Param %d to %d",i, val).toStdString());
+                    config->SetParameter(i,val == Qt::Checked? 1 : 0);
                 });
 
                 /*connect(config,&ASIC_Config2::valueChanged,[=](unsigned int index,int val) {

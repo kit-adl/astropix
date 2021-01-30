@@ -174,7 +174,7 @@ module main_top(
     output spi_clk,
     output spi_mosi,
     output spi_csn,
-    output res_n,
+    output reg res_n,
     
     //Chip Config debug output
     output config_ck1_test,
@@ -234,7 +234,7 @@ assign set_vadj[0]  = 1;
 assign prog_siwun = 1;   //important for reading from FPGA
 
 //Astropix test
-assign res_n      = 1;
+//assign res_n      = 1;
 assign spi_clk    = 1;
 assign spi_mosi    = 1;
 assign spi_csn    = 1;
@@ -894,6 +894,15 @@ assign config_ck1_test = config_ck1;
 assign config_ck2_test = config_ck2;
 assign config_sin_test = config_sin;
 assign config_ld_test = config_ld;
+
+//DEBUG: res_n low if Center-Button is pressed
+always@(posedge clk) begin
+    if(btnc) begin
+        res_n <= 0;
+    end else begin
+        res_n <= 1;
+    end
+end
 
 
 //LED contents:

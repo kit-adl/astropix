@@ -181,7 +181,8 @@ module main_top(
     output config_ck1_test,
     output config_ck2_test,
     output config_sin_test,
-    output config_ld_test
+    output config_ld_test,
+    output config_res_n_test
     
     //Astropix Sample Clk
     //output sample_clk_n,
@@ -323,6 +324,8 @@ wire config_sin;
 wire config_ck1;
 wire config_ck2;
 wire config_ld;
+wire config_res_n;
+
 wire cmd;
 wire vb_clock;
 wire vb_data;
@@ -420,6 +423,8 @@ ftdi_top ftdi_top_I(
     .ChipConfig_Clock2(config_ck2),
     .ChipConfig_Data(config_sin),
     .ChipConfig_Load(config_ld),
+    .ChipConfig_Res_n(config_res_n),
+
     .ChipConfig_LdDAC(config_ld_dac),
     .ChipConfig_LdConfig(config_ld_config),
     .ChipConfig_LdVDAC(config_ld_vdac),
@@ -868,7 +873,7 @@ generate
     end
 endgenerate
 
-//tristate outputs for configuration:
+//buffer outputs for configuration:
 wire [3:0] config1_out = {config_ck1_p, config_ck2_p, config_ld_p, config_sin_p};
 wire [3:0] config1_in = {config_ck1, config_ck2, config_ld, config_sin};
 generate
@@ -909,13 +914,14 @@ assign config_ck1_test = config_ck1;
 assign config_ck2_test = config_ck2;
 assign config_sin_test = config_sin;
 assign config_ld_test = config_ld;
+assign config_res_n_test = config_res_n ^ 1;
 
 //DEBUG: res_n low if Center-Button is pressed
 always@(posedge clk) begin
     if(btnc) begin
         res_n <= 0;
     end else begin
-        res_n <= 1;
+        res_n <= 1 ^ config_res_n;
     end
 end
 

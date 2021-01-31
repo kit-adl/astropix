@@ -750,13 +750,16 @@ void MainWindow::buildASIConfigUI() {
 
         //-- Insert entries
         for(unsigned int i = 0; i < config->GetEntries(); ++i) {
+
             //Dont create HBOX for unused Parameters
             if(config->GetParameterName(i).find("unused") != std::string::npos){
+               config->widgets.push_back( nullptr);
                 continue;
             }
 
             // Optional parameters are not set
             if (config->ParameterIsOptional(i)) {
+                config->widgets.push_back( nullptr);
                 continue;
             }
 

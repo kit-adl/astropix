@@ -119,10 +119,18 @@ int main(int argc, char *argv[])
                 // Change Parameter using UI
                 //-----------
                 QWidget * uiWidget = asicConfig->widgets[parameterIndex];
-                //typ
+
+                // Set Parameter value on model, also on GUI afterwards if a GUI is available
                 asicConfig->SetParameter(parameterIndex,value);
 
-                if (QString(typeid(*uiWidget).name()).contains("QCheck")) {
+                if (uiWidget==nullptr) {
+                    return QJsonObject {
+                        {
+                            {"result" , "sucess"},
+                            {"message","Parameter Found, had no GUI to set"}
+                        }
+                    };
+                } else if (QString(typeid(*uiWidget).name()).contains("QCheck")) {
 
                     static_cast<QCheckBox*>(uiWidget)->setChecked(value!=0);
                     return QJsonObject {

@@ -609,6 +609,16 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
         ProcessEvents();
     }
 
+    //Workaround for failed subsequent ConfigUpdate: Write Zeros to Register with res_n low before writing actual config
+    std::vector<bool> vector1(245,1);
+    nexys->WriteASIC(
+                            0x00,
+                            vector1,
+                            NexysIO::Res_n,
+                            NexysIO::Ld,
+                            false,8);
+    nexys->SendLoad(0x00,NexysIO::Ld,24);
+
     // Loop over Configs
     // Send using neys interface
     //------------

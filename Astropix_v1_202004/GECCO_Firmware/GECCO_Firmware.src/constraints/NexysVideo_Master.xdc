@@ -209,18 +209,16 @@ set_property IOSTANDARD LVCMOS33 [get_ports {config_res_n_test}]
 
 
 ### Pmod header JC
-set_property PACKAGE_PIN Y6 [get_ports {busy_flag}];
-set_property IOSTANDARD LVCMOS33 [get_ports {busy_flag}]; 
-# busy_flag had a standard of LVCMOS25
-set_property PACKAGE_PIN AA6 [get_ports {trigger_ext_ttl}]; 
-set_property IOSTANDARD LVCMOS33 [get_ports {trigger_ext_ttl}];
-set_property PACKAGE_PIN AA8 [get_ports {trigger_ext_p}]; #{jc[2]}]
-set_property IOSTANDARD LVDS_25 [get_ports {trigger_ext_p}]; #{jc[2]}]
-set_property PACKAGE_PIN AB8 [get_ports {trigger_ext_n}]; #{jc[3]}]
-set_property IOSTANDARD LVDS_25 [get_ports {trigger_ext_n}]; #{jc[3]}]
+set_property PACKAGE_PIN Y6 [get_ports {vb_clock_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {vb_clock_test}]
+set_property PACKAGE_PIN AA6 [get_ports {vb_data_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {vb_data_test}]
+set_property PACKAGE_PIN AA8 [get_ports {vb_load_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {vb_load_test}]
+#set_property PACKAGE_PIN AB8 [get_ports {trigger_ext_n}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {trigger_ext_n}]
 #set_property PACKAGE_PIN R6 [get_ports {trigger_ttl}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {trigger_ttl}]  # LVCMOS25
-#jc[4]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {trigger_ttl}]
 #set_property PACKAGE_PIN T6 [get_ports {jc[5]}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {jc[5]}]
 #set_property PACKAGE_PIN AB7 [get_ports {jc[6]}]

@@ -115,11 +115,11 @@ module main_top(
     output       vb_load_n,
 
     //Trigger Inputs:
-    input        trigger_ext_p,
-    input        trigger_ext_n,
-    input        trigger_ext_ttl,
+    //input        trigger_ext_p,
+    //input        trigger_ext_n,
+    //input        trigger_ext_ttl,
     //busy output for e.g. TestBeam:
-    output       busy_flag,
+    //output       busy_flag,
     
     //configuration signals:
     //   power-on reset:
@@ -182,7 +182,13 @@ module main_top(
     output config_ck2_test,
     output config_sin_test,
     output config_ld_test,
-    output config_res_n_test
+    output config_res_n_test,
+    
+    //VB COnfig debug output
+    output vb_clock_test,
+    output vb_data_test,
+    output vb_load_test
+
     
     //Astropix Sample Clk
     //output sample_clk_n,
@@ -660,6 +666,7 @@ sync_async_patgen patgen(
 
 
 // Triggering:
+/*
 wire trigger_ext;
 
 IBUFDS #(
@@ -671,7 +678,7 @@ IBUFDS #(
     .I(trigger_ext_p),   
     .IB(trigger_ext_n)
 );
-
+*/
 
 
 
@@ -915,6 +922,11 @@ assign config_ck2_test = config_ck2;
 assign config_sin_test = config_sin;
 assign config_ld_test = config_ld;
 assign config_res_n_test = config_res_n ^ 1;
+
+//Chip VB JB Debug output
+assign vb_clock_test = vb_clock;
+assign vb_data_test = vb_data;
+assign vb_load_test = vb_load;
 
 //DEBUG: res_n low if Center-Button is pressed
 always@(posedge clk) begin

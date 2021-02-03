@@ -171,8 +171,26 @@ MainWindow::MainWindow(QWidget *parent) :
     // This DAC value is fixed and should be set to a one hot value
     // The 1 in the value will activate the appropriate Load signal
     // Here 4 and 5 means the 1 will be in position 3 and 4 in the one-hot but, activating Slots 4 and 5
-    voltageboards[0]->addLoadShiftRegister(4);
-    injection.addLoadShiftRegister(5);
+    //voltageboards[0]->addLoadShiftRegister(4);
+    //injection.addLoadShiftRegister(5);
+
+    //Add Load DACs for SR
+    voltageboards[0]->AddDAC("Ld_7", -1, 0, 1, 0);
+    voltageboards[0]->AddDAC("Ld_6", -1, 0, 1, 0);
+    voltageboards[0]->AddDAC("Ld_5", -1, 0, 1, 0);
+    voltageboards[0]->AddDAC("Ld_4", -1, 0, 1, 0);
+    voltageboards[0]->AddDAC("Ld_3", -1, 0, 1, 1);
+    voltageboards[0]->AddDAC("Ld_2", -1, 0, 1, 0);
+    voltageboards[0]->AddDAC("Ld_1", -1, 0, 1, 0);
+    voltageboards[0]->AddDAC("Ld_0", -1, 0, 1, 0);
+    injection.AddDAC("Ld_7", -1, 0, 1, 0);
+    injection.AddDAC("Ld_6", -1, 0, 1, 0);
+    injection.AddDAC("Ld_5", -1, 0, 1, 0);
+    injection.AddDAC("Ld_4", -1, 0, 1, 1);
+    injection.AddDAC("Ld_3", -1, 0, 1, 0);
+    injection.AddDAC("Ld_2", -1, 0, 1, 0);
+    injection.AddDAC("Ld_1", -1, 0, 1, 0);
+    injection.AddDAC("Ld_0", -1, 0, 1, 0);
 
     // DAC  Config
     voltageboards[0]->AddDAC("unused", 14, 2, 1, 0);

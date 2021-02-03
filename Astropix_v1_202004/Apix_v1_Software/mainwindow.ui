@@ -608,7 +608,7 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>228</width>
+                      <width>212</width>
                       <height>128</height>
                      </rect>
                     </property>
@@ -1192,7 +1192,7 @@
                    <item row="9" column="0" colspan="4">
                     <widget class="QComboBox" name="CB_Injection_Output">
                      <property name="enabled">
-                      <bool>false</bool>
+                      <bool>true</bool>
                      </property>
                      <property name="statusTip">
                       <string>Output Channel for Injections</string>

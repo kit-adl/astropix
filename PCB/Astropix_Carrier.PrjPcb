@@ -211,22 +211,6 @@ DocumentUniqueId=FREKJAKB
 DocumentPath=Project Outputs for Astropix_Carrier\Design Rule Check - PCI_ASTROPIX_carrier.html
 DItemRevisionGUID=
 
-[GeneratedDocument2]
-DocumentPath=Project Outputs for Astropix_Carrier\Net Status - PCI_ASTROPIX_carrier.html
-DItemRevisionGUID=
-
-[GeneratedDocument3]
-DocumentPath=Project Outputs for Astropix_Carrier\PCI_ASTROPIX_carrier.EXTREP
-DItemRevisionGUID=
-
-[GeneratedDocument4]
-DocumentPath=Project Outputs for Astropix_Carrier\PCI_ASTROPIX_carrier.REP
-DItemRevisionGUID=
-
-[GeneratedDocument5]
-DocumentPath=Project Outputs for Astropix_Carrier\PCI_ASTROPIX_carrier.RUL
-DItemRevisionGUID=
-
 [Configuration1]
 Name=Sources
 ParameterCount=0

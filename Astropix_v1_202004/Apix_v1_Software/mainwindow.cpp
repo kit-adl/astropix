@@ -224,7 +224,7 @@ MainWindow::MainWindow(QWidget *parent) :
     voltageboards[1].AddDAC("VNComp"   , 14, 2, 1, 0);*/
 
     injection.AddDAC("Out1", 14, 2, 1, 0);
-    //injection.AddDAC("Out2", 14, 2, 1, 0);
+    injection.AddDAC("Out2", 14, 2, 1, 0);
 
     fastro_clockshifts.SetIdentifier("FastROPhase");
     fastro_clockshifts.SetFPGAAddress(15);

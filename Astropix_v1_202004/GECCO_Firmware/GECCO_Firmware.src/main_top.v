@@ -149,8 +149,8 @@ module main_top(
     output       trigro_reset_n,
     
     //digital readout / command decoder:
-    output       cmd_p,
-    output       cmd_n,    
+    //output       cmd_p,
+    //output       cmd_n,    
     
     //output       ckref_p,
     //output       ckref_n,
@@ -187,12 +187,12 @@ module main_top(
     //VB COnfig debug output
     output vb_clock_test,
     output vb_data_test,
-    output vb_load_test
+    output vb_load_test,
 
     
     //Astropix Sample Clk
-    //output sample_clk_n,
-    //output sample_clk_p,
+    output sample_clk_n,
+    output sample_clk_p
     
     // Loopback data out test
    // output      loopback_data_p,
@@ -359,6 +359,9 @@ wire reset_trigro_reset_n_buf;
 wire autoreset_digital;
 wire autoreset_analog;
 wire autoreset_combine;
+
+//sample_clk
+wire sample_clk;
 
 assign reset_analog_b_buf = reset_analog_b_rf && (~autoreset_analog || autoreset_combine || regulator_reset_out) 
                                             && (~autoreset_combine || ~autoreset_analog || por);
@@ -860,16 +863,16 @@ cmd_decoder cmddec(
 wire [4:0] obuf_p;
 wire [4:0] obuf_n;
 wire [4:0] obuf_i;
-assign obuf_i = {/*config_sin, config_ck1, config_ck2, config_ld,*/ gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, cmd};
+assign obuf_i = {/*config_sin, config_ck1, config_ck2, config_ld,*/ gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, /*cmd,*/ sample_clk};
             //vb_clock and vb_load are connected inverted to the receivers on GECCO board
 assign obuf_p = {/*config_sin_p, config_ck1_p, config_ck2_p, config_ld_p, */
-                        gecco_inj_chopper_p, vb_clock_p, vb_data_p, vb_load_p, cmd_p};
+                        gecco_inj_chopper_p, vb_clock_p, vb_data_p, vb_load_p, /*cmd_p,*/ sample_clk_p};
 assign obuf_n = {/*config_sin_n, config_ck1_n, config_ck2_n, config_ld_n, */
-                        gecco_inj_chopper_n, vb_clock_n, vb_data_n, vb_load_n, cmd_n};
+                        gecco_inj_chopper_n, vb_clock_n, vb_data_n, vb_load_n, /*cmd_n,*/ sample_clk_n};
 
 genvar i;
 generate
-    for (i = 0; i < 6; i = i + 1) begin
+    for (i = 0; i < 5; i = i + 1) begin
         OBUFDS #(
             .IOSTANDARD("LVDS_25")
         ) OBUFDS_I (

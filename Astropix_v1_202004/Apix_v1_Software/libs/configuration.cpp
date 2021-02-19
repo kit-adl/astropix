@@ -616,8 +616,8 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
                             vector1,
                             NexysIO::Res_n,
                             NexysIO::Ld,
-                            false,8);
-    nexys->SendLoad(0x00,NexysIO::Ld,24);
+                            false,16);
+    nexys->SendLoad(0x00,NexysIO::Ld,48);
 
     // Loop over Configs
     // Send using neys interface
@@ -643,7 +643,7 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
                         bits,
                         NexysIO::SinA,
                         NexysIO::Ld,
-                        false,8);
+                        false,16);
             if (!result) {
 
                 logit(
@@ -668,7 +668,7 @@ bool Configuration::SendASICConfigsViaSR(std::vector<ASIC_Config2*> configs, boo
     } // EOF Loop
 
     // Send Load after all registers clkdiv=24 => 1.6us high
-    nexys->SendLoad(0x00,NexysIO::Ld,24);
+    nexys->SendLoad(0x00,NexysIO::Ld,48);
 
     // Flush
     nexys->Flush();

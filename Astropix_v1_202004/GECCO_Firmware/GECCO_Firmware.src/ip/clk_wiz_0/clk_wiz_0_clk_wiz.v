@@ -61,6 +61,7 @@
 // clk_out150__82.50000______0.000______50.0______361.436____342.480
 // clk_out200__110.00000______0.000______50.0______341.671____342.480
 // clk_out_66slow__60.00000______0.000______50.0______386.449____342.480
+// clk_out_sampleclk__220.00000______0.000______50.0______302.982____342.480
 //
 //----------------------------------------------------------------------------
 // Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -78,6 +79,7 @@ module clk_wiz_0_clk_wiz
   output        clk_out150,
   output        clk_out200,
   output        clk_out_66slow,
+  output        clk_out_sampleclk,
   // Status and control signals
   input         reset,
   output        locked,
@@ -106,7 +108,7 @@ wire clk_in2_clk_wiz_0;
   wire        clk_out150_clk_wiz_0;
   wire        clk_out200_clk_wiz_0;
   wire        clk_out_66slow_clk_wiz_0;
-  wire        clk_out6_clk_wiz_0;
+  wire        clk_out_sampleclk_clk_wiz_0;
   wire        clk_out7_clk_wiz_0;
 
   wire [15:0] do_unused;
@@ -120,7 +122,6 @@ wire clk_in2_clk_wiz_0;
    wire clkout1b_unused;
    wire clkout2b_unused;
    wire clkout3b_unused;
-  wire        clkout5_unused;
   wire        clkout6_unused;
   wire        clkfbstopped_unused;
   wire        clkinstopped_unused;
@@ -155,6 +156,10 @@ wire clk_in2_clk_wiz_0;
     .CLKOUT4_PHASE        (0.000),
     .CLKOUT4_DUTY_CYCLE   (0.500),
     .CLKOUT4_USE_FINE_PS  ("FALSE"),
+    .CLKOUT5_DIVIDE       (3),
+    .CLKOUT5_PHASE        (0.000),
+    .CLKOUT5_DUTY_CYCLE   (0.500),
+    .CLKOUT5_USE_FINE_PS  ("FALSE"),
     .CLKIN1_PERIOD        (10.000))
   mmcm_adv_inst
     // Output clocks
@@ -170,7 +175,7 @@ wire clk_in2_clk_wiz_0;
     .CLKOUT3             (clk_out200_clk_wiz_0),
     .CLKOUT3B            (clkout3b_unused),
     .CLKOUT4             (clk_out_66slow_clk_wiz_0),
-    .CLKOUT5             (clkout5_unused),
+    .CLKOUT5             (clk_out_sampleclk_clk_wiz_0),
     .CLKOUT6             (clkout6_unused),
      // Input clock control
     .CLKFBIN             (clkfbout_buf_clk_wiz_0),
@@ -234,6 +239,10 @@ wire clk_in2_clk_wiz_0;
   BUFG clkout5_buf
    (.O   (clk_out_66slow),
     .I   (clk_out_66slow_clk_wiz_0));
+
+  BUFG clkout6_buf
+   (.O   (clk_out_sampleclk),
+    .I   (clk_out_sampleclk_clk_wiz_0));
 
 
 

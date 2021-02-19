@@ -160,13 +160,13 @@ module main_top(
     //output       sync_rst_n,
     //output       ext_trigger_chip_p,
     //output       ext_trigger_chip_n,
-    input        data_p,
-    input        data_n,
+    //input        data_p,
+    //input        data_n,
     //input        data_fmc_p,
     //input        data_fmc_n,
     
-    input        ckref_chipout_p,
-    input        ckref_chipout_n,
+    //input        ckref_chipout_p,
+    //input        ckref_chipout_n,
 	
     //Astropix test
     input interrupt,
@@ -359,9 +359,6 @@ wire reset_trigro_reset_n_buf;
 wire autoreset_digital;
 wire autoreset_analog;
 wire autoreset_combine;
-
-//sample_clk
-wire sample_clk;
 
 assign reset_analog_b_buf = reset_analog_b_rf && (~autoreset_analog || autoreset_combine || regulator_reset_out) 
                                             && (~autoreset_combine || ~autoreset_analog || por);
@@ -615,6 +612,7 @@ wire fast_clk_600; //
 wire fast_clk_600p90; //
 wire fast_clk_150; //
 wire fast_clk_200; //
+wire fast_clk_sampleclk;
 
 
 
@@ -628,7 +626,9 @@ clk_wiz_0 I_clk_wiz_0(
     .clk_out600(fast_clk_600),
     .clk_out600p90(fast_clk_600p90),
     .clk_out150(fast_clk_150),
-    .clk_out200(fast_clk_200)
+    .clk_out200(fast_clk_200),
+    
+    .clk_out_sampleclk(fast_clk_sampleclk)
 
 
     //.clk_out400(fast_clk_400),
@@ -863,7 +863,7 @@ cmd_decoder cmddec(
 wire [4:0] obuf_p;
 wire [4:0] obuf_n;
 wire [4:0] obuf_i;
-assign obuf_i = {/*config_sin, config_ck1, config_ck2, config_ld,*/ gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, /*cmd,*/ sample_clk};
+assign obuf_i = {/*config_sin, config_ck1, config_ck2, config_ld,*/ gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, /*cmd,*/ fast_clk_sampleclk};
             //vb_clock and vb_load are connected inverted to the receivers on GECCO board
 assign obuf_p = {/*config_sin_p, config_ck1_p, config_ck2_p, config_ld_p, */
                         gecco_inj_chopper_p, vb_clock_p, vb_data_p, vb_load_p, /*cmd_p,*/ sample_clk_p};
@@ -932,7 +932,7 @@ assign vb_data_test = vb_data;
 assign vb_load_test = vb_load;
 
 //DEBUG: res_n low if Center-Button is pressed
-always@(posedge clk) begin
+always@(posedge clk or posedge btnc) begin
     if(btnc) begin
         res_n <= 0;
     end else begin

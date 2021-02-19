@@ -1,10 +1,10 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
-// Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
-// Date        : Thu Aug 20 16:35:05 2020
-// Host        : DESKTOP-07NDF46 running 64-bit major release  (build 9200)
+// Tool Version: Vivado v.2020.1.1 (win64) Build 2960000 Wed Aug  5 22:57:20 MDT 2020
+// Date        : Mon Feb 15 13:21:52 2021
+// Host        : DESKTOP-UNSGLV7 running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
-//               c:/Users/leysr/git/adl/richard-chaos-club/2020/Xilinx-LVDS/atlaspix3_loopback_richardivan/GECCO_Firmware/GECCO_Firmware.src/ip/clk_wiz_0/clk_wiz_0_sim_netlist.v
+//               c:/Users/nicolas/Documents/GitHub/astropix_github/unhappy_gecco/Astropix_v1_202004/GECCO_Firmware/GECCO_Firmware.src/ip/clk_wiz_0/clk_wiz_0_sim_netlist.v
 // Design      : clk_wiz_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -19,6 +19,7 @@ module clk_wiz_0
     clk_out150,
     clk_out200,
     clk_out_66slow,
+    clk_out_sampleclk,
     reset,
     locked,
     clk_in1);
@@ -27,6 +28,7 @@ module clk_wiz_0
   output clk_out150;
   output clk_out200;
   output clk_out_66slow;
+  output clk_out_sampleclk;
   input reset;
   output locked;
   input clk_in1;
@@ -37,6 +39,7 @@ module clk_wiz_0
   wire clk_out600;
   wire clk_out600p90;
   wire clk_out_66slow;
+  wire clk_out_sampleclk;
   wire locked;
   wire reset;
 
@@ -47,6 +50,7 @@ module clk_wiz_0
         .clk_out600(clk_out600),
         .clk_out600p90(clk_out600p90),
         .clk_out_66slow(clk_out_66slow),
+        .clk_out_sampleclk(clk_out_sampleclk),
         .locked(locked),
         .reset(reset));
 endmodule
@@ -58,6 +62,7 @@ module clk_wiz_0_clk_wiz_0_clk_wiz
     clk_out150,
     clk_out200,
     clk_out_66slow,
+    clk_out_sampleclk,
     reset,
     locked,
     clk_in1);
@@ -66,6 +71,7 @@ module clk_wiz_0_clk_wiz_0_clk_wiz
   output clk_out150;
   output clk_out200;
   output clk_out_66slow;
+  output clk_out_sampleclk;
   input reset;
   output locked;
   input clk_in1;
@@ -82,6 +88,8 @@ module clk_wiz_0_clk_wiz_0_clk_wiz
   wire clk_out600p90_clk_wiz_0;
   wire clk_out_66slow;
   wire clk_out_66slow_clk_wiz_0;
+  wire clk_out_sampleclk;
+  wire clk_out_sampleclk_clk_wiz_0;
   wire clkfbout_buf_clk_wiz_0;
   wire clkfbout_clk_wiz_0;
   wire locked;
@@ -93,7 +101,6 @@ module clk_wiz_0_clk_wiz_0_clk_wiz
   wire NLW_mmcm_adv_inst_CLKOUT1B_UNCONNECTED;
   wire NLW_mmcm_adv_inst_CLKOUT2B_UNCONNECTED;
   wire NLW_mmcm_adv_inst_CLKOUT3B_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT5_UNCONNECTED;
   wire NLW_mmcm_adv_inst_CLKOUT6_UNCONNECTED;
   wire NLW_mmcm_adv_inst_DRDY_UNCONNECTED;
   wire NLW_mmcm_adv_inst_PSDONE_UNCONNECTED;
@@ -133,6 +140,10 @@ module clk_wiz_0_clk_wiz_0_clk_wiz
        (.I(clk_out_66slow_clk_wiz_0),
         .O(clk_out_66slow));
   (* BOX_TYPE = "PRIMITIVE" *) 
+  BUFG clkout6_buf
+       (.I(clk_out_sampleclk_clk_wiz_0),
+        .O(clk_out_sampleclk));
+  (* BOX_TYPE = "PRIMITIVE" *) 
   MMCME2_ADV #(
     .BANDWIDTH("OPTIMIZED"),
     .CLKFBOUT_MULT_F(33.000000),
@@ -161,7 +172,7 @@ module clk_wiz_0_clk_wiz_0_clk_wiz
     .CLKOUT4_DUTY_CYCLE(0.500000),
     .CLKOUT4_PHASE(0.000000),
     .CLKOUT4_USE_FINE_PS("FALSE"),
-    .CLKOUT5_DIVIDE(1),
+    .CLKOUT5_DIVIDE(3),
     .CLKOUT5_DUTY_CYCLE(0.500000),
     .CLKOUT5_PHASE(0.000000),
     .CLKOUT5_USE_FINE_PS("FALSE"),
@@ -200,7 +211,7 @@ module clk_wiz_0_clk_wiz_0_clk_wiz
         .CLKOUT3(clk_out200_clk_wiz_0),
         .CLKOUT3B(NLW_mmcm_adv_inst_CLKOUT3B_UNCONNECTED),
         .CLKOUT4(clk_out_66slow_clk_wiz_0),
-        .CLKOUT5(NLW_mmcm_adv_inst_CLKOUT5_UNCONNECTED),
+        .CLKOUT5(clk_out_sampleclk_clk_wiz_0),
         .CLKOUT6(NLW_mmcm_adv_inst_CLKOUT6_UNCONNECTED),
         .DADDR({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
         .DCLK(1'b0),

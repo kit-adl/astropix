@@ -60,6 +60,7 @@
 // clk_out150__82.50000______0.000______50.0______361.436____342.480
 // clk_out200__110.00000______0.000______50.0______341.671____342.480
 // clk_out_66slow__60.00000______0.000______50.0______386.449____342.480
+// clk_out_sampleclk__220.00000______0.000______50.0______302.982____342.480
 //
 //----------------------------------------------------------------------------
 // Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -80,6 +81,7 @@
     .clk_out150(clk_out150),     // output clk_out150
     .clk_out200(clk_out200),     // output clk_out200
     .clk_out_66slow(clk_out_66slow),     // output clk_out_66slow
+    .clk_out_sampleclk(clk_out_sampleclk),     // output clk_out_sampleclk
     // Status and control signals
     .reset(reset), // input reset
     .locked(locked),       // output locked

@@ -133,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 .AddParameter("vn2"        , "5,4,3,2,1,0",  2)
                 .AddParameter("vnfoll2"  , "5,4,3,2,1,0",  5)    //NU
                 .AddParameter("vnbias"     , "5,4,3,2,1,0",  5)
-                .AddParameter("vpload"     , "5,4,3,2,1,0",  5)
+                .AddParameter("vpload"     , "5,4,3,2,1,0",  2)
                 .AddParameter("vnout_unused"      , "5,4,3,2,1,0",  0)    //NU
                 .AddParameter("vpvco_unused"      , "5,4,3,2,1,0", 0)
                 .AddParameter("vnvco_unused"      , "5,4,3,2,1,0", 0)

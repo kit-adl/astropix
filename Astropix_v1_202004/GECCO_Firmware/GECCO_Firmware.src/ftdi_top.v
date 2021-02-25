@@ -33,6 +33,8 @@ module ftdi_top (
     output wire 		ChipConfig_Clock2,
     output wire 		ChipConfig_Data,
     output wire 		ChipConfig_Load,
+    output wire         ChipConfig_Res_n,
+
     output wire         ChipConfig_LdDAC,
     output wire         ChipConfig_LdConfig,
     output wire         ChipConfig_LdVDAC,
@@ -324,6 +326,8 @@ RegisterFile rfg_I (
     .ChipConfig_Clock2(ChipConfig_Clock2),
     .ChipConfig_Data(ChipConfig_Data),
     .ChipConfig_Load(ChipConfig_Load),
+    .ChipConfig_Res_n(ChipConfig_Res_n),
+
     .ChipConfig_LdDAC(ChipConfig_LdDAC),
     .ChipConfig_LdConfig(ChipConfig_LdConfig),
     .ChipConfig_LdVDAC(ChipConfig_LdVDAC),

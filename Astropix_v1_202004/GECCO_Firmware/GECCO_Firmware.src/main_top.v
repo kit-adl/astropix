@@ -74,15 +74,16 @@ module main_top(
     input        phy_int_n,
     input        phy_pme_n,
     
-    //config:
+    //config: LA30-32 single-ended LA33 diff
     output       config_sin_p, // In1 -> ConfigCard -> C1
-    output       config_sin_n, // In1 -> ConfigCard -> C1
+    //output       config_sin_n, // In1 -> ConfigCard -> C1
     output       config_ck1_p, // In2 -> ConfigCard -> C2
-    output       config_ck1_n, // In2 -> ConfigCard -> C2
+    //output       config_ck1_n, // In2 -> ConfigCard -> C2
     output       config_ck2_p, // In3 -> ConfigCard -> C3
-    output       config_ck2_n, // In3 -> ConfigCard -> C3
+    //output       config_ck2_n, // In3 -> ConfigCard -> C3
     output       config_ld_p, // In4 -> ConfigCard -> C4
-    output       config_ld_n, // In4 -> ConfigCard -> C4
+    //output       config_ld_n, // In4 -> ConfigCard -> C4
+    
     output       out_ld_dac,
     output       out_ld_config,
     output       out_ld_vdac,
@@ -114,11 +115,11 @@ module main_top(
     output       vb_load_n,
 
     //Trigger Inputs:
-    input        trigger_ext_p,
-    input        trigger_ext_n,
-    input        trigger_ext_ttl,
+    //input        trigger_ext_p,
+    //input        trigger_ext_n,
+    //input        trigger_ext_ttl,
     //busy output for e.g. TestBeam:
-    output       busy_flag,
+    //output       busy_flag,
     
     //configuration signals:
     //   power-on reset:
@@ -148,8 +149,8 @@ module main_top(
     output       trigro_reset_n,
     
     //digital readout / command decoder:
-    output       cmd_p,
-    output       cmd_n,    
+    //output       cmd_p,
+    //output       cmd_n,    
     
     //output       ckref_p,
     //output       ckref_n,
@@ -159,13 +160,13 @@ module main_top(
     //output       sync_rst_n,
     //output       ext_trigger_chip_p,
     //output       ext_trigger_chip_n,
-    input        data_p,
-    input        data_n,
+    //input        data_p,
+    //input        data_n,
     //input        data_fmc_p,
     //input        data_fmc_n,
     
-    input        ckref_chipout_p,
-    input        ckref_chipout_n,
+    //input        ckref_chipout_p,
+    //input        ckref_chipout_n,
 	
     //Astropix test
     input interrupt,
@@ -174,17 +175,24 @@ module main_top(
     output spi_clk,
     output spi_mosi,
     output spi_csn,
-    output res_n,
+    output reg res_n,
     
     //Chip Config debug output
     output config_ck1_test,
     output config_ck2_test,
     output config_sin_test,
-    output config_ld_test
+    output config_ld_test,
+    output config_res_n_test,
+    
+    //VB COnfig debug output
+    output vb_clock_test,
+    output vb_data_test,
+    output vb_load_test,
+
     
     //Astropix Sample Clk
-    //output sample_clk_n,
-    //output sample_clk_p,
+    output sample_clk_n,
+    output sample_clk_p
     
     // Loopback data out test
    // output      loopback_data_p,
@@ -234,7 +242,7 @@ assign set_vadj[0]  = 1;
 assign prog_siwun = 1;   //important for reading from FPGA
 
 //Astropix test
-assign res_n      = 1;
+//assign res_n      = 1;
 assign spi_clk    = 1;
 assign spi_mosi    = 1;
 assign spi_csn    = 1;
@@ -322,6 +330,8 @@ wire config_sin;
 wire config_ck1;
 wire config_ck2;
 wire config_ld;
+wire config_res_n;
+
 wire cmd;
 wire vb_clock;
 wire vb_data;
@@ -419,6 +429,8 @@ ftdi_top ftdi_top_I(
     .ChipConfig_Clock2(config_ck2),
     .ChipConfig_Data(config_sin),
     .ChipConfig_Load(config_ld),
+    .ChipConfig_Res_n(config_res_n),
+
     .ChipConfig_LdDAC(config_ld_dac),
     .ChipConfig_LdConfig(config_ld_config),
     .ChipConfig_LdVDAC(config_ld_vdac),
@@ -600,6 +612,7 @@ wire fast_clk_600; //
 wire fast_clk_600p90; //
 wire fast_clk_150; //
 wire fast_clk_200; //
+wire fast_clk_sampleclk;
 
 
 
@@ -613,7 +626,9 @@ clk_wiz_0 I_clk_wiz_0(
     .clk_out600(fast_clk_600),
     .clk_out600p90(fast_clk_600p90),
     .clk_out150(fast_clk_150),
-    .clk_out200(fast_clk_200)
+    .clk_out200(fast_clk_200),
+    
+    .clk_out_sampleclk(fast_clk_sampleclk)
 
 
     //.clk_out400(fast_clk_400),
@@ -654,6 +669,7 @@ sync_async_patgen patgen(
 
 
 // Triggering:
+/*
 wire trigger_ext;
 
 IBUFDS #(
@@ -665,7 +681,7 @@ IBUFDS #(
     .I(trigger_ext_p),   
     .IB(trigger_ext_n)
 );
-
+*/
 
 
 
@@ -844,25 +860,39 @@ cmd_decoder cmddec(
 
 
 // Buffers:
-wire [8:0] obuf_p;
-wire [8:0] obuf_n;
-wire [8:0] obuf_i;
-assign obuf_i = {config_sin, config_ck1, config_ck2, config_ld, gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, cmd};
+wire [4:0] obuf_p;
+wire [4:0] obuf_n;
+wire [4:0] obuf_i;
+assign obuf_i = {/*config_sin, config_ck1, config_ck2, config_ld,*/ gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, /*cmd,*/ fast_clk_sampleclk};
             //vb_clock and vb_load are connected inverted to the receivers on GECCO board
-assign obuf_p = {config_sin_p, config_ck1_p, config_ck2_p, config_ld_p, 
-                        gecco_inj_chopper_p, vb_clock_p, vb_data_p, vb_load_p, cmd_p};
-assign obuf_n = {config_sin_n, config_ck1_n, config_ck2_n, config_ld_n, 
-                        gecco_inj_chopper_n, vb_clock_n, vb_data_n, vb_load_n, cmd_n};
+assign obuf_p = {/*config_sin_p, config_ck1_p, config_ck2_p, config_ld_p, */
+                        gecco_inj_chopper_p, vb_clock_p, vb_data_p, vb_load_p, /*cmd_p,*/ sample_clk_p};
+assign obuf_n = {/*config_sin_n, config_ck1_n, config_ck2_n, config_ld_n, */
+                        gecco_inj_chopper_n, vb_clock_n, vb_data_n, vb_load_n, /*cmd_n,*/ sample_clk_n};
 
 genvar i;
 generate
-    for (i = 0; i < 9; i = i + 1) begin
+    for (i = 0; i < 5; i = i + 1) begin
         OBUFDS #(
             .IOSTANDARD("LVDS_25")
         ) OBUFDS_I (
             .I(obuf_i[i]),
             .O(obuf_p[i]),
             .OB(obuf_n[i])
+        );
+    end
+endgenerate
+
+//buffer outputs for configuration:
+wire [3:0] config1_out = {config_ck1_p, config_ck2_p, config_ld_p, config_sin_p};
+wire [3:0] config1_in = {config_ck1, config_ck2, config_ld, config_sin};
+generate
+    for (i = 0; i <= 3; i = i + 1) begin
+        OBUF #(
+            .IOSTANDARD("LVCMOS25")
+        ) OBUF_I (
+            .I(config1_in[i]),
+            .O(config1_out[i])
         );
     end
 endgenerate
@@ -894,6 +924,21 @@ assign config_ck1_test = config_ck1;
 assign config_ck2_test = config_ck2;
 assign config_sin_test = config_sin;
 assign config_ld_test = config_ld;
+assign config_res_n_test = config_res_n ^ 1;
+
+//Chip VB JB Debug output
+assign vb_clock_test = vb_clock;
+assign vb_data_test = vb_data;
+assign vb_load_test = vb_load;
+
+//DEBUG: res_n low if Center-Button is pressed
+always@(posedge clk or posedge btnc) begin
+    if(btnc) begin
+        res_n <= 0;
+    end else begin
+        res_n <= 1 ^ config_res_n;
+    end
+end
 
 
 //LED contents:

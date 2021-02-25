@@ -198,8 +198,8 @@ set_property PACKAGE_PIN V7 [get_ports {config_sin_test}]
 set_property IOSTANDARD LVCMOS33 [get_ports {config_sin_test}]
 set_property PACKAGE_PIN W7 [get_ports {config_ld_test}]
 set_property IOSTANDARD LVCMOS33 [get_ports {config_ld_test}]
-#set_property PACKAGE_PIN W9 [get_ports {jb[4]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {jb[4]}]
+set_property PACKAGE_PIN W9 [get_ports {config_res_n_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {config_res_n_test}]
 #set_property PACKAGE_PIN Y9 [get_ports {jb[5]}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {jb[5]}]
 #set_property PACKAGE_PIN Y8 [get_ports {jb[6]}]
@@ -209,18 +209,16 @@ set_property IOSTANDARD LVCMOS33 [get_ports {config_ld_test}]
 
 
 ### Pmod header JC
-set_property PACKAGE_PIN Y6 [get_ports {busy_flag}];
-set_property IOSTANDARD LVCMOS33 [get_ports {busy_flag}]; 
-# busy_flag had a standard of LVCMOS25
-set_property PACKAGE_PIN AA6 [get_ports {trigger_ext_ttl}]; 
-set_property IOSTANDARD LVCMOS33 [get_ports {trigger_ext_ttl}];
-set_property PACKAGE_PIN AA8 [get_ports {trigger_ext_p}]; #{jc[2]}]
-set_property IOSTANDARD LVDS_25 [get_ports {trigger_ext_p}]; #{jc[2]}]
-set_property PACKAGE_PIN AB8 [get_ports {trigger_ext_n}]; #{jc[3]}]
-set_property IOSTANDARD LVDS_25 [get_ports {trigger_ext_n}]; #{jc[3]}]
+set_property PACKAGE_PIN Y6 [get_ports {vb_clock_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {vb_clock_test}]
+set_property PACKAGE_PIN AA6 [get_ports {vb_data_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {vb_data_test}]
+set_property PACKAGE_PIN AA8 [get_ports {vb_load_test}]
+set_property IOSTANDARD LVCMOS33 [get_ports {vb_load_test}]
+#set_property PACKAGE_PIN AB8 [get_ports {trigger_ext_n}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {trigger_ext_n}]
 #set_property PACKAGE_PIN R6 [get_ports {trigger_ttl}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {trigger_ttl}]  # LVCMOS25
-#jc[4]}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {trigger_ttl}]
 #set_property PACKAGE_PIN T6 [get_ports {jc[5]}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {jc[5]}]
 #set_property PACKAGE_PIN AB7 [get_ports {jc[6]}]
@@ -386,18 +384,18 @@ set_property -dict { PACKAGE_PIN V14   IOSTANDARD LVCMOS25 } [get_ports { vadj_e
 #set_property -dict { PACKAGE_PIN J19   IOSTANDARD LVCMOS12 } [get_ports { fmc_clk0_m2c_p }]; #IO_L12P_T1_MRCC_15 Sch=fmc_clk0_m2c_p
 #set_property -dict { PACKAGE_PIN C19   IOSTANDARD LVCMOS12 } [get_ports { fmc_clk1_m2c_n }]; #IO_L13N_T2_MRCC_16 Sch=fmc_clk1_m2c_n
 #set_property -dict { PACKAGE_PIN C18   IOSTANDARD LVCMOS12 } [get_ports { fmc_clk1_m2c_p }]; #IO_L13P_T2_MRCC_16 Sch=fmc_clk1_m2c_p
-set_property -dict { PACKAGE_PIN K19   IOSTANDARD LVDS_25 } [get_ports { ckref_chipout_n }]; #IO_L13N_T2_MRCC_15 Sch=fmc_la00_cc_n
-set_property -dict { PACKAGE_PIN K18   IOSTANDARD LVDS_25 } [get_ports { ckref_chipout_p }]; #IO_L13P_T2_MRCC_15 Sch=fmc_la00_cc_p
-set_property -dict { PACKAGE_PIN J21   IOSTANDARD LVDS_25 } [get_ports { sync_rst_n }]; #IO_L11N_T1_SRCC_15 Sch=fmc_la01_cc_n
-set_property -dict { PACKAGE_PIN J20   IOSTANDARD LVDS_25 } [get_ports { sync_rst_p}]; #IO_L11P_T1_SRCC_15 Sch=fmc_la01_cc_p
-set_property -dict { PACKAGE_PIN L18   IOSTANDARD LVDS_25 } [get_ports { ckref_n }]; #IO_L16N_T2_A27_15 Sch=fmc_la_n[02]
-set_property -dict { PACKAGE_PIN M18   IOSTANDARD LVDS_25 } [get_ports { ckref_p }]; #IO_L16P_T2_A28_15 Sch=fmc_la_p[02]
-set_property -dict { PACKAGE_PIN N19   IOSTANDARD LVDS_25 } [get_ports { ext_trigger_chip_n }]; #IO_L17N_T2_A25_15 Sch=fmc_la_n[03]
-set_property -dict { PACKAGE_PIN N18   IOSTANDARD LVDS_25 } [get_ports { ext_trigger_chip_p }]; #IO_L17P_T2_A26_15 Sch=fmc_la_p[03]
-set_property -dict { PACKAGE_PIN M20   IOSTANDARD LVDS_25 } [get_ports { cmd_n }]; #IO_L18N_T2_A23_15 Sch=fmc_la_n[04]
-set_property -dict { PACKAGE_PIN N20   IOSTANDARD LVDS_25 } [get_ports { cmd_p }]; #IO_L18P_T2_A24_15 Sch=fmc_la_p[04]
-set_property -dict { PACKAGE_PIN L21   IOSTANDARD LVDS_25 } [get_ports { ck_ext_n }]; #IO_L10N_T1_AD11N_15 Sch=fmc_la_n[05]
-set_property -dict { PACKAGE_PIN M21   IOSTANDARD LVDS_25 } [get_ports { ck_ext_p }]; #{ fmc_la_p[05] }]; #IO_L10P_T1_AD11P_15 Sch=fmc_la_p[05]
+#set_property -dict { PACKAGE_PIN K19   IOSTANDARD LVDS_25 } [get_ports { ckref_chipout_n }]; #IO_L13N_T2_MRCC_15 Sch=fmc_la00_cc_n
+#set_property -dict { PACKAGE_PIN K18   IOSTANDARD LVDS_25 } [get_ports { ckref_chipout_p }]; #IO_L13P_T2_MRCC_15 Sch=fmc_la00_cc_p
+#set_property -dict { PACKAGE_PIN J21   IOSTANDARD LVDS_25 } [get_ports { sync_rst_n }]; #IO_L11N_T1_SRCC_15 Sch=fmc_la01_cc_n
+#set_property -dict { PACKAGE_PIN J20   IOSTANDARD LVDS_25 } [get_ports { sync_rst_p}]; #IO_L11P_T1_SRCC_15 Sch=fmc_la01_cc_p
+#set_property -dict { PACKAGE_PIN L18   IOSTANDARD LVDS_25 } [get_ports { ckref_n }]; #IO_L16N_T2_A27_15 Sch=fmc_la_n[02]
+#set_property -dict { PACKAGE_PIN M18   IOSTANDARD LVDS_25 } [get_ports { ckref_p }]; #IO_L16P_T2_A28_15 Sch=fmc_la_p[02]
+#set_property -dict { PACKAGE_PIN N19   IOSTANDARD LVDS_25 } [get_ports { ext_trigger_chip_n }]; #IO_L17N_T2_A25_15 Sch=fmc_la_n[03]
+#set_property -dict { PACKAGE_PIN N18   IOSTANDARD LVDS_25 } [get_ports { ext_trigger_chip_p }]; #IO_L17P_T2_A26_15 Sch=fmc_la_p[03]
+#set_property -dict { PACKAGE_PIN M20   IOSTANDARD LVDS_25 } [get_ports { cmd_n }]; #IO_L18N_T2_A23_15 Sch=fmc_la_n[04]
+#set_property -dict { PACKAGE_PIN N20   IOSTANDARD LVDS_25 } [get_ports { cmd_p }]; #IO_L18P_T2_A24_15 Sch=fmc_la_p[04]
+#set_property -dict { PACKAGE_PIN L21   IOSTANDARD LVDS_25 } [get_ports { ck_ext_n }]; #IO_L10N_T1_AD11N_15 Sch=fmc_la_n[05]
+#set_property -dict { PACKAGE_PIN M21   IOSTANDARD LVDS_25 } [get_ports { ck_ext_p }]; #{ fmc_la_p[05] }]; #IO_L10P_T1_AD11P_15 Sch=fmc_la_p[05]
 set_property -dict { PACKAGE_PIN M22   IOSTANDARD LVCMOS25 } [get_ports { por_test_reset }]; #IO_L15N_T2_DQS_ADV_B_15 Sch=fmc_la_n[06]
 #set_property -dict { PACKAGE_PIN N22   IOSTANDARD LVDS_25 } [get_ports { MI_input_p }]; #IO_L15P_T2_DQS_15 Sch=fmc_la_p[06]
 set_property -dict { PACKAGE_PIN L13   IOSTANDARD LVCMOS25 } [get_ports { always_enable_b }]; #IO_L20N_T3_A19_15 Sch=fmc_la_n[07]
@@ -422,8 +420,8 @@ set_property -dict { PACKAGE_PIN G18   IOSTANDARD LVCMOS25 } [get_ports { out_ld
 set_property -dict { PACKAGE_PIN G17   IOSTANDARD LVCMOS25 } [get_ports { chip_inj_chopper }]; #IO_L4P_T0_15 Sch=fmc_la_p[16]
 set_property -dict { PACKAGE_PIN B18   IOSTANDARD LVCMOS25 } [get_ports { reset_analog_b }]; #IO_L11N_T1_SRCC_16 Sch=fmc_la17_cc_n
 set_property -dict { PACKAGE_PIN B17   IOSTANDARD LVCMOS25 } [get_ports { bypass_cmd }]; #IO_L11P_T1_SRCC_16 Sch=fmc_la17_cc_p
-#set_property -dict { PACKAGE_PIN C17   IOSTANDARD LVCMOS25 } [get_ports { reset_digital_b }]; #IO_L12N_T1_MRCC_16 Sch=fmc_la18_cc_n
-#set_property -dict { PACKAGE_PIN D17   IOSTANDARD LVCMOS25 } [get_ports { cmd_clock_invert }]; #IO_L12P_T1_MRCC_16 Sch=fmc_la18_cc_p
+set_property -dict { PACKAGE_PIN C17   IOSTANDARD LVCMOS25 } [get_ports { sample_clk_n }]; #IO_L12N_T1_MRCC_16 Sch=fmc_la18_cc_n
+set_property -dict { PACKAGE_PIN D17   IOSTANDARD LVCMOS25 } [get_ports { sample_clk_p }]; #IO_L12P_T1_MRCC_16 Sch=fmc_la18_cc_p
 set_property -dict { PACKAGE_PIN A19   IOSTANDARD LVCMOS25 } [get_ports { trigro_reset_n }]; #IO_L17N_T2_16 Sch=fmc_la_n[19]
 set_property -dict { PACKAGE_PIN A18   IOSTANDARD LVCMOS25 } [get_ports { interface_speed }]; #IO_L17P_T2_16 Sch=fmc_la_p[19]
 #set_property -dict { PACKAGE_PIN F20   IOSTANDARD LVCMOS25 } [get_ports { untriggered_ro_en }]; #fmc_la_n[20] }]; #IO_L18N_T2_16 Sch=fmc_la_n[20]

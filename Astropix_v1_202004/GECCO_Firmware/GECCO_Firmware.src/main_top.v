@@ -76,13 +76,13 @@ module main_top(
     
     //config: LA30-32 single-ended LA33 diff
     output       config_sin_p, // In1 -> ConfigCard -> C1
-    //output       config_sin_n, // In1 -> ConfigCard -> C1
+    output       config_sin_n, // In1 -> ConfigCard -> C1
     output       config_ck1_p, // In2 -> ConfigCard -> C2
-    //output       config_ck1_n, // In2 -> ConfigCard -> C2
+    output       config_ck1_n, // In2 -> ConfigCard -> C2
     output       config_ck2_p, // In3 -> ConfigCard -> C3
-    //output       config_ck2_n, // In3 -> ConfigCard -> C3
+    output       config_ck2_n, // In3 -> ConfigCard -> C3
     output       config_ld_p, // In4 -> ConfigCard -> C4
-    //output       config_ld_n, // In4 -> ConfigCard -> C4
+    output       config_ld_n, // In4 -> ConfigCard -> C4
     
     output       out_ld_dac,
     output       out_ld_config,

@@ -150,7 +150,6 @@ FORMS    += mainwindow.ui \
 win32 {
     LIBS     += -L$$PWD/libs -L./libs -L$$PWD/libs/ -lftd2xx
     LIBS     += "C:/Windows/System32/visa32.dll"
-    LIBS     += "$$PWD/libs/Qt5HttpServer.dll"
     INCLUDEPATH += "C:\Program Files\IVI Foundation\VISA\Win64\Include"
     INCLUDEPATH += "./includes"
     INCLUDEPATH += "./includes/QtHttpServer"
@@ -163,6 +162,9 @@ LIBS += "/usr/local/lib/libftd2xx.so"
 
 INCLUDEPATH += "/usr/include/rsvisa"
 }
+
+## Add QTHTTP Server library
+LIBS += -L$$OUT_PWD/ -L$$OUT_PWD/../qthttpserver/lib -L$$OUT_PWD/ -lQt5HttpServer
 
 RESOURCES  = "./resources.qrc"
 

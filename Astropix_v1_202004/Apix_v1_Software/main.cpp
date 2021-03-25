@@ -76,6 +76,71 @@ int main(int argc, char *argv[])
     });
 
     /**
+      This Route sets injection parameters
+      At the moment, it will fetch the registered UI component and set the value through it so that
+      the UI automatically mirrors the new value without having to modify the original software much.
+
+      IF GECCO were to be used without a GUI, we could change this procedure to update the Models directly
+      in case no UI components are available
+
+      Format: /asic/injection/start/voltage/delay/period/clkdiv
+      voltage -> 0-1.8V
+      delay -> delay 0-65535
+      period -> period 0-256
+      clkdiv -> clkdiv 0-65535
+      */
+    httpServer.route("/asic/injection/start/<arg>/<arg>/<arg>/<arg>",
+                     [&w](const float voltage, const unsigned int delay, const unsigned int period, const unsigned int clkdiv) {
+        //w.on_Update_clicked();
+        //Injection_Config * config_inj = *config;
+
+        w.StopInjections(true);
+        //w.on_B_Injection_StartStop_clicked();
+        w.injection.SetDAC("Out1", voltage);
+        w.injection.SetOutputChannel(0);
+        w.injection.SetInitDelay(delay);
+        w.injection.SetNumPulseSets(0);
+        w.injection.SetNumPulsesInaSet(1);
+        w.injection.SetPeriod(period);
+        w.injection.SetClockDiv(clkdiv);
+
+        w.injection.SetTSOverflowSync(false);
+        w.injection.SetSynced(false);
+        //w.ConfigureInjections(true);
+        //w.StartInjections(true);
+
+
+        w.UpdateInjectionGUI(true);
+
+        return  QJsonObject {
+            {
+                {"result" , "success"},
+                {"message","Injection  Send"},
+                {"voltage", QJsonValue::fromVariant(voltage)},
+                {"delay",QJsonValue::fromVariant(delay)},
+                {"period",QJsonValue::fromVariant(period)},
+                {"clkdiv",QJsonValue::fromVariant(clkdiv)}
+            }
+        };
+    });
+
+    httpServer.route("/asic/injection/stop",
+                     [&w]() {
+
+        w.StopInjections(true);
+
+        w.UpdateInjectionGUI(false);
+
+
+        return  QJsonObject {
+            {
+                {"result" , "success"},
+                {"message","Injection  stopped"},
+            }
+        };
+    });
+
+    /**
       This Route sets a value to a Config SR and Parameter
       At the moment, it will fetch the registered UI component and set the value through it so that
       the UI automatically mirrors the new value without having to modify the original software much.

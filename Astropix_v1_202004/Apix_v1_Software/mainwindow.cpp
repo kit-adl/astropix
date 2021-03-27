@@ -1287,6 +1287,54 @@ void MainWindow::UpdateFromConfig()
     }
 }
 
+void MainWindow::UpdateInjectionGUI(bool start)
+{
+    //Injection:
+    ui->SB_Injection_ClockDiv->setValue(int(injection.GetClockDiv()));
+    ui->SB_Injection_InitDelay->setValue(int(injection.GetInitDelay()));
+    ui->SB_Injection_NumTrains->setValue(int(injection.GetNumPulseSets()));
+    ui->SB_Injection_PulsesInTrain->setValue(int(injection.GetNumPulsesInaSet()));
+    ui->SB_Injection_Period->setValue(int(injection.GetPeriod()));
+    //ui->SL_Injection_Synced->setValue(int(injection.GetSynced()));
+
+    //Injection mode async
+    ui->CB_Injection_SyncState->setCurrentIndex(0);
+
+    //Injection source injectionboard
+    ui->SB_Injection_SignalSize->setValue(injection.GetDAC("Out1"));
+    ui->CB_Injection_Output->setCurrentIndex(1);
+    ui->CB_Injection_Output->setCurrentIndex(0);
+
+    connect(ui->CB_Injection_Output, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),[=](int val) {
+        logit(QString().asprintf("Changed Injection Output to %d",val).toStdString(),"Injection");
+        if(val >= 0)
+            this->injection.SetOutputChannel(1 << val);
+        else
+           this->injection.SetOutputChannel(0);
+    });
+
+    if(ui->B_Injection_StartStop->text().toStdString().find("Start Injections") != std::string::npos)
+    {
+        //Click button once to start
+        if(start){
+            this->on_B_Injection_StartStop_clicked();
+        }
+    }
+    else
+    {
+        if(start){
+            //Click button twice to restart
+            this->on_B_Injection_StartStop_clicked();
+            this->on_B_Injection_StartStop_clicked();
+        }
+        else{
+            this->on_B_Injection_StartStop_clicked();
+        }
+    }
+
+}
+
+
 bool MainWindow::ConfigureInjections(bool flush)
 {
     if(!nexys->is_open())

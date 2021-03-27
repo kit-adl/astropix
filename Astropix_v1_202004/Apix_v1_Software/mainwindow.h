@@ -88,6 +88,8 @@ public:
     //>  This will generate a tab UI and be updated after each other in Chip
     std::vector<ASIC_Config2*> asicConfigs;
 
+    Injection_Config injection;
+
     bool ResetFastROFifo(bool flush = true);
 
     static std::string WriteToFile(std::string filename, std::string data);
@@ -117,6 +119,7 @@ public slots:
 
 
     void UpdateFromConfig();
+    void UpdateInjectionGUI(bool start);
     void UpdateInjectionBoardFromGUI();
 
     bool ConfigureInjections(bool flush);
@@ -380,7 +383,6 @@ private:
 
     //VB_Config voltageboards[2];
     std::vector<VB_Config*> voltageboards;
-    Injection_Config injection;
 
     //Fast Readout:
     FastReadout fastro;

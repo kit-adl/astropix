@@ -49,11 +49,11 @@ module main_top(
     input        btnr,
     input        btnl,
     input        btnd,
-    //input btnu,
+    input        btnu,
     output [7:0] led,
     
     //voltage adjustment
-    output [1:0] set_vadj,
+    output [1:0] set_vadj, //Set FMC Voltage to 1.8V
     output       vadj_en,
     
     //FTDI
@@ -66,15 +66,15 @@ module main_top(
     output       prog_oen,
     input        prog_clko,
     
-    //config: LA30-32 single-ended LA33 diff
-    output       config_sin_p, // In1 -> ConfigCard -> C1
-    output       config_sin_n, // In1 -> ConfigCard -> C1
-    output       config_ck1_p, // In2 -> ConfigCard -> C2
-    output       config_ck1_n, // In2 -> ConfigCard -> C2
-    output       config_ck2_p, // In3 -> ConfigCard -> C3
-    output       config_ck2_n, // In3 -> ConfigCard -> C3
-    output       config_ld_p, // In4 -> ConfigCard -> C4
-    output       config_ld_n, // In4 -> ConfigCard -> C4
+    //Asic config SR
+    output       config_sin_p, // ConfigCard 3-> C3
+    output       config_sin_n, // ConfigCard 3-> C3
+    output       config_ck1_p, // ConfigCard 3-> C4
+    output       config_ck1_n, // ConfigCard 3-> C4
+    output       config_ck2_p, // ConfigCard 3-> C2
+    output       config_ck2_n, // ConfigCard 3-> C2
+    output       config_ld_p, // ConfigCard 3-> C1
+    output       config_ld_n, // ConfigCard 3-> C1
 
     //SPI:
     output       config_spi_csb,
@@ -443,11 +443,11 @@ assign obuf2_n = {config_sin_n, config_ck1_n, config_ck2_n, config_ld_n};
 
 
 //DEBUG OUTPUTS
-//Chip config JB Debug output
-assign config_ck1_test = config_ck1;
-assign config_ck2_test = config_ck2;
-assign config_sin_test = config_sin;
-assign config_ld_test = config_ld;
+//SPI PMOD JB Debug output
+assign config_ck1_test = config_spi_csb;
+assign config_ck2_test = config_spi_sck;
+assign config_sin_test = config_spi_mosi;
+assign config_ld_test = config_spi_miso;
 assign config_res_n_test = config_res_n ^ 1;
 
 //Chip VB JB Debug output
@@ -466,9 +466,9 @@ end
 
 
 //LED contents:
-//assign led[0] = debug_alignment_found;
-//assign led[1] = block_update; //cmd_aligned;
-//assign led[2] = fastreadout_fifo_wr_clk; //debug_ckref_from_chip;
+assign led[0] = res_n; //Reset_n
+assign led[1] = config_spi_csb; //SPI CS;
+assign led[2] = spi_write_fifo_empty; //debug_ckref_from_chip;
 //assign led[3] = debug_data_start;
 //assign led[4] = debug_empty_data; //~cmd_fifo_6entries; 
 //assign led[5] = trigger_id[0];

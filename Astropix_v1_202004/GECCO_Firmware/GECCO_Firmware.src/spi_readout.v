@@ -37,13 +37,17 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module spi_readout(
+module spi_readout#(
+    parameter CPOL = 0,
+    parameter CPHA = 1,
+    parameter CS_IDLE = 2)
+(
     input  wire         clock,
     input  wire         reset,
     input  wire [7:0]   clock_divider,
     
     output reg          spi_csb,
-    output reg          spi_clock,
+    output wire          spi_clock,
     output reg          spi_mosi,
     input  wire         spi_miso,
     
@@ -61,27 +65,38 @@ module spi_readout(
     output reg          trigger
 );
 
-assign data_in_fifo_clock = spi_clock;
-assign data_out_fifo_clock = spi_clock;
+
 reg [6:0] clock_div_counter = 0;
 
-reg [23:0] shift_data_in = 0;
+reg [47:0] shift_data_in = 0;
 
 reg [2:0] state = 0;
 reg [6:0] loop_counter = 0;
+reg temp_clk;
 
-parameter idle = 3'b000;
-parameter load_data = 3'b001;
-parameter read_data = 3'b010;
-parameter write_data = 3'b011;
-parameter ending     = 3'b100;
+reg [7:0] cs_count;
+
+reg cs_idle;
+
+localparam idle = 3'b000;
+localparam load_data = 3'b001;
+localparam read_data = 3'b010;
+localparam write_data = 3'b011;
+localparam ending     = 3'b100;
+
+assign data_in_fifo_clock = temp_clk;
+assign data_out_fifo_clock = temp_clk;
+
+//Assign Clock with correct phase and only when CS is low
+assign spi_clock = cs_idle ? 1'b0 : (CPHA ? ~temp_clk : temp_clk);
 
 always @(posedge clock) begin
     if(reset) begin
         spi_csb <= 1;
-        spi_clock <= 0;
         spi_mosi <= 0;
         
+        temp_clk <= CPOL;
+
         data_in_fifo_rd_en <= 0;
         
         data_out_fifo_data <= 64'b0;
@@ -89,6 +104,8 @@ always @(posedge clock) begin
         
         clock_div_counter <= 0;
         loop_counter <= 0;
+        cs_count <= 0;
+        cs_idle <= 1;
         
         trigger <= 0;
     end
@@ -98,9 +115,9 @@ always @(posedge clock) begin
         else begin
             clock_div_counter <= 0;
             
-            spi_clock <= ~spi_clock;
+            temp_clk  <= ~temp_clk;
             
-            if(spi_clock == 1) begin
+            if(temp_clk == 1) begin
                 case(state)
                     idle: begin
                         data_out_fifo_wr_en <= 0;
@@ -108,25 +125,32 @@ always @(posedge clock) begin
                         if(~data_in_fifo_empty)
                             state <= load_data;
                     end
+
                     load_data: begin //load the data to write in 3 clock cycles
-                        shift_data_in <= {shift_data_in[15:0], data_in_fifo_data[7:0]};
+                        shift_data_in <= {data_in_fifo_data[7:0],shift_data_in[39:0]};
                         data_in_fifo_rd_en <= 1;
-                        if(loop_counter >= 2) begin
-                            spi_csb <= 0;
+
+                        spi_csb <= 0;
+                        //Wait for CS_IDLE clock cycles until write
+                        if(cs_count == CS_IDLE -1) begin
+                            cs_idle <= 0;
                             if(readback_en) begin
                                 if(shift_data_in[16] == 1)
                                     trigger <= 1;
                                 state <= read_data;
                                 loop_counter <= 0;
-                             end
+                            end
                             else begin
-                                state <= write_data;
-                                loop_counter <= 40;
+                                    state <= write_data;
+                                    loop_counter <= 16;
+
                             end
                         end
                         else
-                            loop_counter <= loop_counter + 7'b1;
+                            cs_count <= cs_count + 1;
+                            cs_idle <= 1;
                     end
+
                     read_data: begin  //read the first 40 bits of the 64 bit data to read
                         data_in_fifo_rd_en <= 0;
                         loop_counter <= loop_counter + 7'b1;
@@ -134,18 +158,23 @@ always @(posedge clock) begin
                         if(loop_counter >= 39) // 40-1)
                             state <= write_data;
                     end
+
                     write_data: begin
+                        //spi_csb <= 0;
+                        cs_idle <= 0;
                         data_in_fifo_rd_en <= 0;
                         loop_counter <= loop_counter + 7'b1;
                         data_out_fifo_data <= {data_out_fifo_data[62:0], spi_miso};
-                        spi_mosi <= shift_data_in[23];
-                        shift_data_in <= {shift_data_in[22:0],1'b0};
+                        spi_mosi <= shift_data_in[47];
+                        shift_data_in <= {shift_data_in[46:0],1'b0};
                         if(loop_counter >= 63) begin
                             state <= ending;
                         end
                     end
+
                     ending: begin
                         spi_csb <= 1;
+                        cs_idle <= 1;
                         trigger <= 0;
                         if(readback_en) begin //only write to output FIFO if data was requested
                             if(~data_out_fifo_full) begin //wait for space in the FIFO

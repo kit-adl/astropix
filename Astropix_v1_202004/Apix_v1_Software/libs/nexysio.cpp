@@ -783,3 +783,14 @@ void FastReadWorker(NexysIO *nexys)
 
     std::cout << "Fast Reading: Worker Ending\nTotal amount of data read: " << totaldata << " Bytes" << std::endl;
 }
+
+bool NexysIO::is_programmed(){
+    //Write and read from Register 0x00
+    Write(0x09,0b10101010);
+    unsigned int i = int(Read(0x09,1).c_str()[0]) & 255;
+
+    if (i == 0b10101010){
+        return true;
+    }
+    return false;
+}

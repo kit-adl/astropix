@@ -106,6 +106,13 @@ public:
     bool initializeFtdi(FTDI*);
 
     bool is_open();
+
+    /**
+     * @brief Check if FPGA is programmed by writing to a register
+     * @return          - false if read value does not match write
+     */
+    bool is_programmed();
+
     void Close();
 
     bool AddByte(unsigned char Order);

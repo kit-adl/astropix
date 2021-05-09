@@ -1530,11 +1530,15 @@ void MainWindow::on_CloseDevice_clicked()
 
 void MainWindow::on_Update_clicked()
 {
+    // Nexys Not Open
     if(!nexys->is_open()) {
-        logit("Nexys is not opened");
-        //return;
+        logit("Nexys Board not opened!");
+        return;
     }
-
+    if(!nexys->is_programmed()) {
+        logit("Nexys Board not programmed!");
+        return;
+    }
 
     // Update Counter displaying number of updates performed
     int count = ui->UpdateCounterEdit->text().toInt();
@@ -2145,6 +2149,10 @@ void MainWindow::on_B_WriteVoltageBoards_clicked()
         logit("Nexys Board not opened!");
         return;
     }
+    if(!nexys->is_programmed()) {
+        logit("Nexys Board not programmed!");
+        return;
+    }
 
 
     //remove not updated marker:
@@ -2526,8 +2534,15 @@ void SetTrimThreshold(double thr, void* mw)
 
 void MainWindow::on_B_Injection_StartStop_clicked()
 {
-    if(!nexys->is_open())
+    // Nexys Not Open
+    if(!nexys->is_open()) {
+        logit("Nexys Board not opened!");
         return;
+    }
+    if(!nexys->is_programmed()) {
+        logit("Nexys Board not programmed!");
+        return;
+    }
 
     if(ui->B_Injection_StartStop->text().toStdString().find("Start Injections") != std::string::npos)
     {
@@ -2556,8 +2571,15 @@ void MainWindow::on_B_Injection_StartStop_clicked()
 
 void MainWindow::on_B_Injection_Restart_clicked()
 {
-    if(!nexys->is_open())
+    // Nexys Not Open
+    if(!nexys->is_open()) {
+        logit("Nexys Board not opened!");
         return;
+    }
+    if(!nexys->is_programmed()) {
+        logit("Nexys Board not programmed!");
+        return;
+    }
 
     if(RestartInjections(true))
         logit("Injections restarted");

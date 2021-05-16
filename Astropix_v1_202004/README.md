@@ -1,4 +1,6 @@
 # Astropix 1 Firmware
+The firmware has to be programmed first!  
+Please see the [Nexys Programming Guide](https://reference.digilentinc.com/learn/programmable-logic/tutorials/nexys-video-programming-guide/start) for detailed instructions on USB, SD or Flash programming.
 
 Maybe it would make sense to make an FPGA bit file release otherwise:
 

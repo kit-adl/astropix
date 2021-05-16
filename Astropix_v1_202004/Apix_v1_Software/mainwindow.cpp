@@ -562,40 +562,18 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         for(unsigned int i = 0; i < voltageboards[index]->GetEntries(); ++i, ++vbindex)
         {
-            //Dont create QWidget for DACs with "unused" in Name
-            if(voltageboards[index]->GetDACName(i).find("unused") != std::string::npos)
+            //Dont create QWidget for DACs with "unused" or "LD_" in Name
+            if(voltageboards[index]->GetDACName(i).find("unused") != std::string::npos || voltageboards[index]->GetDACName(i).find("Ld_") != std::string::npos)
             {
                 continue;
             }
 
             // Create HBOX for:
             //   - Spin Box and Label
-            //   - Or just label if it's a Load signal
             //----------------
             QWidget * hboxContainer = new QWidget(); // Widget
             hboxContainer->setLayout(new QHBoxLayout()); // With Hbox
             voltageBoardDACContainer->layout()->addWidget(hboxContainer); // Added to main container
-
-
-            //do not process the load signals, they should not be changed:
-            // If the name contains Ld_, it's a load signal which is not meant to be configurable
-            if(voltageboards[index]->GetDACName(i).find("Ld_") != std::string::npos)
-            {
-                QLabel* lb = new QLabel();
-                hboxContainer->layout()->addWidget(lb);
-                // Set DAC Name and size
-                lb->setText(
-                            (voltageboards[index]->GetDACName(i)
-                             + QString().asprintf(
-                                 "(Load Signals, size=%d)",
-                                 voltageboards[index]->GetDACWidth(i)).toStdString()
-                                 ).c_str()
-                             );
-
-                ++vboffset;
-                continue;
-            }
-
 
            //-- Add Label
             QLabel* lb = new QLabel();

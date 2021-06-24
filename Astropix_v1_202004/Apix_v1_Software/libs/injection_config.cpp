@@ -19,7 +19,7 @@
 #include "injection_config.h"
 
 Injection_Config::Injection_Config() : VB_Config(3.3, 1.8), numpulsesets(0), numpulsesinaset(0), initdelay(0),
-            period(4), clockdiv(2), synced(false), tsoverflowsync(false), outputchannel(0)
+            period(4), clockdiv(2), synced(false), tsoverflowsync(false), outputchannel(1)
 {
     devicename = "InjectionBoard";
 }

@@ -47,7 +47,7 @@
 #include "libs/nexysio.h"
 
 #include "libs/asic_config_2.h"
-#include "fastreadout.h"
+
 #include "libs/vb_config.h"
 #include "libs/injection_config.h"
 #include "libs/timing.h"
@@ -90,8 +90,6 @@ public:
 
     Injection_Config injection;
 
-    bool ResetFastROFifo(bool flush = true);
-
     static std::string WriteToFile(std::string filename, std::string data);
     static std::string FindFileName(std::string filenameprefix, std::string filenamesuffix);
     static std::string WriteToFile(std::string filenameprefix, std::string filenamesuffix, std::string data);
@@ -108,7 +106,6 @@ public slots:
     void setWaiter(WaitFunction newwaiter);
 
     bool ChangeConfig(std::string command);
-    bool FastROCommand(std::string command);
     bool SCurveCommand(std::string command);
     bool TimingCommand(std::string command);
 
@@ -141,31 +138,13 @@ public slots:
 
     void on_B_Config_Save_clicked();
 
-    void on_B_FastRO_Ck_OnOff_clicked();
-
-    void on_B_FastRO_Rst_clicked();
-
-    void on_CB_FastRO_Trig_clicked(bool checked);
-
-    void on_B_FastRO_Readout_clicked();
-
-    void on_SB_FastRO_TrigDelay_valueChanged(int arg1);
-
-    void on_SB_FastRO_TrigWindow_valueChanged(int arg1);
-
-    void on_B_FastRO_Decode_clicked();
-
     void on_B_WriteVoltageBoards_clicked();
-
-    void on_B_FastRO_ReadToFile_clicked();
 
     void on_B_Register_Read_clicked();
 
     void on_B_Register_Write_clicked();
 
-    void on_B_StartLaserSetup_clicked();
-
-    void on_B_FastRO_ReadoutAll_clicked();
+    //void on_B_StartLaserSetup_clicked();
 
     void on_B_Injection_StartStop_clicked();
 
@@ -213,23 +192,10 @@ public slots:
 
     void on_B_SPI_Reset_ReadFIFO_clicked();
 
-    void on_CB_FastRO_rstFIFO_clicked(bool checked);
-
-    void on_CB_FastRO_rstState_clicked(bool checked);
-
-    void on_SB_FastRO_NumHits_valueChanged(int arg1);
 
     void on_B_SPI_Read_ReadFIFO_clicked();
 
     void on_tabWidget_2_currentChanged(int index);
-
-    void on_SB_FastRO_TSPhase_valueChanged(int arg1);
-
-    void on_CB_FastRO_Binary_clicked(bool checked);
-
-    void on_CB_FastRO_DebugMode_clicked(bool checked);
-
-    void on_CB_FastRO_DataMux_clicked(bool checked);
 
     void SB_Trim_valueChanged(int arg1);
 
@@ -276,10 +242,6 @@ public slots:
 
     void on_B_Trim_Trim_clicked();
 
-    void on_CB_FastRO_Decode_clicked();
-
-    void on_CB_FastRO_Print_clicked();
-
     void on_B_MeasureList_clicked();
 
     void on_B_MeasureList_Reset_clicked();
@@ -287,8 +249,6 @@ public slots:
     void on_B_DelayMeasure_clicked();
 
     void on_CB_UDP_Debug_clicked(bool checked);
-
-    void on_SB_FastRO_NumTriggers_valueChanged(int arg1);
 
     void on_CB_UDP_Reset_clicked(bool checked);
 
@@ -314,24 +274,9 @@ public slots:
 
     void on_B_CMD_Send_clicked();
 
-    bool ReadTrigDataSet();
-    void on_CB_FastRO_ShiftDataClock_clicked(bool checked);
-
-    void on_CB_FastRO_ShiftDataEdge_clicked(bool checked);
-
-    void on_CB_FastRO_ShiftBitClock_clicked(bool checked);
-
-    void on_CB_FastRO_ClkSpeed_currentIndexChanged(int index);
-
-    void on_CB_FastRO_Disable_HitW1_clicked(bool checked);
-
-    void on_CB_FastRO_Disable_HitW2_clicked(bool checked);
-
-    void on_CB_FastRO_TriggeredRO_clicked(bool checked);
+    //bool ReadTrigDataSet();
 
     void on_B_ToTCal_Start_clicked();
-
-    void on_CB_FastRO_DataIn_JB_clicked(bool checked);
 
     void on_B_CMD_Trig_Send_clicked();
 
@@ -383,13 +328,6 @@ private:
 
     //VB_Config voltageboards[2];
     std::vector<VB_Config*> voltageboards;
-
-    //Fast Readout:
-    FastReadout fastro;
-    std::string fastro_lastread;
-    FlagManager fastro_clockshifts;
-    FlagManager fastro_clockspeed;
-    FlagManager fastro_triggersettings;
 
     //objects from GUI building for the Chip Configuration:
     std::vector<QSlider*>  dac_sliders;

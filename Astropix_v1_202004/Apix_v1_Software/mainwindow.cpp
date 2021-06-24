@@ -202,53 +202,8 @@ MainWindow::MainWindow(QWidget *parent) :
     voltageboards[0]->AddDAC("Vminuspix", 14, 2, 1, 0);
     voltageboards[0]->AddDAC("Vth", 14, 2, 1, 1.02);
 
-
-
-           /* .AddDAC("Th"    , 14, 2, 1, 0)
-            .AddDAC("Ld_DUMMYLOAD"    , 14, 2, 1, 0);*/
-
-
-    /*voltageboards[0].AddDAC("VNAmp"    , 14, 2, 1, 0);
-    voltageboards[0].AddDAC("Baseline" , 14, 2, 1, 0);
-    voltageboards[0].AddDAC("VPLoad"   , 14, 2, 1, 0);
-    voltageboards[0].AddDAC("VNBiasRec", 14, 2, 1, 0);
-    voltageboards[0].AddDAC("VNBias"   , 14, 2, 1, 0);
-    voltageboards[0].AddDAC("VNDAC"    , 14, 2, 1, 0);
-    voltageboards[1].AddDAC("VBLR"     , 14, 2, 1, 0);
-    voltageboards[1].AddDAC("VNFB"     , 14, 2, 1, 0);
-    voltageboards[1].AddDAC("VCasc"    , 14, 2, 1, 0);
-    voltageboards[1].AddDAC("VNFoll"   , 14, 2, 1, 0);
-    voltageboards[1].AddDAC("VPBiasRec", 14, 2, 1, 0);
-    voltageboards[1].AddDAC("VPDel"    , 14, 2, 1, 0);
-    voltageboards[1].AddDAC("NU"       , 14, 2, 1, 0);
-    voltageboards[1].AddDAC("VNComp"   , 14, 2, 1, 0);*/
-
     injection.AddDAC("Out1", 14, 2, 1, 0);
     injection.AddDAC("Out2", 14, 2, 1, 0);
-
-    fastro_clockshifts.SetIdentifier("FastROPhase");
-    fastro_clockshifts.SetFPGAAddress(15);
-    fastro_clockshifts.AddFlag("chipclock",       false);
-    fastro_clockshifts.AddFlag("recedge",         false);
-    fastro_clockshifts.AddFlag("recclock",        false);
-    fastro_clockshifts.AddFlag("disablehitword1", false);
-    fastro_clockshifts.AddFlag("disablehitword2", false);
-    fastro_clockshifts.AddFlag("datainonjb",      false);
-
-    fastro_clockspeed.SetIdentifier("FastROSpeed");
-    fastro_clockspeed.SetFPGAAddress(1);
-    fastro_clockspeed.AddFlag("speed", 1, 3, 0);
-
-    fastro_triggersettings.SetIdentifier("FastROTrigger");
-    fastro_triggersettings.SetFPGAAddress(255); //unused
-    fastro_triggersettings.AddFlag("numsignaladdress", 1,  8, 44, false);
-    fastro_triggersettings.AddFlag("numsignals"      , 1, 16,  1, false);
-    fastro_triggersettings.AddFlag("lengthaddress"   , 1,  8, 45, false);
-    fastro_triggersettings.AddFlag("length"          , 1,  8,  1, false);
-    fastro_triggersettings.AddFlag("distanceaddress" , 1,  8, 46, false);
-    fastro_triggersettings.AddFlag("distance"        , 1, 16, 15, false);
-    fastro_triggersettings.AddFlag("initdelayaddress", 1,  8, 47, false);
-    fastro_triggersettings.AddFlag("initdelay"       , 1, 16,  0, false);
 
     fm_resets.SetFPGAAddress(18);
     fm_resets.SetIdentifier("FMChipResets");
@@ -306,186 +261,6 @@ MainWindow::MainWindow(QWidget *parent) :
     buildASIConfigUI();
 
 
-
-    //  add the controls for configuration:
-    //unsigned int srCount = 1;
-    //ASIC_Config2* configs[1] = {&atlaspix_dac};
-    /*QWidget* parents[srCount] = {ui->L_ParentAnchorDAC->parentWidget(),
-                           ui->L_ParentAnchorConfig->parentWidget(),
-                           ui->L_ParentAnchorVDAC->parentWidget(),
-                           ui->L_ParentAnchorTDAC->parentWidget(),
-                           ui->L_ParentAnchorRow->parentWidget(),
-                           ui->L_ParentAnchorColumn->parentWidget()};*/
-    //QWidget* parents[1] = {ui->DACScrollAreaVLayout};
-
-
-   /* for(int sr = 0; sr < 1; ++sr)
-    {
-        //make the scroll area fill the whole tab:
-
-
-        // Richard
-        //this->ui->DACScrollAreaVLayout
-        QWidget * dacContainerWidget = parents[sr];
-        //QScrollArea* scroll = qobject_cast<QScrollArea*>(parents[sr]->parentWidget()->parentWidget());
-        //QGroupBox* gb = new QGroupBox("");
-        //gb->setLayout(new QVBoxLayout());
-
-        std::cout << "Adding Group Box to Scroll layout " << dacContainerWidget->objectName().toStdString()  << std::endl;
-        std::cout << std::flush;
-        //dacContainerWidget->layout()->addWidget(gb);
-
-        std::cout << "Looping on SR bits" << std::endl;
-        std::cout << std::flush;
-
-
-        // Container for the sliders is the scroll Area directly because it already is a Vertical Layout
-        //QVBoxLayout * gb =  qobject_cast<QVBoxLayout*>(parents[sr]->parentWidget());
-        //parents[sr] = gb;
-
-        //add the sliders:
-        int offset = 0;
-        for(unsigned int i = 0; i < configs[sr]->GetEntries(); ++i)
-        {
-            if(!configs[sr]->ParameterIsOptional(i))
-            {
-                if(configs[sr]->GetParameterWidth(i) > 1)
-                {
-
-                    // Create Horizontal Box Widget
-                    QWidget * containerWidget = new QWidget();
-                    QHBoxLayout * hLayout = new QHBoxLayout(containerWidget);
-
-                    QSlider* sl = new QSlider(Qt::Horizontal);
-                    //sl->setGeometry(100, 10 + (int(i) - offset) * 20, 160, 19);
-                    sl->setRange(0, (1 << configs[sr]->GetParameterWidth(i)) - 1);
-                    sl->setValue(configs[sr]->GetParameter(i));
-
-                    QLabel* lb = new QLabel();
-                   // lb->setGeometry(10, 10 + (int(i) - offset) * 20, 75, 16);
-                    lb->setText(configs[sr]->GetParameterName(i).c_str());
-
-                    QSpinBox* sb = new QSpinBox();
-                   // sb->setGeometry(280, 10 + (int(i) - offset) * 20, 42, 20);
-                    sb->setRange(0, (1 << configs[sr]->GetParameterWidth(i)) - 1);
-                    sb->setValue(configs[sr]->GetParameter(i));
-                    sb->setAlignment(Qt::AlignRight);
-
-                    hLayout->addWidget(lb);
-                    hLayout->addWidget(sl);
-                    hLayout->addWidget(sb);
-
-
-                    parents[sr]->layout()->addWidget(containerWidget);
-
-                    dac_sliders.push_back(sl);
-                    dac_spinboxes.push_back(sb);
-                    dac_labels.push_back(lb);
-                    dac_checkboxes.push_back(nullptr);
-
-                    // Events
-                    // - Slider changes value of Box on release
-                    // - Box updates using global updateFromGUI() when value changes
-                    connect(sl,&QSlider::valueChanged, [=](int val){ sb->setValue(val); });
-                    connect(sb, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
-                }
-                else
-                {
-
-                    QWidget * containerWidget = new QWidget();
-                    QHBoxLayout * hLayout = new QHBoxLayout();
-
-                    QCheckBox* cb = new QCheckBox();
-                   // cb->setGeometry(100, 10 + (int(i) - offset) * 20, 160, 19);
-                    cb->setText(configs[sr]->GetParameterName(i).c_str());
-                    cb->setChecked(configs[sr]->GetParameter(i) != 0);
-
-                    QLabel* lb = new QLabel(parents[sr]);
-                    //lb->setGeometry(10, 10 + (int(i) - offset) * 20, 75, 16);
-                    lb->setText(configs[sr]->GetParameterName(i).c_str());
-                    lb->setVisible(false);
-
-                    hLayout->addWidget(lb);
-                    hLayout->addWidget(cb);
-
-                    containerWidget->setLayout(hLayout);
-
-                    parents[sr]->layout()->addWidget(containerWidget);
-
-                    dac_sliders.push_back(nullptr);
-                    dac_spinboxes.push_back(nullptr);
-                    dac_labels.push_back(lb);
-                    dac_checkboxes.push_back(cb);
-
-                    connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
-
-                }
-            }
-            else
-                ++offset;
-        }
-
-           // Richard Update
-       // gb->setFixedSize(width - 23, (int(configs[sr]->GetEntries()) - offset) * 20 + 10);
-        dac_gbs.push_back(dacContainerWidget);
-    }
-
-    std::cout << "Done up GUI DACS" << std::endl;
-    std::cout << std::flush;
-
-    connect(ui->SB_Config_Injection_Col, SIGNAL(valueChanged(int)), this, SLOT(SB_Config_Injection_valueChanged(int)));
-    connect(ui->SB_Config_Injection_Row, SIGNAL(valueChanged(int)), this, SLOT(SB_Config_Injection_valueChanged(int)));
-    connect(ui->CB_Config_AmpOut, SIGNAL(clicked(bool)), this, SLOT(CB_Config_AmpOut_HB_stateChanged(bool)));
-    connect(ui->CB_Config_HB, SIGNAL(clicked(bool)), this, SLOT(CB_Config_AmpOut_HB_stateChanged(bool)));
-    connect(ui->SB_TDAC_Config_Col, SIGNAL(valueChanged(int)), this, SLOT(SB_TDAC_Address_valueChanged(int)));
-    connect(ui->SB_TDAC_Config_Row, SIGNAL(valueChanged(int)), this, SLOT(SB_TDAC_Address_valueChanged(int)));
-*/
-    //Injection:
-    //--------------------------
-    //ui->L_ParentAnchorInjection->setVisible(false);
-
-    /*
-     *
-     * if(obj == ui->SB_Injection_ClockDiv)
-            config_inj->SetClockDiv(static_cast<unsigned int>(ui->SB_Injection_ClockDiv->value()));
-        else if(obj == ui->SB_Injection_InitDelay)
-            config_inj->SetInitDelay(static_cast<unsigned int>(ui->SB_Injection_InitDelay->value()));
-        else if(obj == ui->SB_Injection_NumTrains)
-            config_inj->SetNumPulseSets(static_cast<unsigned int>(ui->SB_Injection_NumTrains->value()));
-        else if(obj == ui->SB_Injection_PulsesInTrain)
-            config_inj->SetNumPulsesInaSet(static_cast<unsigned int>(ui->SB_Injection_PulsesInTrain->value()));
-        else if(obj == ui->SB_Injection_Period)
-            config_inj->SetPeriod(static_cast<unsigned int>(ui->SB_Injection_Period->value()));
-        else if(obj == ui->CB_Injection_SyncState)
-        {
-            switch(ui->CB_Injection_SyncState->currentIndex())
-            {
-            case(0):
-                config_inj->SetSynced(0);
-                config_inj->SetTSOverflowSync(0);
-                break;
-            case(1):
-                config_inj->SetTSOverflowSync(0);
-                config_inj->SetSynced(1);
-                break;
-            case(2):
-                config_inj->SetTSOverflowSync(1);
-                config_inj->SetSynced(1);
-                break;
-            }
-        }
-        else if(obj == ui->CB_Injection_Output)
-        {
-            if(ui->CB_Injection_Output->currentIndex() >= 0)
-                config_inj->SetOutputChannel(1 << ui->CB_Injection_Output->currentIndex());
-            else
-                config_inj->SetOutputChannel(0);
-        }
-        else if(obj == ui->SB_Injection_SignalSize)
-            config_inj->SetDAC("Out1", ui->SB_Injection_SignalSize->value());
-     * */
-
-
     connect(ui->SB_Injection_ClockDiv, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[=](int val) {
        this->injection.SetClockDiv(val);
     });
@@ -535,17 +310,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->SB_Injection_SignalSize, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),[=](double val) {
        this->injection.SetDAC("Out1", val);
     });
-
-
-    /*connect(ui->SB_Injection_ClockDiv, SIGNAL(valueChanged(int)),this, SLOT(UpdateInjectionBoardFromGUI()));
-    connect(ui->SB_Injection_InitDelay, SIGNAL(valueChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
-    connect(ui->SB_Injection_NumTrains, SIGNAL(valueChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
-    connect(ui->SB_Injection_PulsesInTrain, SIGNAL(valueChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
-    connect(ui->SB_Injection_Period, SIGNAL(valueChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
-    //connect(ui->SL_Injection_Synced, SIGNAL(valueChanged(int)), this, SLOT(UpdateFromGUI()));
-    connect(ui->CB_Injection_SyncState, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
-    connect(ui->CB_Injection_Output, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateInjectionBoardFromGUI()));
-    connect(ui->SB_Injection_SignalSize, SIGNAL(valueChanged(double)), this, SLOT(UpdateInjectionBoardFromGUI()));*/
 
     //VoltageBoards:
     //----------------------
@@ -607,45 +371,6 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
      std::cout << "Done Setting up Voltage Boards" << std::endl;
-    //gbvb->setFixedSize(width - 23, int(vbindex - vboffset) * 30 + 10);
-
-    //dac_gbs.push_back(gbvb);
-
-    //chip configuration:
-    //-------------------------
-    int fm_index = 0;
-    /*QWidget* fm_parent = ui->L_ParentAnchorFM->parentWidget();
-    ui->L_ParentAnchorFM->setVisible(false);
-    for(unsigned int i = 0; i < fm_resets.GetNumFlags(); ++i, ++fm_index)
-    {
-        QCheckBox* cb = new QCheckBox(fm_parent);
-        cb->setGeometry(100, 10 + 25 * fm_index, 160, 19);
-        cb->setText(fm_resets.GetFlagName(i).c_str());
-        cb->setChecked(fm_resets.GetFlag(i));
-        fm_checkboxes.push_back(cb);
-
-        connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
-    }
-    for(unsigned int i = 0; i < fm_configmode.GetNumFlags(); ++i, ++fm_index)
-    {
-        QCheckBox* cb = new QCheckBox(fm_parent);
-        cb->setGeometry(100, 20 + 25 * fm_index, 160, 19);
-        cb->setText(fm_configmode.GetFlagName(i).c_str());
-        cb->setChecked(fm_configmode.GetFlag(i));
-        fm_checkboxes.push_back(cb);
-
-        connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
-    }
-    for(unsigned int i = 0; i < fm_workmode.GetNumFlags(); ++i, ++fm_index)
-    {
-        QCheckBox* cb = new QCheckBox(fm_parent);
-        cb->setGeometry(100, 30 + 25 * fm_index, 160, 19);
-        cb->setText(fm_workmode.GetFlagName(i).c_str());
-        cb->setChecked(fm_workmode.GetFlag(i));
-        fm_checkboxes.push_back(cb);
-
-        connect(cb, SIGNAL(stateChanged(int)), this, SLOT(UpdateFromGUI()));
-    }*/
 
     //configure the SPI communication class:
     spiconfig.SetBufferSize(1024);
@@ -656,9 +381,6 @@ MainWindow::MainWindow(QWidget *parent) :
     spiconfig.SetConfigAddress(21);
 
     //init fast readout flag manager:
-    fastro = FastReadout(FastReadout::fifoclear);
-    fastro.SetIdentifier("fastRO");
-    lasersetupgui->SetFastRO(&fastro);
 
     ui->GB_SPI->setVisible(false);
     ui->GB_CMD->setGeometry(ui->GB_SPI->x(), ui->GB_SPI->y(),
@@ -694,10 +416,6 @@ MainWindow::MainWindow(QWidget *parent) :
     config.SetSPIConfig(&spiconfig);
     config.SetCMDConfig(&cmd);
     config.SetTDACConfig(&tdacs);
-    config.SetFastReadoutConfig(&fastro);
-    config.SetFastReadoutClockShiftConfig(&fastro_clockshifts);
-    config.SetFastReadoutClockSpeedConfig(&fastro_clockspeed);
-    config.SetFastReadoutTriggerSettingConfig(&fastro_triggersettings);
     config.SetInjectionConfig(&injection);
 #ifdef _useQT_
     config.SetProgressBar(ui->progressBar);
@@ -854,20 +572,6 @@ MainWindow::~MainWindow()
 
     delete nexys;
     delete ftdi;
-}
-
-bool MainWindow::ResetFastROFifo(bool flush)
-{
-    std::vector<byte> reset;
-
-    reset.push_back(byte(fastro.GetConfiguration(true)));
-    reset.push_back(byte(fastro.GetConfiguration(false)));
-
-    nexys->Write(FastReadout::FPGAAddress, reset, true, 4);
-    if(flush)
-        nexys->Flush();
-
-    return true;
 }
 
 std::string MainWindow::WriteToFile(std::string filename, std::string data)
@@ -1048,45 +752,8 @@ void MainWindow::UpdateFromGUI()
     }
     else if(config_vb != nullptr)
     {
-        /*for(unsigned int i = 0; i < vb_label.size(); ++i)
-        {
-            if(obj == vb_spinbox[i])
-            {
-                if(i < voltageboards[0].GetEntries() - 8)
-                    voltageboards[0].SetDAC(vb_label[i]->text().toStdString(), vb_spinbox[i]->value());
-                else
-                    voltageboards[1].SetDAC(vb_label[i]->text().toStdString(), vb_spinbox[i]->value());
-            }
-        }
 
-        if(!update)
-        {
-            if(ui->B_WriteVoltageBoards->text().toStdString().find("(!)") == std::string::npos)
-                ui->B_WriteVoltageBoards->setText(ui->B_WriteVoltageBoards->text() + " (!)");
-        }
-        else
-            on_B_WriteVoltageBoards_clicked();*/
     }
-    /*else if(obj->parent() == ui->L_ParentAnchorFM->parent())
-    {
-        QCheckBox* cb = qobject_cast<QCheckBox*>(obj);
-        if(fm_resets.GetFlag(cb->text().toStdString()) >= 0)
-            fm_resets.SetFlag(cb->text().toStdString(), cb->isChecked());
-        else if(fm_configmode.GetFlag(cb->text().toStdString()) >= 0)
-                fm_configmode.SetFlag(cb->text().toStdString(), cb->isChecked());
-        else if(fm_workmode.GetFlag(cb->text().toStdString()) >= 0)
-            fm_workmode.SetFlag(cb->text().toStdString(), cb->isChecked());
-        else
-            logit("Something is not implemented here");
-
-        if(!update)
-        {
-            if(ui->B_PinConfig_Update->text().toStdString().find("(!)") == std::string::npos)
-                ui->B_PinConfig_Update->setText((ui->B_PinConfig_Update->text().toStdString() + " (!)").c_str());
-        }
-        else
-            on_B_PinConfig_Update_clicked();
-    }*/
 }
 
 void MainWindow::UpdateFromConfig()
@@ -1192,34 +859,6 @@ void MainWindow::UpdateFromConfig()
     ui->CB_SPI_Enable->setChecked(spiconfig.GetSPIEnable());
     ui->CB_SPI_ReadbackEn->setChecked(spiconfig.GetReadBackEnable());
     ui->SB_SPI_ClockDiv->setValue(spiconfig.GetClockDivider());
-
-    //Fast Readout:
-    ui->CB_FastRO_Trig->setChecked(fastro.GetTrigger());
-    ui->CB_FastRO_Print->setChecked(fastro.GetFileReadPrint());
-    ui->CB_FastRO_Decode->setChecked(fastro.GetFileReadDecode());
-    ui->CB_FastRO_rstFIFO->setChecked(fastro.GetFifoclear());
-    ui->CB_FastRO_rstState->setChecked(fastro.GetReset());
-    ui->CB_FastRO_Binary->setChecked(fastro.GetBinaryOutput());
-    ui->CB_FastRO_DebugMode->setChecked(fastro.GetDebugMode());
-    ui->CB_FastRO_DataMux->setChecked(fastro.GetDataMuxEnable());
-    ui->SB_FastRO_NumHits->setValue(fastro.GetNumDataSets());
-    //ui->SB_FastRO_TrigDelay->setValue(fastro.GetTriggerDelay());
-    //ui->SB_FastRO_TrigWindow->setValue(fastro.GetTriggerLength());
-    ui->SB_FastRO_TSPhase->setValue(fastro.GetTSPhase());
-    ui->CB_FastRO_TriggeredRO->setChecked(fastro.GetReadoutMode());
-
-    //fastRO speed settings:
-   // ui->CB_FastRO_DataIn_JB->setChecked(fastro_clockshifts.GetFlag("datainonjb"));
-   // ui->CB_FastRO_Disable_HitW1->setChecked(fastro_clockshifts.GetFlag("disablehitword1"));
-   // ui->CB_FastRO_Disable_HitW2->setChecked(fastro_clockshifts.GetFlag("disablehitword2"));
-
-    ui->CB_FastRO_ShiftBitClock->setChecked(fastro_clockshifts.GetFlag("chipclock"));
-    ui->CB_FastRO_ShiftDataEdge->setChecked(fastro_clockshifts.GetFlag("recedge"));
-    ui->CB_FastRO_ShiftDataClock->setChecked(fastro_clockshifts.GetFlag("recclock"));
-    ui->CB_FastRO_ClkSpeed->setCurrentIndex(fastro_clockspeed.GetFlag("speed"));
-    ui->SB_FastRO_NumTriggers->setValue(fastro_triggersettings.GetFlag("numsignals"));
-    ui->SB_FastRO_TrigWindow->setValue(fastro_triggersettings.GetFlag("length"));
-    ui->SB_FastRO_TrigDelay->setValue(fastro_triggersettings.GetFlag("distance"));
 
     //update the Col/Row/TDAC tab:
    /* SB_Config_Injection_valueChanged(0);
@@ -1572,36 +1211,9 @@ void MainWindow::on_B_Config_Load_clicked()
                }
                 //atlaspix_config_manager.AddConfig(*it, it->GetDeviceName());
             }
-            /*ASIC_Config2 config;
-            config = atlaspix_config_manager.GetConfig(atlaspix_config.GetDeviceName());
-            if(config.GetEntries() == atlaspix_config.GetEntries())
-                atlaspix_config = config;
-            config = atlaspix_config_manager.GetConfig(atlaspix_vdac.GetDeviceName());
-            if(config.GetEntries() == atlaspix_vdac.GetEntries())
-                atlaspix_vdac = config;
-            config = atlaspix_config_manager.GetConfig(atlaspix_dac.GetDeviceName());
-            if(config.GetEntries() == atlaspix_dac.GetEntries())
-                atlaspix_dac = config;
-            config = atlaspix_config_manager.GetConfig(atlaspix_tdac.GetDeviceName());
-            if(config.GetEntries() == atlaspix_tdac.GetEntries())
-                atlaspix_tdac = config;
-            config = atlaspix_config_manager.GetConfig(atlaspix_row.GetDeviceName());
-            if(config.GetEntries() == atlaspix_row.GetEntries())
-                atlaspix_row = config;
-            config = atlaspix_config_manager.GetConfig(atlaspix_column.GetDeviceName());
-            if(config.GetEntries() == atlaspix_column.GetEntries())
-                atlaspix_column = config;*/
 
             //voltage boards:
             tinyxml2::XMLElement* node;
-            /*
-            node = atlaspix_config_manager.GetConfigTree("ShiftRegister", voltageboards[0].GetDeviceName());
-            if(node != nullptr)
-                voltageboards[0].LoadFromXMLElement(node);
-            node = atlaspix_config_manager.GetConfigTree("ShiftRegister", voltageboards[1].GetDeviceName());
-            if(node != nullptr)
-                voltageboards[1].LoadFromXMLElement(node);
-*/
 
             //injection (card):
             node = atlaspix_config_manager.GetConfigTree("ShiftRegister", injection.GetDeviceName());
@@ -1623,20 +1235,6 @@ void MainWindow::on_B_Config_Load_clicked()
             node = atlaspix_config_manager.GetConfigTree("SPIConfig", spiconfig.GetIdentifier());
             if(node != nullptr)
                 spiconfig.LoadFromXMLElement(node);
-
-            //Fast Readout:
-            node = atlaspix_config_manager.GetConfigTree("FastReadout", fastro.GetIdentifier());
-            if(node != nullptr)
-                fastro.LoadFromXMLElement(node);
-            node = atlaspix_config_manager.GetConfigTree("FlagManager", fastro_clockshifts.GetIdentifier());
-            if(node != nullptr)
-                fastro_clockshifts.LoadFromXMLElement(node);
-            node = atlaspix_config_manager.GetConfigTree("FlagManager", fastro_clockspeed.GetIdentifier());
-            if(node != nullptr)
-                fastro_clockspeed.LoadFromXMLElement(node);
-            node = atlaspix_config_manager.GetConfigTree("FlagManager", fastro_triggersettings.GetIdentifier());
-            if(node != nullptr)
-                fastro_triggersettings.LoadFromXMLElement(node);
 
             //Trigger Settings:
             node = atlaspix_config_manager.GetConfigTree("FlagManager", trigger_fm.GetIdentifier());
@@ -1745,24 +1343,12 @@ void MainWindow::on_B_Config_Save_clicked()
         for(auto it : this->asicConfigs) {
             atlaspix_config_manager.AddConfig(*it, it->GetDeviceName());
         }
-        //this->asicConfigs.fo
-        /*atlaspix_config_manager.AddConfig(atlaspix_config, atlaspix_config.GetDeviceName());
-        atlaspix_config_manager.AddConfig(atlaspix_vdac, atlaspix_vdac.GetDeviceName());
-        atlaspix_config_manager.AddConfig(atlaspix_dac, atlaspix_dac.GetDeviceName());
-        atlaspix_config_manager.AddConfig(atlaspix_tdac, atlaspix_tdac.GetDeviceName());
-        atlaspix_config_manager.AddConfig(atlaspix_row, atlaspix_row.GetDeviceName());
-        atlaspix_config_manager.AddConfig(atlaspix_column, atlaspix_column.GetDeviceName());*/
 
         for (auto vb : voltageboards) {
             atlaspix_config_manager.AddConfigTree(
                                 vb->SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
         }
         //atlaspix_config_manager
-        /*atlaspix_config_manager.AddConfigTree(
-                    voltageboards[0].SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
-        atlaspix_config_manager.AddConfigTree(
-                    voltageboards[1].SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
-*/
         atlaspix_config_manager.AddConfigTree(injection.SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
 
         atlaspix_config_manager.AddConfigTree(fm_resets.SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
@@ -1770,11 +1356,6 @@ void MainWindow::on_B_Config_Save_clicked()
         atlaspix_config_manager.AddConfigTree(fm_workmode.SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
 
         atlaspix_config_manager.AddConfigTree(spiconfig.SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
-
-        atlaspix_config_manager.AddConfigTree(fastro.SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
-        atlaspix_config_manager.AddConfigTree(fastro_clockshifts.SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
-        atlaspix_config_manager.AddConfigTree(fastro_clockspeed.SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
-        atlaspix_config_manager.AddConfigTree(fastro_triggersettings.SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
 
         atlaspix_config_manager.AddConfigTree(trigger_fm.SaveToXMLElement(*atlaspix_config_manager.GetParentDocument()));
 
@@ -1837,289 +1418,6 @@ void MainWindow::on_B_Config_Save_clicked()
     SaveFileList();
 }
 
-void MainWindow::on_B_FastRO_Ck_OnOff_clicked()
-{    
-    //Important: Notice that the Caption of this button is also used in other methods,
-    //              so be careful changing the caption
-    logit("Fast Readout Clock Clicked");
-    if(fastro.GetEnabled() == false)
-    {
-        if(nexys == nullptr || !nexys->is_open())
-            return;
-
-        //also send the other parameters to make sure they are as set in the GUI:
-        nexys->Write(FastReadout::TrigDelayAddress, byte(fastro.GetTriggerDelay()));
-        nexys->Write(FastReadout::TrigLengthAddress, byte(fastro.GetTriggerLength()));
-
-        //clock divider from chip configuration:
-        if(fastro.GetReadoutMode()) //triggered Readout
-        {
-            nexys->Write(FastReadout::TSDiv, byte((atlaspix_config.GetParameter("ckdivend"))));
-            nexys->Write(FastReadout::TS2Div, byte((atlaspix_config.GetParameter("ckdivend2"))));
-            //nexys->Write(FastReadout::TSPhase, byte(fastro.GetTSPhase()));
-            nexys->Write(fastro_clockshifts.GetFPGAAddress(), byte(fastro_clockshifts.GetConfiguration()));
-            nexys->Write(fastro_clockspeed.GetFPGAAddress(), byte(fastro_clockspeed.GetConfiguration()));
-        }
-        else
-        {
-            nexys->Write(FastReadout::TSDiv, byte((atlaspix_config.GetParameter("ckdivend")+1)*4)); //factor 4 due to firmware
-            nexys->Write(FastReadout::TS2Div, byte((atlaspix_config.GetParameter("ckdivend2")+1)*4)); //factor 4 due to firmware
-            nexys->Write(FastReadout::TSPhase, byte(fastro.GetTSPhase()));
-        }
-        ui->SB_FastRO_TSPhase->setEnabled(false);
-
-        ui->B_FastRO_Ck_OnOff->setText("Stop Fast Clock");
-        nexys->Write(FastReadout::FPGAAddress, byte(fastro.SetEnabled(true)));
-
-        logit("Fast Readout Clock enabled");
-    }
-    else
-    {
-        ui->B_FastRO_Ck_OnOff->setText("Start Fast Clock");
-        nexys->Write(FastReadout::FPGAAddress, byte(fastro.SetEnabled(false)));
-        ui->SB_FastRO_TSPhase->setEnabled(true);
-
-        logit("Fast Readout Clock disabled");
-    }
-}
-
-void MainWindow::on_B_FastRO_Rst_clicked()
-{
-    fastro_lastread = "";
-
-    if((fastro.GetConfiguration(true) & (FastReadout::reset + FastReadout::fifoclear)) == 0)
-    {
-        logit("Nothing to do here. Quitting...");
-        return;
-    }
-
-    ResetFastROFifo(true);
-
-    if(ui->CB_FastRO_rstFIFO->isChecked())
-        logit("Fast Readout FIFO resetted.");
-    if(ui->CB_FastRO_rstState->isChecked())
-        logit("Fast Readout State Machine resetted.");
-}
-
-void MainWindow::on_CB_FastRO_Trig_clicked(bool checked)
-{
-    fastro.SetTrigger(checked);
-
-    if(nexys != nullptr && nexys->is_open())
-        nexys->Write(FastReadout::FPGAAddress, byte(fastro.GetConfiguration()));
-
-    if(checked)
-        logit("Fastreadout Trigger activated.");
-    else
-        logit("Fastreadout Trigger deactivated.");
-}
-
-void MainWindow::on_B_FastRO_Readout_clicked()
-{
-    if(!nexys->is_open())
-        return;
-
-    std::string answer = nexys->Read(11, 8);
-
-    std::stringstream s("");
-    s << answer.length();
-    if(fastro.GetBinaryOutput())
-        for(unsigned int i = 0; i < answer.length(); ++i){
-            //s << " " << std::bitset<8>(static_cast<unsigned long long>(answer.c_str()[i]));
-            s << " " << std::hex << int(static_cast<std::uint8_t>(answer.c_str()[i]));
-        }
-            //s << " " << std::hex << static_cast<unsigned long long>(answer.c_str()[i]);}
-    else
-        for(unsigned int i = 0; i < answer.length(); ++i)
-            s << " " << int(answer.c_str()[i]);
-    std::cout << s.str() << std::endl;
-
-    //suppress empty data from decoding:
-    if(answer.compare("\xff\xff\xff\xff\xff\xff\xff\xff") != 0)
-    {
-        fastro_lastread = fastro_lastread + answer;
-        //if(fastro.GetDataMuxEnable())
-        //    fastro_lastread = fastro_lastread + answer;
-        //else
-        //    fastro_lastread = fastro_lastread + answer;
-    }
-}
-
-void MainWindow::on_SB_FastRO_TrigDelay_valueChanged(int arg1)
-{
-    fastro_triggersettings.SetFlag("distance", arg1);
-
-    if(nexys == nullptr || !nexys->is_open())
-        return;
-
-    int distance = fastro_triggersettings.GetFlag("distance");
-    std::vector<byte> cmd;
-    cmd.push_back(byte(distance / 256));
-    cmd.push_back(byte(distance));
-
-    if(nexys->Write(fastro_triggersettings.GetFlag("distanceaddress"), cmd))
-        logit("Set delay between triggers to " + QString::number(distance).toStdString());
-    else
-        logit("Error setting trigger spacing");
-}
-
-void MainWindow::on_SB_FastRO_TrigWindow_valueChanged(int arg1)
-{
-    fastro_triggersettings.SetFlag("length", arg1);
-
-    if(nexys == nullptr || !nexys->is_open())
-        return;
-
-    if(nexys->Write(fastro_triggersettings.GetFlag("lengthaddress"),
-                    byte(fastro_triggersettings.GetFlag("length"))))
-        logit("Set Trigger Window length to " + QString::number(arg1).toStdString());
-    else
-        logit("Error setting trigger window length");
-}
-
-bool MainWindow::ReadNoMuxDataSet()
-{
-    //search for start of a dataset:
-    //  1 - all output
-    //  5 - all output (shortcut for several EoCs occupied)
-    //  6 - no debug output
-    int abortcounter = 100;
-    std::string line = nexys->Read(11, 8);
-    while(line.c_str()[0] != 1 && line.c_str()[0] != 5 && line.c_str()[0] != 6 && --abortcounter > 0)
-    {
-        if(line.compare("\xff\xff\xff\xff\xff\xff\xff\xff") == 0)
-        {
-            logit("FastReadout FIFO empty");
-            return false;     //abort on empty FIFO
-        }
-        line = nexys->Read(11, 8);
-    }
-    if(abortcounter <= 0)
-    {
-        logit("no dataset start found");
-        return false;
-    }
-    //add dataset start to the read data:
-    fastro_lastread = line;
-    //search for end of dataset, adding all data read during the search:
-    abortcounter = 100;
-    line = nexys->Read(11, 8);
-    while(line.c_str()[0] != 12 && --abortcounter > 0)
-    {
-        if(line.compare("\xff\xff\xff\xff\xff\xff\xff\xff") == 0)
-        {
-            logit("FastReadout FIFO empty");
-            return false;     //abort on empty FIFO
-        }
-        fastro_lastread = fastro_lastread + line;
-        line = nexys->Read(11, 8);
-    }
-
-    if(abortcounter <= 0)
-    {
-        logit("no dataset end found");
-        return false;
-    }
-
-    fastro_lastread = fastro_lastread + line;
-    return true;
-}
-
-bool MainWindow::ReadTrigDataSet()
-{
-    //search for end of dataset, adding all data read during the search:
-    int abortcounter = 512;//ivan
-    std::string line = nexys->Read(11, 8);
-    while((line.c_str()[0] & 0xf0) != 16 && --abortcounter > 0)//stop at ee Ivan
-    {
-        if(line.compare("\xff\xff\xff\xff\xff\xff\xff\xff") == 0)
-        {
-            logit("FastReadout FIFO empty");
-            return false;     //abort on empty FIFO
-        }
-        fastro_lastread = fastro_lastread + line;
-        line = nexys->Read(11, 8);
-    }
-
-    if(abortcounter <= 0)
-    {
-        logit("no dataset end found");
-        return false;
-    }
-
-    fastro_lastread = fastro_lastread + line;
-    return true;
-}
-
-void MainWindow::on_B_FastRO_Decode_clicked()
-{
-    if(fastro_lastread == "")
-    {
-        if(!nexys->is_open())
-            return;
-
-        if(fastro.GetReadoutMode()) //triggered Readout
-        {
-            if(!ReadTrigDataSet())
-                return;
-            //fastro_lastread = nexys->Read(11, 8);
-        }
-        else if(fastro.GetDataMuxEnable())
-            fastro_lastread = nexys->Read(11, 8 * 3); //8 * 3);Ivan
-        else if(!ReadNoMuxDataSet())
-                return;
-        if((fastro_lastread.length() % 8) != 0 || fastro_lastread.length() == 0)
-            return;
-    }
-
-    //decode the data from fastro_lastread
-
-    if(fastro.GetReadoutMode()) //triggered Readout
-    {
-        std::vector<Dataset> datasets = fastro.DecodeManyTrigger(fastro_lastread);
-        int ts1div, ts2div;
-        ts1div = config.GetATLASPixConfig(Configuration::config)->GetParameter("ckdivend") + 1;
-        ts2div = config.GetATLASPixConfig(Configuration::config)->GetParameter("ckdivend2") + 1;
-        for(auto& it : datasets)
-            logit(it.ToString(true, ts1div, ts2div), Dataset::GetStringHeader(true));
-        if(datasets.size() == 0)
-            logit("no hit completed (or no valid hit)");
-        fastro_lastread = "";
-    }
-    else if(fastro.GetDataMuxEnable())
-    {
-        Dataset dat = FastReadout::Decode(true, fastro_lastread);
-        if(!dat.is_empty())
-            logit(dat.ToString(true), Dataset::GetStringHeader(true));
-        else
-            logit("no hit in read data");
-
-        fastro_lastread = "";
-    }
-    else
-    {
-        Dataset dat  = FastReadout::Decode(false, fastro_lastread);
-        if(!dat.is_empty())
-        {
-            logit(dat.ToString(true), Dataset::GetStringHeader(true));
-            for(unsigned int i = 0; i < fastro_lastread.length(); i += 8)
-            {
-                if(fastro_lastread.c_str()[i] == 12)
-                {
-                    fastro_lastread = fastro_lastread.substr(i+8);
-                    return;
-                }
-            }
-        }
-        else
-            logit("no hit in read data");
-
-        fastro_lastread = "";
-    }
-
-    //reset content:
-}
-
 void MainWindow::on_B_WriteVoltageBoards_clicked()
 {
     // Nexys Not Open
@@ -2154,108 +1452,6 @@ void MainWindow::on_B_WriteVoltageBoards_clicked()
 
     ui->B_WriteVoltageBoards->setEnabled(true);
 
-}
-
-void MainWindow::on_B_FastRO_ReadToFile_clicked()
-{
-    QPushButton* button = qobject_cast<QPushButton*>(QObject::sender());
-
-    static bool running = false;
-
-    if(running)
-    {
-        running = false;
-        return;
-    }
-
-    if(!nexys->is_open())
-        return;
-
-    running = true;
-    button->setText("Stop Read to File");
-
-    int numdatasets = ui->SB_FastRO_NumHits->value();
-    const int numbytes = 12240;
-
-    std::string sout = "";
-    int soutcounter = 0;
-    int counter = 0;
-    bool decode = fastro.GetFileReadDecode();
-    bool output = fastro.GetFileReadPrint();
-    bool datamux = fastro.GetDataMuxEnable();
-    bool triggered = fastro.GetReadoutMode();
-
-    std::fstream f;
-    std::string outputfilename = FindFileName("Readout_",".dat");
-    if(!decode)
-        f.open(outputfilename.c_str(), std::ios::out | std::ios::app | std::ios::binary);
-    else
-    {
-        f.open(outputfilename.c_str(), std::ios::out | std::ios::app);
-        f << Dataset::GetStringHeader(true) << std::endl;
-    }
-    if(!f.is_open())
-    {
-        running = false;
-        button->setText("Read to File");
-        return;
-    }
-
-    std::vector<Dataset> data;
-
-    int ts1div = config.GetATLASPixConfig(Configuration::config)->GetParameter("ckdivend") + 1;
-    int ts2div = config.GetATLASPixConfig(Configuration::config)->GetParameter("ckdivend2") + 1;
-
-    while(running && (numdatasets == 0 || numdatasets > counter))
-    {
-        std::string answer = nexys->Read(NexysIO::FPGA_READOUT_FIFO, numbytes);
-
-        if(decode)
-        {
-            answer = FastReadout::RemoveEmptyData(answer);
-            if(triggered)
-                data = fastro.DecodeManyTrigger(answer);
-            else
-                data = FastReadout::DecodeMany(datamux, answer);
-            counter += data.size();
-
-            for(auto& it : data)
-                sout += it.ToString(true, ts1div, ts2div) + "\n";
-            soutcounter += data.size();
-        }
-        else
-        {
-            answer = FastReadout::RemoveEmptyData(answer);
-            int entries = answer.length() / 8;
-            counter += entries;
-
-            sout += answer;
-            soutcounter += entries;
-        }
-
-        if(soutcounter >= 250)
-        {
-            if(output)
-                std::cout << sout << std::endl;
-            f << sout;
-            f.flush();
-            sout = "";
-            soutcounter = 0;
-        }
-
-        std::stringstream s("");
-        s << counter << " hits read";
-        //logit(s.str());  //this causes crashes for large data sets...
-        std::cout << s.str() << std::endl;
-        QApplication::processEvents();
-    }
-
-    f << sout;
-    f.flush();
-    f.close();
-
-    running = false;
-    button->setText("Read to File");
 }
 
 void MainWindow::on_B_Register_Read_clicked()
@@ -2395,89 +1591,6 @@ std::string MainWindow::FindFileName(std::string filenameprefix, std::string fil
     s << filenameprefix << fileindex << filenamesuffix;
 
     return s.str();
-}
-
-void MainWindow::on_B_StartLaserSetup_clicked()
-{
-    lasersetupgui->show();
-}
-
-void MainWindow::on_B_FastRO_ReadoutAll_clicked()
-{
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    static bool running = false;
-
-    if(!nexys->is_open())
-        return;
-
-    if(running)
-    {
-        running = false;
-        return;
-    }
-
-    running = true;
-    button->setText("Abort");
-    logit("Reading Data ...");
-    QApplication::processEvents();
-
-    std::map<Dataset, int> hits;
-    int maxemptyreads = 30;
-    int counter = 0;
-    bool datamux = ui->CB_FastRO_DataMux->isChecked();
-    int hitcounter = 0;
-
-    bool triggered = fastro.GetReadoutMode();
-
-    while(running && counter < maxemptyreads)
-    {
-        std::string answer = nexys->Read(NexysIO::FPGA_READOUT_FIFO, 12240);
-        std::vector<Dataset> newhits;
-        if(triggered)
-            newhits = fastro.DecodeManyTrigger(answer);
-        else
-            newhits = FastReadout::DecodeMany(datamux, answer);
-
-
-        for(auto& it : newhits)
-        {
-            auto mapentry = hits.find(it);
-            if(mapentry == hits.end())
-                hits.insert(std::make_pair(it, 1));
-            else {
-                ++(mapentry->second);
-            }
-        }
-        if(newhits.size() > 0)
-        {
-            hitcounter += int(newhits.size());
-            std::cout << "  read " << hitcounter << " hits" << std::endl;
-        }
-
-        if(newhits.size() == 0)
-            ++counter;
-        else
-        {
-            counter = 0;
-            QApplication::processEvents();
-        }
-    }
-
-    std::stringstream s("");
-    int integral = 0;
-    for(auto& it : hits)
-    {
-        s << it.first.ToString() << " -> " << it.second << std::endl;
-        integral += it.second;
-    }
-    s << "  -> in total: " << integral << " hits" << std::endl;
-
-    std::cout << s.str();
-    std::cout.flush();
-
-    logit("   ... done");
-    running = false;
-    button->setText("Complete Readout");
 }
 
 std::string MainWindow::WriteToFile(std::string filenameprefix, std::string filenamesuffix, std::string data)
@@ -2869,20 +1982,6 @@ void MainWindow::on_B_SPI_Reset_ReadFIFO_clicked()
         logit("Error resetting SPI read FIFO");
 }
 
-void MainWindow::on_CB_FastRO_rstFIFO_clicked(bool checked)
-{
-    fastro.SetFifoclear(checked);
-}
-
-void MainWindow::on_CB_FastRO_rstState_clicked(bool checked)
-{
-    fastro.SetReset(checked);
-}
-
-void MainWindow::on_SB_FastRO_NumHits_valueChanged(int arg1)
-{
-    fastro.SetNumDataSets(arg1);
-}
 
 void MainWindow::on_B_SPI_Read_ReadFIFO_clicked()
 {
@@ -2931,56 +2030,6 @@ void MainWindow::on_tabWidget_2_currentChanged(int index)
             break;
         }
     }
-}
-
-void MainWindow::on_SB_FastRO_TSPhase_valueChanged(int arg1)
-{
-    //limit TSPhase to minimum of ckdivend and ckdivend2:
-    if(atlaspix_config.GetParameter("ckdivend") < atlaspix_config.GetParameter("ckdivend2"))
-    {
-        if(arg1 > atlaspix_config.GetParameter("ckdivend"))
-            ui->SB_FastRO_TSPhase->setValue(atlaspix_config.GetParameter("ckdivend"));
-        else
-            fastro.SetTSPhase(arg1);
-    }
-    else
-    {
-        if(arg1 > atlaspix_config.GetParameter("ckdivend2"))
-            ui->SB_FastRO_TSPhase->setValue(atlaspix_config.GetParameter("ckdivend2"));
-        else
-            fastro.SetTSPhase(arg1);
-    }
-}
-
-void MainWindow::on_CB_FastRO_Binary_clicked(bool checked)
-{
-    fastro.SetBinaryOutput(checked);
-}
-
-void MainWindow::on_CB_FastRO_DebugMode_clicked(bool checked)
-{
-    fastro.SetDebugMode(checked);
-
-    if(nexys != nullptr && nexys->is_open())
-        nexys->Write(FastReadout::FPGAAddress, byte(fastro.GetConfiguration()));
-
-    if(checked)
-        logit("Fastreadout debug mode activated.");
-    else
-        logit("Fastreadout debug mode deactivated.");
-}
-
-void MainWindow::on_CB_FastRO_DataMux_clicked(bool checked)
-{
-    fastro.SetDataMuxEnable(checked);
-
-    if(nexys != nullptr && nexys->is_open())
-        nexys->Write(FastReadout::FPGAAddress, byte(fastro.GetConfiguration()));
-
-    if(checked)
-        logit("FastReadout DataMux activated.");
-    else
-        logit("FastReadout DataMux deactivated.");
 }
 
 void MainWindow::SB_Trim_valueChanged(int arg1)
@@ -3454,8 +2503,6 @@ void MainWindow::MeasureInjectionTiming(std::string archiveprefix, bool *running
         injection.SetInitDelay(delay);
         ConfigureInjections(false);
 
-        ResetFastROFifo(true);
-
         StartInjections(true);
 
         sleep(15 + numsignals / 100);
@@ -3683,144 +2730,6 @@ void MainWindow::on_B_OsciTiming_Matrix_clicked()
     ui->CB_Autoupdate->setChecked(false);
 
     //backup the settings
-   /* ASIC_Config2* col_backup = config.GetATLASPixConfig(Configuration::column);
-    ASIC_Config2* row_backup = config.GetATLASPixConfig(Configuration::row);
-    ASIC_Config2* columnreg = new ASIC_Config2(*col_backup);
-    ASIC_Config2* rowreg    = new ASIC_Config2(*row_backup);*/
-   // config.SetATLASPixConfig(Configuration::column, columnreg);
-  //  config.SetATLASPixConfig(Configuration::row, rowreg);
-
-    //  turn off injections and hitbus for all pixels:
-   /* for(int row = 0; row < AP3rows; ++row)
-    {
-        std::stringstream s("");
-        s << "eninj_row_" << row;
-        rowreg->SetParameter(s.str(), 0);
-    }
-    //  everything off:
-    for(unsigned int index = 0; index < columnreg->GetEntries(); ++index)
-        columnreg->SetParameter(index, 0);
-*/
-
-    /*
-    bool tdacoff = ui->CB_OsciTiming_alloff->isChecked();
-
-    if(tdacoff)
-    {
-        for(unsigned int x = 0; x < AP3columns; ++x)
-            for(unsigned int y = 0; y < AP3rows; ++y)
-                config.GetTDACConfig()->SetTDACValue(x,y,8);
-        config.WriteRAMMatrix();
-    }
-
-    for(int col = startcol; col <= endcol && running; col += numcolsatonce * colstep)
-    {
-        for(int i = 0; i < numcolsatonce * colstep && col + i <= endcol; i += colstep)
-        {
-            if(ui->RB_OsciTiming_osci->isChecked())
-            {
-                std::stringstream sch("");
-                sch << "en_hitbus_col_" << col + i;
-                columnreg->SetParameter(sch.str(), 1);
-            }
-            std::stringstream sci("");
-            sci << "en_inject_col_" << col + i;
-            columnreg->SetParameter(sci.str(), 1);
-        }
-
-        config.SendUpdate(Configuration::column);
-        config.GetNexysIO()->Flush();
-
-        for(int row = startrow; row <= endrow && running; row += numrowsatonce * rowstep)
-        {
-            for(int i = 0; i < numrowsatonce * rowstep && row + i <= endrow; i += rowstep)
-            {
-                std::stringstream sr("");
-                sr << "eninj_row_" << row + i;
-                rowreg->SetParameter(sr.str(), 1);
-
-                if(tdacoff)
-                {
-                    for(int j = 0; j < numcolsatonce * colstep && col + j <= endcol; j += colstep)
-                    {
-                        config.GetTDACConfig()->SetTDACValue(uint(col + j), uint(row + i), 0);
-                        std::cout << "0 for " << col + j << "|" << row +i << std::endl;
-                    }
-                    config.WriteRAMRow(row + i);
-                }
-            }
-            //config.SendUpdate(Configuration::colrow);
-            config.SendUpdate(Configuration::row);
-            config.GetNexysIO()->Flush();
-
-            std::stringstream s("");
-            s << "Starting Timing measurement on Pixel (" << col << "|" << row << ")";
-            if(numrowsatonce > 1)
-                s << " + " << (numrowsatonce - 1) << "rows";
-            if(numcolsatonce > 1)
-                s << " + " << (numcolsatonce - 1) << "cols";
-            logit(s.str());
-
-            std::stringstream sfile("");
-            sfile << "Timing_col" << col << "_row" << row << "_";
-            if(ui->RB_OsciTiming_oscidelay->isChecked())
-            {
-                double result = MeasureDelay();
-                std::cout << col << "|" << row << " -> " << result << std::endl;
-            }
-            else if(ui->RB_OsciTiming_osci->isChecked())
-                MeasureOsciTiming(sfile.str(), &running, false);
-            else if(ui->RB_OsciTiming_timeshift->isChecked())
-                MeasureInjectionTiming(sfile.str(), &running, true,
-                           col, col + colstep * numcolsatonce, row, row + rowstep * numrowsatonce);
-
-            config.SetProgressBarValue(config.GetProgressBarValue() + 1);
-            config.ProcessEvents();
-
-            for(int i = 0; i < numrowsatonce * rowstep && row + i <= endrow; i += rowstep)
-            {
-                std::stringstream sr("");
-                sr << "eninj_row_" << row + i;
-                rowreg->SetParameter(sr.str(), 0);
-            }
-
-            if(tdacoff)
-            {
-                for(int i = 0; i < numrowsatonce * rowstep && row + i <= endrow; i += rowstep)
-                {
-                    for(int j = 0; j < numcolsatonce * colstep && col + j <= endcol; j += colstep)
-                    {
-                        config.GetTDACConfig()->SetTDACValue(uint(col + j), uint(row + i), 8);
-                        std::cout << "8 for " << col + j << "|" << row + i << std::endl;
-                    }
-                    config.WriteRAMRow(row + i);
-                }
-            }
-
-        }
-
-        for(int i = 0; i < numcolsatonce * colstep && col + i <= endcol; i += colstep)
-        {
-            if(ui->RB_OsciTiming_osci->isChecked())
-            {
-                std::stringstream sch("");
-                sch << "en_hitbus_col_" << col + i;
-                columnreg->SetParameter(sch.str(), 0);
-            }
-            std::stringstream sci("");
-            sci << "en_inject_col_" << col + i;
-            columnreg->SetParameter(sci.str(), 0);
-        }
-
-    }
-
-    config.SetATLASPixConfig(Configuration::column, col_backup);
-    config.SetATLASPixConfig(Configuration::row, row_backup);
-    delete columnreg;
-    columnreg = nullptr;
-    delete rowreg;
-    rowreg = nullptr;
-*/
     config.GetInjectionConfig()->SetTSOverflowSync(tsoverflow_backup);
     config.GetInjectionConfig()->SetSynced(sync_backup);
 
@@ -3865,8 +2774,6 @@ void MainWindow::on_B_Trim_Test_clicked()
         config.GetTDACConfig()->SetTDACValue(10, 19, 8);
         config.WriteRAMMatrix();
 
-        ResetFastROFifo();
-
         on_B_AllSCurves_clicked();
     }
 }
@@ -3891,8 +2798,6 @@ void MainWindow::on_B_Thr_Scan_clicked()
     {
         config.GetATLASPixConfig(Configuration::vdac)->SetParameter("Th", uint(i));
         config.SendUpdate(Configuration::vdac,false);
-
-        ResetFastROFifo(true);
 
         on_B_AllSCurves_clicked();
 
@@ -3962,16 +2867,6 @@ void MainWindow::on_B_Trim_Trim_clicked()
     running = false;
     stopping = false;
     ui->B_Trim_Trim->setText(caption);
-}
-
-void MainWindow::on_CB_FastRO_Decode_clicked()
-{
-    fastro.SetFileReadDecode(ui->CB_FastRO_Decode->isChecked());
-}
-
-void MainWindow::on_CB_FastRO_Print_clicked()
-{
-    fastro.SetFileReadPrint(ui->CB_FastRO_Print->isChecked());
 }
 
 bool MainWindow::ChangeConfig(std::string command)
@@ -4356,37 +3251,6 @@ bool MainWindow::ChangeConfig(std::string command)
         return false;
 }
 
-bool MainWindow::FastROCommand(std::string command)
-{
-    bool result = true;
-    if(command.substr(0,5).compare("start") == 0)
-        config.StartFastReadout();
-    else if(command.substr(0,4).compare("stop") == 0)
-        config.StopFastReadout();
-    else if(command.substr(0,9).compare("resetfifo") == 0)
-        config.ResetFastReadout();
-    else if(command.substr(0,10).compare("readtofile") == 0)
-    {
-        std::stringstream s("");
-        s << command.substr(11);
-        int value;
-        s >> value;
-        if(!s.fail())
-        {
-            ui->SB_FastRO_NumHits->setValue(value);
-            QApplication::processEvents();
-            on_B_FastRO_ReadToFile_clicked();
-        }
-        else
-            result = false;
-    }
-    //datamux, debug mode,... TODO?
-    else
-        result = false;
-
-    return result;
-}
-
 bool MainWindow::SCurveCommand(std::string command)
 {
     bool result = true;
@@ -4615,9 +3479,6 @@ void MainWindow::on_B_MeasureList_clicked()
             result = true;
             running = false;
         }
-        //fast readout control:
-        else if(measuretask.substr(0,6).compare("fastro") == 0)
-            result = FastROCommand(measuretask.substr(7));
         //SCurves and Trimming:
         else if(measuretask.substr(0,6).compare("scurve") == 0)
             result = SCurveCommand(measuretask.substr(7));
@@ -4782,24 +3643,6 @@ void MainWindow::on_CB_UDP_Debug_clicked(bool checked)
     }
     else
         ui->CB_UDP_Debug->setChecked(false);
-}
-
-void MainWindow::on_SB_FastRO_NumTriggers_valueChanged(int arg1)
-{
-    fastro_triggersettings.SetFlag("numsignals", arg1);
-
-    if(nexys == nullptr || !nexys->is_open())
-        return;
-
-    int num = fastro_triggersettings.GetFlag("numsignals");
-    std::vector<byte> cmd;
-    cmd.push_back(byte(num/256));
-    cmd.push_back(byte(num));
-
-    if(nexys->Write(fastro_triggersettings.GetFlag("numsignaladdress"), cmd))
-        logit("Set number of trigger signals to " + QString::number(arg1).toStdString());
-    else
-        logit("Error setting number of trigger signals");
 }
 
 void MainWindow::on_CB_UDP_Reset_clicked(bool checked)
@@ -5020,68 +3863,6 @@ void MainWindow::on_B_CMD_Send_clicked()
     config.GetNexysIO()->Flush();
 }
 
-void MainWindow::on_CB_FastRO_ShiftDataClock_clicked(bool checked)
-{
-    fastro_clockshifts.SetFlag("recclock", checked);
-
-    if(nexys != nullptr && nexys->is_open())
-        nexys->Write(fastro_clockshifts.GetFPGAAddress(), fastro_clockshifts.GetConfiguration());
-}
-
-void MainWindow::on_CB_FastRO_ShiftDataEdge_clicked(bool checked)
-{
-    fastro_clockshifts.SetFlag("recedge", checked);
-
-    if(nexys != nullptr && nexys->is_open())
-        nexys->Write(fastro_clockshifts.GetFPGAAddress(), fastro_clockshifts.GetConfiguration());
-}
-
-void MainWindow::on_CB_FastRO_ShiftBitClock_clicked(bool checked)
-{
-    fastro_clockshifts.SetFlag("chipclock", checked);
-
-    if(nexys != nullptr && nexys->is_open())
-        nexys->Write(fastro_clockshifts.GetFPGAAddress(), fastro_clockshifts.GetConfiguration());
-}
-
-void MainWindow::on_CB_FastRO_ClkSpeed_currentIndexChanged(int index)
-{
-    std::cout << "speed index " << index << std::endl;
-    fastro_clockspeed.SetFlag("speed", index);
-
-    if(nexys == nullptr || !nexys->is_open())
-        return;
-
-    if(index >= 0 && index < 4)
-        nexys->Write(fastro_clockspeed.GetFPGAAddress(), index);
-    std::stringstream s("");
-    s << "changed fast readout speed to " << ui->CB_FastRO_ClkSpeed->itemText(index).toStdString();
-    logit(s.str());
-}
-
-void MainWindow::on_CB_FastRO_Disable_HitW1_clicked(bool checked)
-{
-    fastro_clockshifts.SetFlag("disablehitword1", checked);
-    fastro.SetDisableHitWord1(checked);
-
-    if(nexys != nullptr && nexys->is_open())
-        nexys->Write(fastro_clockshifts.GetFPGAAddress(), fastro_clockshifts.GetConfiguration());
-}
-
-void MainWindow::on_CB_FastRO_Disable_HitW2_clicked(bool checked)
-{
-    fastro_clockshifts.SetFlag("disablehitword2", checked);
-    fastro.SetDisableHitWord2(checked);
-
-    if(nexys != nullptr && nexys->is_open())
-        nexys->Write(fastro_clockshifts.GetFPGAAddress(), fastro_clockshifts.GetConfiguration());
-}
-
-void MainWindow::on_CB_FastRO_TriggeredRO_clicked(bool checked)
-{
-    fastro.SetReadoutMode(checked);
-}
-
 void MainWindow::on_B_ToTCal_Start_clicked()
 {
     if(nexys == nullptr || !nexys->is_open())
@@ -5139,14 +3920,6 @@ void MainWindow::on_B_ToTCal_Start_clicked()
         logit(" ToTCalibration Scan aborted");
     running = false;
     ui->B_ToTCal_Start->setText(caption);
-}
-
-void MainWindow::on_CB_FastRO_DataIn_JB_clicked(bool checked)
-{
-    fastro_clockshifts.SetFlag("datainonjb", checked);
-
-    if(nexys != nullptr && nexys->is_open())
-        nexys->Write(fastro_clockshifts.GetFPGAAddress(), fastro_clockshifts.GetConfiguration());
 }
 
 void MainWindow::on_B_CMD_Trig_Send_clicked()

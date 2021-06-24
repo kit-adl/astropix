@@ -19,31 +19,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
-static LaserControl* lct = nullptr;
-
-void lctevents()
-{
-    lct->ProcessEvents();
-}
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
     //ui(new Ui::MainWindow)
 {
 
-
     // Load UI using Designer Form
     //-------------
     this->ui = new Ui::MainWindow();
     ui->setupUi(this);
-
-
-    // Setup Laser UI
-    //--------------
-    lasersetupgui = new LaserControl();
-    lct = lasersetupgui;
-    //lasersetupgui->setWaiter(lctevents);
 
     // Create FTDI Class for communication with board
     //-------------
@@ -53,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // Create Nexys Class for FGPA Design protocol handling
     //--------------
     nexys = new NexysIO();
-    lasersetupgui->SetNexys(nexys);
 
     // Other simple UI setup
     //--------------------------
@@ -567,8 +550,6 @@ void MainWindow::buildASIConfigUI() {
 MainWindow::~MainWindow()
 {
     delete ui;
-
-    lct = nullptr;
 
     delete nexys;
     delete ftdi;
@@ -2278,175 +2259,6 @@ void MainWindow::on_B_Trig_Update_clicked()
     on_SB_Trig_PulseLength_valueChanged(-1);
 }
 
-void MainWindow::MeasureOsciTiming(std::string archiveprefix, bool* running, bool updategui)
-{
-    if(running == nullptr || *running == false)
-        return;
-
-    if(nexys == nullptr || !nexys->is_open())
-    {
-        logit("no connection to nexys");
-        return;
-    }
-
-    if(lasersetupgui->osci == nullptr || !lasersetupgui->osci->is_open())
-    {
-        logit("no connection to osci");
-        return;
-    }
-
-    bool oscidelay = ui->CB_oscidelay->isChecked();
-
-    //check which channels to measure:
-    bool recordchannel[4];
-    int numchannels = 0;
-    recordchannel[0] = ui->CB_OsciTiming_CH1->isChecked();
-    recordchannel[1] = ui->CB_OsciTiming_CH2->isChecked();
-    recordchannel[2] = ui->CB_OsciTiming_CH3->isChecked();
-    recordchannel[3] = ui->CB_OsciTiming_CH4->isChecked();
-    for(int i = 0; i < 4; ++i)
-        if(recordchannel[i])
-            ++numchannels;
-    //load other parameters from GUI:
-    int numsignals = ui->SB_OsciTiming_NumSignals->value();
-    int timeout    = ui->SB_OsciTiming_Timeout->value();
-
-    std::string archivename = FindFileName(archiveprefix, ".zip");
-    zip_file archive;
-
-    std::fstream fdelay;
-    if(oscidelay)
-        fdelay.open("Delays.dat", std::ios::out | std::ios::app);
-
-    if(numchannels <= 0)
-    {
-        logit("nothing to measure, done before starting...");
-        return;
-    }
-
-    //prepare the GUI:
-    if(updategui)
-    {
-        logit("Started timing measurement ...");
-        ui->progressBar->setMaximum(numsignals);
-        ui->progressBar->setValue(0);
-        QApplication::processEvents();
-    }
-
-    if(!lasersetupgui->osci->SetupSingleTrigger())
-    {
-        std::cerr << "Error setting up single trigger mode. Aborting" << std::endl;
-        *running = false;
-    }
-    if(!lasersetupgui->osci->WaitForSingleTrigger(waiter, 10, timeout))
-    {
-        std::cerr << "Error querying trigger state. Aborting" << std::endl;
-        *running = false;
-    }
-
-    double delay = 0;
-    int    delaycnt = 0;
-
-    for(int i = 0; i < numsignals && *running; ++i)
-    {
-        std::string wfm[4];
-        std::vector<double> waveform[4];
-
-        //get the waveforms for the selected channels:
-        for(int chan = 0; chan < 4; ++chan)
-        {
-            if(!recordchannel[chan])
-                continue;
-
-            if(!lasersetupgui->osci->SetChannel(chan+1))
-                break;
-            if(lasersetupgui->osci->ReadWaveFormSetup(false) < 0)
-                break;
-
-            wfm[chan] = lasersetupgui->osci->ReadWaveForm(false, waiter, 5);
-
-            //process the read waveform:
-            waveform[chan] = lasersetupgui->osci->DecodeWaveFormY(wfm[chan]);
-        }
-
-        if(oscidelay)
-        {
-            Timing::Sleep(500); //slow down the measurement to enable the osci to measure the delay...
-            delay += lasersetupgui->osci->QueryF("measurement:meas1:value?");
-            ++delaycnt;
-        }
-        double timescale = lasersetupgui->osci->GetTimeScale("");
-
-        //prepare the oscilloscope for the next signal:
-        if(!lasersetupgui->osci->SetupSingleTrigger())
-        {
-            std::cerr << "Error setting up single trigger mode. Aborting." << std::endl;
-            break;
-        }
-
-        //prepare the data in a stringstream:
-        std::stringstream sdata("");
-        //  header:
-        sdata << "# Timescale: " << timescale << std::endl << "# Channels: ";
-        for(int chan = 0; chan < 4; ++chan)
-            if(recordchannel[chan])
-                sdata << " Ch" << chan+1;
-        sdata << std::endl;
-        //  points:
-        //    find the data length:
-        unsigned int length = 0;
-        for(int chan = 0; chan < 4; ++chan)
-            if(length < waveform[chan].size())
-                length = waveform[chan].size();
-
-        for(unsigned int point = 0; point < length; ++point)
-        {
-            if(recordchannel[0])
-                sdata << waveform[0][point] << "\t";
-            if(recordchannel[1])
-                sdata << waveform[1][point] << "\t";
-            if(recordchannel[2])
-                sdata << waveform[2][point] << "\t";
-            if(recordchannel[3])
-                sdata << waveform[3][point] << "\t";
-            sdata << std::endl;
-        }
-        sdata << std::endl;
-
-        std::stringstream sfile("");
-        sfile << "waveformset_" << i << ".dat";
-
-        archive.writestr(sfile.str(), sdata.str());
-
-        ui->progressBar->setValue(ui->progressBar->value()+1);
-
-        //wait for the next trigger:
-        if(!lasersetupgui->osci->WaitForSingleTrigger(waiter, 10, timeout))
-        {
-            std::cerr << "Error querying trigger state. aborting" << std::endl;
-            break;
-        }
-    }
-
-    if(oscidelay)
-    {
-        if(delaycnt > 0)
-        {
-            delay /= delaycnt;
-            fdelay << archiveprefix.substr(archiveprefix.find("col")) << " " << delay << std::endl;
-        }
-        fdelay.close();
-    }
-
-    if(archive.namelist().size() > 0)
-        archive.save(archivename);
-
-    if(updategui)
-        logit(std::string("Saved data to ") + archivename);
-
-    return;
-}
-
 void MainWindow::MeasureInjectionTiming(std::string archiveprefix, bool *running, bool updategui, int colmin, int colmax, int rowmin, int rowmax)
 {
     if(running == nullptr || *running == false)
@@ -2505,7 +2317,7 @@ void MainWindow::MeasureInjectionTiming(std::string archiveprefix, bool *running
 
         StartInjections(true);
 
-        sleep(15 + numsignals / 100);
+        Timing::Sleep(15 + numsignals / 100);
 
         std::vector<Dataset> hits = config.ReadoutAll(running, false, 0, 5, numpixels);
 
@@ -2673,8 +2485,6 @@ void MainWindow::on_B_OsciTiming_Pixel_clicked()
     if(selfstarted)
         ui->B_OsciTiming_Pixel->setText("Abort");
 
-    if(ui->RB_OsciTiming_osci->isChecked())
-        MeasureOsciTiming("Timing_", &running, true);
     else if(ui->RB_OsciTiming_timeshift->isChecked())
         MeasureInjectionTiming("Timing_", &running, true);
 
@@ -3489,16 +3299,6 @@ void MainWindow::on_B_MeasureList_clicked()
             config.logit(measuretask.substr(5));
             Configuration::WriteToFile(logfile, "Echo: \"" + measuretask.substr(5) + "\"\n");
         }
-        else if(measuretask.substr(0,4).compare("visa") == 0)
-        {
-            if(!lasersetupgui->osci->is_open())
-                result = false;
-            else
-            {
-                if(!lasersetupgui->osci->Write(measuretask.substr(5)))
-                    result = false;
-            }
-        }
         else if(measuretask.substr(0,8).compare("regwrite") == 0)
         {
             std::stringstream s("");
@@ -3594,37 +3394,6 @@ void MainWindow::on_B_MeasureList_Reset_clicked()
     }
 
     ui->TE_MeasureList->setText(QString(data.c_str()));
-}
-
-double MainWindow::MeasureDelay()
-{
-    double result = 0;
-    for(int i = 0; i < 32; ++i)
-    {
-        if(!lasersetupgui->osci->SetupSingleTrigger())
-        {
-            std::cerr << "Error setting up single trigger mode. Aborting" << std::endl;
-            return -1e10;
-        }
-        if(!lasersetupgui->osci->WaitForSingleTrigger(waiter, 10))
-        {
-            std::cerr << "Error querying trigger state. Aborting" << std::endl;
-            return -1e10;
-        }
-        Timing::Sleep(500);
-        result += lasersetupgui->osci->QueryF("measurement:meas1:value?");
-    }
-
-    result /= 32;
-
-    return result;
-}
-
-void MainWindow::on_B_DelayMeasure_clicked()
-{
-    double result = MeasureDelay();
-
-    std::cout << "Delay: " << result << std::endl;
 }
 
 void MainWindow::on_CB_UDP_Debug_clicked(bool checked)

@@ -62,7 +62,7 @@
 
 #include "libs/Measurement.h"
 
-#include "lasercontrol.h"
+//#include "lasercontrol.h"
 
 #if ASIC_CONFIG2_MAJORVERSION < 2 || ASIC_CONFIG2_MINORVERSION < 4
     #error "not an up-to-date ASIC_Config2 version. must at least be Version 2.4"
@@ -223,7 +223,7 @@ public slots:
 
     void on_B_Trig_Update_clicked();
 
-    void MeasureOsciTiming(std::string archiveprefix, bool *running, bool updategui);
+    //void MeasureOsciTiming(std::string archiveprefix, bool *running, bool updategui);
 
     void MeasureInjectionTiming(std::string archiveprefix, bool* running, bool updategui,
                                 int colmin = -1, int colmax = -1, int rowmin = -1, int rowmax = -1);
@@ -245,8 +245,6 @@ public slots:
     void on_B_MeasureList_clicked();
 
     void on_B_MeasureList_Reset_clicked();
-
-    void on_B_DelayMeasure_clicked();
 
     void on_CB_UDP_Debug_clicked(bool checked);
 
@@ -303,7 +301,7 @@ private:
 
     WaitFunction waiter;
 
-    LaserControl* lasersetupgui;
+    //LaserControl* lasersetupgui;
 
     FTDI* ftdi;
     FT_HANDLE* ftdihandle;

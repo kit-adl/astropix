@@ -49,15 +49,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp \
-    libs/VISA/keysightosci.cpp \
-    libs/VISA/tektronixosci.cpp \
-    libs/VISA/visadevice.cpp \
+    #libs/VISA/keysightosci.cpp \
+    #libs/VISA/tektronixosci.cpp \
+    #libs/VISA/visadevice.cpp \
     libs/cmdconfig.cpp \
     libs/configuration.cpp \
     libs/flagmanager.cpp \
     libs/ftdi.cpp \
     libs/nexysio.cpp\
-    lasersetup.cpp \
+    #lasersetup.cpp \
     libs/spinexys.cpp \
     libs/udp_config.cpp \
     mainwindow.cpp \
@@ -88,7 +88,7 @@ SOURCES += main.cpp \
     libs/src/linalg.cpp \
     libs/src/optimization.cpp \
     libs/src/solvers.cpp \
-    lasercontrol.cpp \
+    #lasercontrol.cpp \
     libs/injection_config.cpp \
     libs/tdac_config.cpp \
     libs/totcalibration.cpp
@@ -96,9 +96,9 @@ SOURCES += main.cpp \
     #libs/src/statistics.cpp
 
 HEADERS  += mainwindow.h \
-    libs/VISA/keysightosci.h \
-    libs/VISA/tektronixosci.h \
-    libs/VISA/visadevice.h \
+    #libs/VISA/keysightosci.h \
+    #libs/VISA/tektronixosci.h \
+    #libs/VISA/visadevice.h \
     libs/cmdconfig.h \
     libs/configuration.h \
     libs/flagmanager.h \
@@ -106,7 +106,7 @@ HEADERS  += mainwindow.h \
     libs/ftd2xx.h \
     libs/nexysio.h \
     libs/WinTypes.h \
-    lasersetup.h \
+    #lasersetup.h \
     libs/spinexys.h \
     libs/tinyxml2.h \
     libs/tinyxml2_addon.h \
@@ -137,7 +137,7 @@ HEADERS  += mainwindow.h \
     libs/src/optimization.h \
     libs/src/solvers.h \
     libs/src/specialfunctions.h \
-    lasercontrol.h \
+    #lasercontrol.h \
     libs/injection_config.h \
     libs/tdac_config.h \
     libs/totcalibration.h

@@ -15,25 +15,31 @@ class asicconfig_http:
     def __init__(self):
         
         # Base Url
-        self.url = 'http://localhost:8090/asic/config/'
+        self.url = 'http://localhost:8090/asic/'
         
         # DAC path
-        self.urlSetDac = 'DACS/{}/set/{}'
+        self.urlSetDac = 'config/DACS/{}/set/{}'
         # Config path
-        self.urlSetConfig = 'Config/{}/set/{}'
+        self.urlSetConfig = 'config/Config/{}/set/{}'
+        
+        # Injection path
+        self.urlStartInjection = 'injection/start/{}/{}/{}/{}'
+        self.urlStopInjection = 'injection/stop'
+        
+        
         # ASIC Update path
-        self.urlUpdate = '@send'
+        self.urlUpdate = 'config/@send'
 
         # List Current DACs
-        self.dacs = ['blres',
-                     'vn1',
-                     'vn2',
-                     'vnfb',
-                     'vnfoll',
-                     'vnfoll2',
-                     'vnbias',
-                     'vpload',
-                     'vncomp']
+        self.dacs = {'blres': 5,
+                     'vn1': 2,
+                     'vn2': 0,
+                     'vnfb': 5,
+                     'vnfoll': 1,
+                     'vnfoll2': 5,
+                     'vnbias': 5,
+                     'vpload': 1,
+                     'vncomp': 0}
 
         # List Config
         self.config = ['interrupt_pushpull','ResetB Biasblock']
@@ -42,7 +48,7 @@ class asicconfig_http:
             self.config.append(f'En_Inj{i}')
             i = i + 1
             
-    def requestCode(r: requests.Response) -> bool:
+    def requestCode(self, r: requests.Response) -> bool:
         if(r.status_code != requests.codes.ok):
             print(f'HTTP Request Failed: {r.status_code}')
             return False
@@ -55,7 +61,7 @@ class asicconfig_http:
         if name not in self.dacs:
             print(f'{name} is not a valid dac')
             
-        elif (value >= 0 | value <= 63): 
+        elif (value < 0 | value > 63): 
             print(f'{value} is not a valid dac value')
         
         else:
@@ -79,8 +85,18 @@ class asicconfig_http:
         return False
 
     def getDac(self, name: str):
-        # TODO
-        print("not implemented")
+        """Get Config"""
+        
+        pass
+    
+    def resetDacs(self) -> bool:
+        """Reset DACs to default value"""
+        
+        for key,value in self.dacs.items():
+            print(key, value)
+            self.setDac(key,value)
+            
+        return self.updateAsic()
 
     def updateAsic(self) -> bool:
         """Update ASIC Config"""
@@ -88,3 +104,25 @@ class asicconfig_http:
         r = requests.get(self.url + self.urlUpdate)
         
         return self.requestCode(r)
+
+    def startInjection(self, voltage: float, delay: int, period: int, clkdiv: int) -> bool:
+        """Start/Update Injection"""
+        
+        if ((voltage > 0) | (voltage < 1.8)):
+            r = requests.get(self.url + self.urlStartInjection.format(voltage, delay, period, clkdiv))
+
+            return self.requestCode(r)
+        
+        else:
+            return False
+
+    def stopInjection(self) -> bool:
+        """Stop Injection"""
+        
+        r = requests.get(self.url + self.urlStopInjection)
+        
+        return self.requestCode(r)
+        
+
+        
+        

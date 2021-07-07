@@ -1,4 +1,4 @@
-update=25.06.2021 11:10:03
+update=07.07.2021 14:00:47
 version=1
 last_client=kicad
 [general]
@@ -251,6 +251,17 @@ uViaDrill=0.1
 dPairWidth=0.15
 dPairGap=0.15
 dPairViaGap=0.25
+[pcbnew/Netclasses/2]
+Name=sub
+Clearance=0.4
+TrackWidth=0.125
+ViaDiameter=0.45
+ViaDrill=0.15
+uViaDiameter=0.3
+uViaDrill=0.1
+dPairWidth=0.2
+dPairGap=0.25
+dPairViaGap=0.25
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -259,5 +270,5 @@ SubpartIdSeparator=0
 SubpartFirstId=65
 NetFmtName=Pcbnew
 SpiceAjustPassiveValues=0
-LabSize=50
+LabSize=30
 ERC_TestSimilarLabels=1

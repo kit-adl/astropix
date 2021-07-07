@@ -725,17 +725,6 @@ Wire Wire Line
 Wire Wire Line
 	6050 9700 6050 9750
 $Comp
-L astropix:pcie_GECCO J1
-U 1 1 61228AD2
-P 2350 5400
-F 0 "J1" H 2325 7875 50  0000 C CNN
-F 1 "pcie_GECCO" H 2325 7784 50  0000 C CNN
-F 2 "astropix:pcie_astropix" H 2950 5400 50  0001 C CNN
-F 3 "" H 2950 5400 50  0001 C CNN
-	1    2350 5400
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:C Cvdd1
 U 1 1 60D1FE26
 P 1400 1300
@@ -1027,10 +1016,6 @@ Wire Wire Line
 	3800 6450 3200 6450
 Wire Wire Line
 	3800 6350 3200 6350
-NoConn ~ 3200 7150
-NoConn ~ 3200 7250
-NoConn ~ 3200 7350
-NoConn ~ 3200 7450
 NoConn ~ 3200 7550
 NoConn ~ 3200 7650
 NoConn ~ 3200 7750
@@ -1043,10 +1028,6 @@ NoConn ~ 1450 7850
 NoConn ~ 1450 7750
 NoConn ~ 1450 7650
 NoConn ~ 1450 7550
-NoConn ~ 1450 7450
-NoConn ~ 1450 7350
-NoConn ~ 1450 7250
-NoConn ~ 1450 7150
 NoConn ~ 1450 6050
 NoConn ~ 1450 6150
 NoConn ~ 1450 6250
@@ -1071,19 +1052,6 @@ Text Label 3900 5450 2    50   ~ 0
 hold
 Wire Wire Line
 	3900 5450 3200 5450
-Wire Wire Line
-	8700 8200 9650 8200
-$Comp
-L power:GNDD #PWR0140
-U 1 1 611F5306
-P 8700 8600
-F 0 "#PWR0140" H 8700 8350 50  0001 C CNN
-F 1 "GNDD" H 8704 8445 50  0000 C CNN
-F 2 "" H 8700 8600 50  0001 C CNN
-F 3 "" H 8700 8600 50  0001 C CNN
-	1    8700 8600
-	-1   0    0    -1  
-$EndComp
 NoConn ~ 1450 5750
 NoConn ~ 1450 5850
 NoConn ~ 3200 5750
@@ -1286,17 +1254,6 @@ Connection ~ 6900 1550
 Wire Wire Line
 	6500 650  6900 650 
 Connection ~ 6900 650 
-$Comp
-L power:VDD #PWR0148
-U 1 1 6120E196
-P 13050 4000
-F 0 "#PWR0148" H 13050 3850 50  0001 C CNN
-F 1 "VDD" H 13065 4173 50  0000 C CNN
-F 2 "" H 13050 4000 50  0001 C CNN
-F 3 "" H 13050 4000 50  0001 C CNN
-	1    13050 4000
-	-1   0    0    -1  
-$EndComp
 $Comp
 L Device:C C1
 U 1 1 6120E19C
@@ -1604,17 +1561,6 @@ Wire Wire Line
 Wire Wire Line
 	13900 2200 13600 2200
 $Comp
-L power:VDD #PWR0146
-U 1 1 611F9AB5
-P 13400 1550
-F 0 "#PWR0146" H 13400 1400 50  0001 C CNN
-F 1 "VDD" H 13415 1723 50  0000 C CNN
-F 2 "" H 13400 1550 50  0001 C CNN
-F 3 "" H 13400 1550 50  0001 C CNN
-	1    13400 1550
-	-1   0    0    -1  
-$EndComp
-$Comp
 L Device:C C2
 U 1 1 611F9ABB
 P 13400 1800
@@ -1903,8 +1849,6 @@ Text Label 12150 2200 0    50   ~ 0
 pamp
 Text Label 12150 2300 0    50   ~ 0
 VPBias
-Wire Wire Line
-	8700 8200 8700 8600
 $Comp
 L astropix:KIT_logo Logo1
 U 1 1 6167E799
@@ -2025,4 +1969,72 @@ Wire Wire Line
 Connection ~ 6900 1150
 Text Notes 5000 850  0    50   ~ 0
 GECCO HV Clearance?\n
+$Comp
+L power:GNDD #PWR0140
+U 1 1 611F5306
+P 9350 8250
+F 0 "#PWR0140" H 9350 8000 50  0001 C CNN
+F 1 "GNDD" H 9354 8095 50  0000 C CNN
+F 2 "" H 9350 8250 50  0001 C CNN
+F 3 "" H 9350 8250 50  0001 C CNN
+	1    9350 8250
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	9350 8250 9350 8200
+Wire Wire Line
+	9350 8200 9650 8200
+$Comp
+L astropix:pcie_GECCO J1
+U 1 1 61228AD2
+P 2350 5400
+F 0 "J1" H 2325 7875 50  0000 C CNN
+F 1 "pcie_GECCO" H 2325 7784 50  0000 C CNN
+F 2 "astropix:pcie_astropix" H 2950 5400 50  0001 C CNN
+F 3 "" H 2950 5400 50  0001 C CNN
+	1    2350 5400
+	1    0    0    -1  
+$EndComp
+NoConn ~ 3200 7450
+NoConn ~ 3200 7350
+NoConn ~ 3200 7250
+NoConn ~ 3200 7150
+Wire Wire Line
+	800  7450 1450 7450
+Wire Wire Line
+	800  7350 1450 7350
+Wire Wire Line
+	800  7250 1450 7250
+Wire Wire Line
+	800  7150 1450 7150
+Text Label 800  7450 0    50   ~ 0
+spi_right_mosi
+Text Label 800  7250 0    50   ~ 0
+spi_right_miso0
+Text Label 800  7350 0    50   ~ 0
+spi_right_csn
+Text Label 800  7150 0    50   ~ 0
+spi_right_miso1
+$Comp
+L power:VDDA #PWR?
+U 1 1 61134A9E
+P 13400 1550
+F 0 "#PWR?" H 13400 1400 50  0001 C CNN
+F 1 "VDDA" H 13415 1723 50  0000 C CNN
+F 2 "" H 13400 1550 50  0001 C CNN
+F 3 "" H 13400 1550 50  0001 C CNN
+	1    13400 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VDDA #PWR?
+U 1 1 6114F02E
+P 13050 4000
+F 0 "#PWR?" H 13050 3850 50  0001 C CNN
+F 1 "VDDA" H 13065 4173 50  0000 C CNN
+F 2 "" H 13050 4000 50  0001 C CNN
+F 3 "" H 13050 4000 50  0001 C CNN
+	1    13050 4000
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

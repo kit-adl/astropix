@@ -1,4 +1,4 @@
-update=07.07.2021 14:00:47
+update=08.07.2021 14:27:51
 version=1
 last_client=kicad
 [general]
@@ -29,6 +29,9 @@ MinMicroViaDiameter=0.2
 MinMicroViaDrill=0.09999999999999999
 MinHoleToHole=0.125
 TrackWidth1=0.125
+TrackWidth2=0.15
+TrackWidth3=0.25
+TrackWidth4=0.5
 ViaDiameter1=0.45
 ViaDrill1=0.15
 ViaDiameter2=0.45
@@ -241,6 +244,17 @@ dPairWidth=0.2
 dPairGap=0.25
 dPairViaGap=0.25
 [pcbnew/Netclasses/1]
+Name=pow
+Clearance=0.125
+TrackWidth=0.4
+ViaDiameter=0.45
+ViaDrill=0.15
+uViaDiameter=0.3
+uViaDrill=0.1
+dPairWidth=0.2
+dPairGap=0.25
+dPairViaGap=0.25
+[pcbnew/Netclasses/2]
 Name=sampleclock_diff
 Clearance=0.125
 TrackWidth=0.125
@@ -251,10 +265,32 @@ uViaDrill=0.1
 dPairWidth=0.15
 dPairGap=0.15
 dPairViaGap=0.25
-[pcbnew/Netclasses/2]
+[pcbnew/Netclasses/3]
 Name=sub
-Clearance=0.4
-TrackWidth=0.125
+Clearance=0.5
+TrackWidth=0.15
+ViaDiameter=0.45
+ViaDrill=0.15
+uViaDiameter=0.3
+uViaDrill=0.1
+dPairWidth=0.2
+dPairGap=0.25
+dPairViaGap=0.25
+[pcbnew/Netclasses/4]
+Name=vdd
+Clearance=0.125
+TrackWidth=0.25
+ViaDiameter=0.45
+ViaDrill=0.15
+uViaDiameter=0.3
+uViaDrill=0.1
+dPairWidth=0.2
+dPairGap=0.25
+dPairViaGap=0.25
+[pcbnew/Netclasses/5]
+Name=vdda
+Clearance=0.125
+TrackWidth=0.25
 ViaDiameter=0.45
 ViaDrill=0.15
 uViaDiameter=0.3
@@ -270,5 +306,5 @@ SubpartIdSeparator=0
 SubpartFirstId=65
 NetFmtName=Pcbnew
 SpiceAjustPassiveValues=0
-LabSize=30
+LabSize=50
 ERC_TestSimilarLabels=1

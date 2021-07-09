@@ -495,6 +495,7 @@ F 0 "C3" H 6615 946 50  0000 L CNN
 F 1 "1nF" H 6615 855 50  0000 L CNN
 F 2 "Capacitor_SMD:C_1210_3225Metric" H 6538 750 50  0001 C CNN
 F 3 "~" H 6500 900 50  0001 C CNN
+F 4 "250V" H 6500 900 50  0001 C CNN "Voltage"
 	1    6500 900 
 	1    0    0    -1  
 $EndComp
@@ -506,6 +507,7 @@ F 0 "C5" H 7015 946 50  0000 L CNN
 F 1 ".1uF" H 7015 855 50  0000 L CNN
 F 2 "Capacitor_SMD:C_1210_3225Metric" H 6938 750 50  0001 C CNN
 F 3 "~" H 6900 900 50  0001 C CNN
+F 4 "250V" H 6900 900 50  0001 C CNN "Voltage"
 	1    6900 900 
 	1    0    0    -1  
 $EndComp
@@ -517,6 +519,7 @@ F 0 "C4" H 6615 1846 50  0000 L CNN
 F 1 "1nF" H 6615 1755 50  0000 L CNN
 F 2 "Capacitor_SMD:C_1210_3225Metric" H 6538 1650 50  0001 C CNN
 F 3 "~" H 6500 1800 50  0001 C CNN
+F 4 "250V" H 6500 1800 50  0001 C CNN "Voltage"
 	1    6500 1800
 	1    0    0    -1  
 $EndComp
@@ -528,6 +531,7 @@ F 0 "C6" H 7015 1846 50  0000 L CNN
 F 1 ".1uF" H 7015 1755 50  0000 L CNN
 F 2 "Capacitor_SMD:C_1210_3225Metric" H 6938 1650 50  0001 C CNN
 F 3 "~" H 6900 1800 50  0001 C CNN
+F 4 "250V" H 6900 1800 50  0001 C CNN "Voltage"
 	1    6900 1800
 	1    0    0    -1  
 $EndComp
@@ -727,7 +731,7 @@ L Device:C C8
 U 1 1 60D1FE26
 P 1400 1300
 F 0 "C8" H 1515 1346 50  0000 L CNN
-F 1 "1n" H 1515 1255 50  0000 L CNN
+F 1 "1nF" H 1515 1255 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 1438 1150 50  0001 C CNN
 F 3 "~" H 1400 1300 50  0001 C CNN
 	1    1400 1300
@@ -842,10 +846,6 @@ Wire Wire Line
 	12400 6750 12050 6750
 Text Label 9000 8550 0    50   ~ 0
 spi_left_miso1
-Text Label 9000 8850 0    50   ~ 0
-spi_left_clk
-Text Label 9000 8950 0    50   ~ 0
-spi_left_csn
 Text Label 9000 8650 0    50   ~ 0
 spi_left_miso0
 Text Label 9000 8750 0    50   ~ 0
@@ -856,10 +856,6 @@ Wire Wire Line
 	9000 8650 9650 8650
 Wire Wire Line
 	9000 8750 9650 8750
-Wire Wire Line
-	9000 8850 9650 8850
-Wire Wire Line
-	9000 8950 9650 8950
 Text Label 12700 8550 2    50   ~ 0
 spi_right_miso1
 Text Label 12700 8850 2    50   ~ 0
@@ -1437,10 +1433,6 @@ F 3 "~" H 2200 9350 50  0001 C CNN
 $EndComp
 Text Label 800  4950 0    50   ~ 0
 spi_left_miso1
-Text Label 800  4750 0    50   ~ 0
-spi_left_clk
-Text Label 800  4850 0    50   ~ 0
-spi_left_csn
 Text Label 800  5050 0    50   ~ 0
 spi_left_miso0
 Text Label 800  5150 0    50   ~ 0
@@ -1451,10 +1443,6 @@ Wire Wire Line
 	800  5050 1450 5050
 Wire Wire Line
 	800  5150 1450 5150
-Wire Wire Line
-	800  4750 1450 4750
-Wire Wire Line
-	800  4850 1450 4850
 Wire Wire Line
 	14100 1950 14100 2000
 $Comp
@@ -1760,17 +1748,6 @@ Text Label 12150 2200 0    50   ~ 0
 pamp
 Text Label 12150 2300 0    50   ~ 0
 VPBias
-$Comp
-L astropix:KIT_logo Logo1
-U 1 1 6167E799
-P 2550 10100
-F 0 "Logo1" H 2350 10250 50  0000 L CNN
-F 1 "KIT_logo" H 2400 10100 50  0000 L CNN
-F 2 "astropix:logo" H 2550 10100 50  0001 C CNN
-F 3 "" H 2550 10100 50  0001 C CNN
-	1    2550 10100
-	1    0    0    -1  
-$EndComp
 NoConn ~ 12050 7850
 NoConn ~ 1450 5450
 Text Notes 12500 2550 0    50   ~ 0
@@ -1998,6 +1975,44 @@ Wire Wire Line
 Connection ~ 10700 4750
 Wire Wire Line
 	12050 7350 12800 7350
+Wire Wire Line
+	9000 8950 9650 8950
+Text Label 9000 8950 0    50   ~ 0
+spi_left_csn
+Wire Wire Line
+	9000 8850 9650 8850
+Text Label 9000 8850 0    50   ~ 0
+spi_left_clk
 Text Label 5250 1700 0    50   ~ 0
 HV_in_ext
+Text Label 800  4750 0    50   ~ 0
+spi_left_csn
+Wire Wire Line
+	800  4750 1450 4750
+Text Label 800  4850 0    50   ~ 0
+spi_left_clk
+Wire Wire Line
+	800  4850 1450 4850
+$Comp
+L astropix:KIT_logo Logo1
+U 1 1 6167E799
+P 2550 10100
+F 0 "Logo1" H 2350 10250 50  0000 L CNN
+F 1 "KIT_logo" H 2400 10100 50  0000 L CNN
+F 2 "astropix:logo" H 2550 10100 50  0001 C CNN
+F 3 "" H 2550 10100 50  0001 C CNN
+	1    2550 10100
+	1    0    0    -1  
+$EndComp
+$Comp
+L astropix:HV_logo Logo2
+U 1 1 610D1472
+P 2550 10450
+F 0 "Logo2" H 2350 10600 50  0000 L CNN
+F 1 "HV_logo" H 2400 10450 50  0000 L CNN
+F 2 "astropix:hv" H 2550 10450 50  0001 C CNN
+F 3 "" H 2550 10450 50  0001 C CNN
+	1    2550 10450
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

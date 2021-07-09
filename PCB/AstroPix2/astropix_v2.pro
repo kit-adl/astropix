@@ -1,4 +1,4 @@
-update=08.07.2021 14:27:51
+update=09.07.2021 12:25:56
 version=1
 last_client=kicad
 [general]
@@ -244,6 +244,17 @@ dPairWidth=0.2
 dPairGap=0.25
 dPairViaGap=0.25
 [pcbnew/Netclasses/1]
+Name=clock_diff
+Clearance=0.125
+TrackWidth=0.125
+ViaDiameter=0.45
+ViaDrill=0.15
+uViaDiameter=0.3
+uViaDrill=0.1
+dPairWidth=0.22
+dPairGap=0.13
+dPairViaGap=0.25
+[pcbnew/Netclasses/2]
 Name=pow
 Clearance=0.125
 TrackWidth=0.4
@@ -253,17 +264,6 @@ uViaDiameter=0.3
 uViaDrill=0.1
 dPairWidth=0.2
 dPairGap=0.25
-dPairViaGap=0.25
-[pcbnew/Netclasses/2]
-Name=sampleclock_diff
-Clearance=0.125
-TrackWidth=0.125
-ViaDiameter=0.45
-ViaDrill=0.15
-uViaDiameter=0.3
-uViaDrill=0.1
-dPairWidth=0.15
-dPairGap=0.15
 dPairViaGap=0.25
 [pcbnew/Netclasses/3]
 Name=sub

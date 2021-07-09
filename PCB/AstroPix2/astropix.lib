@@ -228,6 +228,18 @@ X SPI_right_MISO1 R6 1200 -1500 200 L 50 50 2 1 I
 ENDDRAW
 ENDDEF
 #
+# HV_logo
+#
+DEF HV_logo Logo 0 40 Y Y 1 F N
+F0 "Logo" -200 150 50 H V C CNN
+F1 "HV_logo" 0 0 50 H V C CNN
+F2 "astropix:hv" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+S -200 100 200 -100 0 1 0 f
+ENDDRAW
+ENDDEF
+#
 # KIT_logo
 #
 DEF KIT_logo Logo 0 40 Y Y 1 F N

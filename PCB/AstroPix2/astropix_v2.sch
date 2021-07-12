@@ -1084,36 +1084,6 @@ Wire Wire Line
 	11000 4750 11150 4750
 Text Label 12350 3650 2    50   ~ 0
 Vtemp1
-$Comp
-L Connector_Generic:Conn_01x03 J8
-U 1 1 60D156C8
-P 12600 2300
-F 0 "J8" H 12518 2617 50  0000 C CNN
-F 1 "VBias" H 12518 2526 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 12600 2300 50  0001 C CNN
-F 3 "~" H 12600 2300 50  0001 C CNN
-	1    12600 2300
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	12400 2200 12050 2200
-Wire Wire Line
-	12050 2300 12400 2300
-$Comp
-L power:GNDA #PWR0142
-U 1 1 60D3AC50
-P 12300 2450
-F 0 "#PWR0142" H 12300 2200 50  0001 C CNN
-F 1 "GNDA" H 12305 2277 50  0000 C CNN
-F 2 "" H 12300 2450 50  0001 C CNN
-F 3 "" H 12300 2450 50  0001 C CNN
-	1    12300 2450
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	12400 2400 12300 2400
-Wire Wire Line
-	12300 2400 12300 2450
 Text Label 14450 7650 0    50   ~ 0
 spi_left_miso1
 Text Label 14450 7750 0    50   ~ 0
@@ -1744,14 +1714,8 @@ Connection ~ 3400 1050
 Wire Wire Line
 	3400 1550 3900 1550
 Connection ~ 3400 1550
-Text Label 12150 2200 0    50   ~ 0
-pamp
-Text Label 12150 2300 0    50   ~ 0
-VPBias
 NoConn ~ 12050 7850
 NoConn ~ 1450 5450
-Text Notes 12500 2550 0    50   ~ 0
-Remove?
 $Comp
 L Device:R R16
 U 1 1 6178CA71
@@ -2015,4 +1979,6 @@ F 3 "" H 2550 10450 50  0001 C CNN
 	1    2550 10450
 	1    0    0    -1  
 $EndComp
+NoConn ~ 12050 2200
+NoConn ~ 12050 2300
 $EndSCHEMATC

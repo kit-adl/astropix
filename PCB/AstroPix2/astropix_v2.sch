@@ -844,55 +844,39 @@ Text Label 12800 6750 2    50   ~ 0
 interrupt
 Wire Wire Line
 	12400 6750 12050 6750
-Text Label 9000 8550 0    50   ~ 0
+Text Label 8300 8550 0    50   ~ 0
 spi_left_miso1
-Text Label 9000 8650 0    50   ~ 0
+Text Label 8300 8650 0    50   ~ 0
 spi_left_miso0
-Text Label 9000 8750 0    50   ~ 0
+Text Label 9150 8750 0    50   ~ 0
 spi_left_mosi
-Wire Wire Line
-	9000 8550 9650 8550
-Wire Wire Line
-	9000 8650 9650 8650
-Wire Wire Line
-	9000 8750 9650 8750
 Text Label 12700 8550 2    50   ~ 0
 spi_right_miso1
-Text Label 12700 8850 2    50   ~ 0
+Text Label 13600 8850 2    50   ~ 0
 spi_right_clk
 Text Label 12700 8950 2    50   ~ 0
 spi_right_csn
 Text Label 12700 8650 2    50   ~ 0
 spi_right_miso0
-Text Label 12700 8750 2    50   ~ 0
+Text Label 13600 8750 2    50   ~ 0
 spi_right_mosi
-Wire Wire Line
-	12700 8550 12050 8550
-Wire Wire Line
-	12700 8650 12050 8650
-Wire Wire Line
-	12700 8750 12050 8750
-Wire Wire Line
-	12700 8850 12050 8850
-Wire Wire Line
-	12700 8950 12050 8950
-Text Label 12650 7350 2    50   ~ 0
+Text Label 12850 7350 2    50   ~ 0
 sc_out
 Text Label 8200 9550 2    50   ~ 0
 sample_clock_se_in
 $Comp
 L Connector:Conn_Coaxial J5
 U 1 1 60F540B4
-P 13000 7350
-F 0 "J5" H 13100 7325 50  0000 L CNN
-F 1 "sample_clock_out" H 13100 7234 50  0000 L CNN
-F 2 "Connector_Coaxial:SMA_Molex_73251-2200_Horizontal" H 13000 7350 50  0001 C CNN
-F 3 " ~" H 13000 7350 50  0001 C CNN
-	1    13000 7350
+P 13200 7350
+F 0 "J5" H 13300 7325 50  0000 L CNN
+F 1 "sample_clock_out" H 13300 7234 50  0000 L CNN
+F 2 "Connector_Coaxial:SMA_Molex_73251-2200_Horizontal" H 13200 7350 50  0001 C CNN
+F 3 " ~" H 13200 7350 50  0001 C CNN
+	1    13200 7350
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	13000 7550 13000 7650
+	13200 7550 13200 7650
 $Comp
 L Mechanical:MountingHole H1
 U 1 1 60FBE07F
@@ -1019,7 +1003,6 @@ NoConn ~ 1450 7950
 NoConn ~ 1450 7850
 NoConn ~ 1450 7750
 NoConn ~ 1450 7650
-NoConn ~ 1450 7550
 NoConn ~ 1450 6050
 NoConn ~ 1450 6150
 NoConn ~ 1450 6250
@@ -1299,12 +1282,12 @@ $EndComp
 $Comp
 L power:GNDD #PWR0136
 U 1 1 6168FAAD
-P 13000 7650
-F 0 "#PWR0136" H 13000 7400 50  0001 C CNN
-F 1 "GNDD" H 13004 7495 50  0000 C CNN
-F 2 "" H 13000 7650 50  0001 C CNN
-F 3 "" H 13000 7650 50  0001 C CNN
-	1    13000 7650
+P 13200 7650
+F 0 "#PWR0136" H 13200 7400 50  0001 C CNN
+F 1 "GNDD" H 13204 7495 50  0000 C CNN
+F 2 "" H 13200 7650 50  0001 C CNN
+F 3 "" H 13200 7650 50  0001 C CNN
+	1    13200 7650
 	-1   0    0    -1  
 $EndComp
 $Comp
@@ -1443,7 +1426,7 @@ L Device:R R6
 U 1 1 60D08432
 P 14850 2300
 F 0 "R6" V 14643 2300 50  0000 C CNN
-F 1 "22" V 14734 2300 50  0000 C CNN
+F 1 "47" V 14734 2300 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" V 14780 2300 50  0001 C CNN
 F 3 "~" H 14850 2300 50  0001 C CNN
 	1    14850 2300
@@ -1551,9 +1534,9 @@ Wire Wire Line
 Wire Wire Line
 	10300 900  10300 1100
 Wire Wire Line
-	8350 9550 8350 7350
+	8200 9550 8200 7350
 Wire Wire Line
-	8350 7350 9650 7350
+	8200 7350 9650 7350
 Wire Wire Line
 	8100 7050 9650 7050
 Wire Wire Line
@@ -1824,18 +1807,18 @@ GECCO HV Clearance?\n
 $Comp
 L power:GNDD #PWR0140
 U 1 1 611F5306
-P 9350 8250
-F 0 "#PWR0140" H 9350 8000 50  0001 C CNN
-F 1 "GNDD" H 9354 8095 50  0000 C CNN
-F 2 "" H 9350 8250 50  0001 C CNN
-F 3 "" H 9350 8250 50  0001 C CNN
-	1    9350 8250
+P 9250 8250
+F 0 "#PWR0140" H 9250 8000 50  0001 C CNN
+F 1 "GNDD" H 9254 8095 50  0000 C CNN
+F 2 "" H 9250 8250 50  0001 C CNN
+F 3 "" H 9250 8250 50  0001 C CNN
+	1    9250 8250
 	-1   0    0    -1  
 $EndComp
 Wire Wire Line
-	9350 8250 9350 8200
+	9250 8250 9250 8200
 Wire Wire Line
-	9350 8200 9650 8200
+	9250 8200 9650 8200
 $Comp
 L astropix:pcie_GECCO J1
 U 1 1 61228AD2
@@ -1852,20 +1835,20 @@ NoConn ~ 3200 7350
 NoConn ~ 3200 7250
 NoConn ~ 3200 7150
 Wire Wire Line
+	800  7550 1450 7550
+Wire Wire Line
 	800  7450 1450 7450
 Wire Wire Line
 	800  7350 1450 7350
 Wire Wire Line
 	800  7250 1450 7250
-Wire Wire Line
-	800  7150 1450 7150
-Text Label 800  7450 0    50   ~ 0
+Text Label 800  7550 0    50   ~ 0
 spi_right_mosi
-Text Label 800  7250 0    50   ~ 0
-spi_right_miso0
 Text Label 800  7350 0    50   ~ 0
+spi_right_miso0
+Text Label 800  7450 0    50   ~ 0
 spi_right_csn
-Text Label 800  7150 0    50   ~ 0
+Text Label 800  7250 0    50   ~ 0
 spi_right_miso1
 $Comp
 L power:VDDA #PWR0146
@@ -1931,21 +1914,15 @@ Wire Wire Line
 Wire Wire Line
 	7850 7300 8100 7300
 Wire Wire Line
-	7350 9550 8350 9550
+	7350 9550 8200 9550
 Wire Wire Line
 	10800 4600 10800 4750
 Wire Wire Line
 	10800 4750 10700 4750
 Connection ~ 10700 4750
-Wire Wire Line
-	12050 7350 12800 7350
-Wire Wire Line
-	9000 8950 9650 8950
-Text Label 9000 8950 0    50   ~ 0
+Text Label 8300 8950 0    50   ~ 0
 spi_left_csn
-Wire Wire Line
-	9000 8850 9650 8850
-Text Label 9000 8850 0    50   ~ 0
+Text Label 9150 8850 0    50   ~ 0
 spi_left_clk
 Text Label 5250 1700 0    50   ~ 0
 HV_in_ext
@@ -1981,4 +1958,108 @@ F 3 "" H 2550 10450 50  0001 C CNN
 $EndComp
 NoConn ~ 12050 2200
 NoConn ~ 12050 2300
+$Comp
+L Device:R R8
+U 1 1 60F78001
+P 12250 7350
+F 0 "R8" V 12043 7350 50  0000 C CNN
+F 1 "22" V 12134 7350 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 12180 7350 50  0001 C CNN
+F 3 "~" H 12250 7350 50  0001 C CNN
+	1    12250 7350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	12400 7350 13000 7350
+Wire Wire Line
+	12050 7350 12100 7350
+$Comp
+L Device:R R10
+U 1 1 60FC84E9
+P 9000 8550
+F 0 "R10" V 8900 8550 50  0000 C CNN
+F 1 "22" V 9000 8550 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8930 8550 50  0001 C CNN
+F 3 "~" H 9000 8550 50  0001 C CNN
+	1    9000 8550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9150 8550 9650 8550
+Wire Wire Line
+	8300 8550 8850 8550
+$Comp
+L Device:R R13
+U 1 1 6102DFC2
+P 9000 8650
+F 0 "R13" V 9100 8650 50  0000 C CNN
+F 1 "22" V 9000 8650 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8930 8650 50  0001 C CNN
+F 3 "~" H 9000 8650 50  0001 C CNN
+	1    9000 8650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8300 8650 8850 8650
+Wire Wire Line
+	9150 8650 9650 8650
+Wire Wire Line
+	9150 8750 9650 8750
+Wire Wire Line
+	9150 8850 9650 8850
+$Comp
+L Device:R R14
+U 1 1 610ACEEF
+P 9000 8950
+F 0 "R14" V 9100 8950 50  0000 C CNN
+F 1 "22" V 9000 8950 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8930 8950 50  0001 C CNN
+F 3 "~" H 9000 8950 50  0001 C CNN
+	1    9000 8950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8300 8950 8850 8950
+Wire Wire Line
+	9150 8950 9650 8950
+$Comp
+L Device:R R17
+U 1 1 610FAFC8
+P 12900 8750
+F 0 "R17" V 12800 8750 50  0000 C CNN
+F 1 "22" V 12900 8750 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 12830 8750 50  0001 C CNN
+F 3 "~" H 12900 8750 50  0001 C CNN
+	1    12900 8750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R18
+U 1 1 610FB87E
+P 12900 8850
+F 0 "R18" V 13000 8850 50  0000 C CNN
+F 1 "22" V 12900 8850 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 12830 8850 50  0001 C CNN
+F 3 "~" H 12900 8850 50  0001 C CNN
+	1    12900 8850
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	12050 8850 12750 8850
+Wire Wire Line
+	13050 8850 13600 8850
+Wire Wire Line
+	12050 8950 12700 8950
+Wire Wire Line
+	12050 8750 12750 8750
+Wire Wire Line
+	13050 8750 13600 8750
+Wire Wire Line
+	12050 8650 12700 8650
+Wire Wire Line
+	12050 8550 12700 8550
+Wire Wire Line
+	800  7150 1450 7150
+Text Label 800  7150 0    50   ~ 0
+spi_right_clk
 $EndSCHEMATC

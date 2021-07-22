@@ -2,7 +2,7 @@
 %TF.CreationDate,2021-07-22T16:49:50+02:00*%
 %TF.ProjectId,astropix_v2,61737472-6f70-4697-985f-76322e6b6963,1.0*%
 %TF.SameCoordinates,Original*%
-%TF.FileFunction,Paste,Bot*%
+%TF.FileFunction,Glue,Top*%
 %TF.FilePolarity,Positive*%
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*

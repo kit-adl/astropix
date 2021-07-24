@@ -348,7 +348,7 @@ assign chip_inj_chopper = injection_chip & inj_chopper_pat;
 
 
 sync_async_patgen patgen(
-    .clk(fast_clk_600),
+    .clk(clk),
     .rst(patgen_Reset),
     .suspend(patgen_Suspend),
     .write(patgen_writeStrobe),

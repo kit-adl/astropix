@@ -390,7 +390,7 @@ assign spi_config_wire = {spi_config[7], spi_config[6],
 assign spi_clock_divider = spi_clock_divider_reg;
 
 assign spi_write_fifo_wr_en = write & (address == 23);
-assign spi_read_fifo_rd_en_real = spi_read_fifo_rd_en && address == 23 && spi_read_fifo_load_from_fifo;
+assign spi_read_fifo_rd_en_real = spi_read_fifo_rd_en && address == 24 && spi_read_fifo_load_from_fifo;
 assign spi_read_fifo_load_from_fifo = (!spi_read_fifo_empty_at_start && spi_read_fifo_rdcount != 0)
                                     || (!spi_read_fifo_empty && spi_read_fifo_rdcount == 0);
 

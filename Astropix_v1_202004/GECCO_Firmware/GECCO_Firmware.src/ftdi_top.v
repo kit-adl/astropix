@@ -139,7 +139,7 @@ module ftdi_top (
     
     output wire        spi_config_reset,
     output wire [7:0]  spi_clock_divider,
-    output wire [7:0]  spi_write_fifo_dout,
+    output wire [31:0] spi_write_fifo_dout,
     input  wire        spi_write_fifo_rd_clk,
     input  wire        spi_write_fifo_rd_en,
     output wire        spi_write_fifo_empty,

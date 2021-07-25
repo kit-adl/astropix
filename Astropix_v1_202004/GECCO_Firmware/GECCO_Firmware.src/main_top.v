@@ -80,7 +80,7 @@ module main_top(
     output       config_spi_csb,
     output       config_spi_sck,
     output       config_spi_mosi,
-    output       config_spi_miso,
+    input        config_spi_miso,
     
     //Injection:
     output       gecco_inj_chopper_p,
@@ -165,7 +165,7 @@ wire vb_load;
 // SPI:
 wire        spi_config_reset;
 wire [7:0]  spi_clock_divider;
-wire [7:0]  spi_write_fifo_dout;
+wire [31:0]  spi_write_fifo_dout;
 wire        spi_write_fifo_rd_clk;
 wire        spi_write_fifo_rd_en;
 wire        spi_write_fifo_empty;

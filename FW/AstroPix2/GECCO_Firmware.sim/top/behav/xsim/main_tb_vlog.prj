@@ -1,0 +1,26 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  -i "../../../../GECCO_Firmware.src" --include "../../../../GECCO_Firmware.src/ip/clk_wiz_0" \
+"../../../../GECCO_Firmware.src/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v" \
+"../../../../GECCO_Firmware.src/ip/clk_wiz_0/clk_wiz_0.v" \
+"../../../../GECCO_Firmware.src/ip/cmd_fifo/cmd_fifo_sim_netlist.v" \
+"../../../../GECCO_Firmware.src/ip/spi_read_fifo/spi_read_fifo_sim_netlist.v" \
+"../../../../GECCO_Firmware.src/ip/spi_write_fifo/spi_write_fifo_sim_netlist.v" \
+"../../../../GECCO_Firmware.src/ip/fifo_fastreadout/fifo_fastreadout_sim_netlist.v" \
+"../../../../GECCO_Firmware.src/ip/async_fifo_ftdi/async_fifo_ftdi_sim_netlist.v" \
+"../../../../GECCO_Firmware.src/OrderSorter.v" \
+"../../../../GECCO_Firmware.src/RegisterFile.v" \
+"../../../../GECCO_Firmware.src/ftdi_interface_control_fsm.v" \
+"../../../../GECCO_Firmware.src/ftdi_top.v" \
+"../../../../GECCO_Firmware.src/main_top.v" \
+"../../../../GECCO_Firmware.src/patgen_sync_async.v" \
+"../../../../GECCO_Firmware.src/spi_readout.v" \
+
+sv xil_defaultlib  -i "../../../../GECCO_Firmware.src" --include "../../../../GECCO_Firmware.src/ip/clk_wiz_0" \
+"../../../../GECCO_Firmware.srcs/sim_1/FM_ClkGen_MHz.sv" \
+"../../../../GECCO_Firmware.srcs/sim_1/main_tb.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

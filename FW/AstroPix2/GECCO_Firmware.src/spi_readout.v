@@ -23,14 +23,16 @@
 //
 // Create Date: 24.07.2021
 // Design Name:
-// Module Name: SPI Readout for AstroPix
+// Module Name: SPI Readout for AstroPix 2
 // Project Name:
 // Target Devices:
 // Tool Versions:
-// Description: 4-Wire SPI Controller
+// Description: 5-Wire SPI Controller
 //              Uses async FIFOs (ftdi_top/rfg/spi_xxx_fifo) to pass Write and Read data from lowspeed SPI clock to high-speed FTDI domain.
 //              The readout Software accesses the data by writing/reading from/to the FTDI Registers 0x23/0x24.
-//
+//              Modes:
+//                   WR: Write 32 Bit to MOSI and for every bit, read two bits from MISO
+//                   R-only: Read two bits from MISO for 32 SPI clock cycles
 // Dependencies:
 //
 // Revision:
@@ -41,6 +43,7 @@
 // TODOS:
 // - Drive SPI_CS as GPIO via Software?
 // - Write/Read on leading/trailing edge
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 module spi_readout#(
@@ -54,7 +57,8 @@ module spi_readout#(
     output reg          spi_csb,
     output wire         spi_clock,
     output reg          spi_mosi,
-    input  wire         spi_miso,
+    input  wire         spi_miso0,
+    input  wire         spi_miso1,
 
     input  wire         readback_en,
     input  wire [31:0]  data_in_fifo_data,
@@ -132,48 +136,53 @@ always @(posedge clock) begin
 
                         loop_counter <= 0;
 
-                        //data_in_fifo_empty is 1 if words in in_fifo >= 4
+                        //~data_in_fifo_empty is 1 if words in in_fifo < 4
                         if(~data_in_fifo_empty)
                             state <= load_data;
                     end
 
-                    load_data: begin //load the data to write in 4 clock cycles
+                    load_data: begin //Load data mode
                         clk_en <= 0;
-                        shift_data_in <= {shift_data_in[23:0], data_in_fifo_data[7:0]};
 
-                        data_in_fifo_rd_en <= 1;
-
-                        if(loop_counter >= 3) begin
-
-                            //Assign Chip-select one cycle before SPI clock starts
-                            spi_csb <= 0;
-
-                            if(readback_en) begin
+                        //don't load data in read-only mode
+                        if(readback_en) begin
                                 if(shift_data_in[16] == 1)
                                     trigger <= 1;
                                 state <= read_data;
-                                loop_counter <= 0;
-                            end
-                            else begin
+                                loop_counter <= 32;
+                        end else begin
+                            shift_data_in <= {shift_data_in[23:0], data_in_fifo_data[7:0]};
+
+                            data_in_fifo_rd_en <= 1;
+
+                            //load data to write in 4 clock cycles
+                            if(loop_counter >= 3) begin
+
+                                //Assign Chip-select one cycle before SPI clock starts
+                                spi_csb <= 0;
+
                                 state <= write_data;
                                 loop_counter <= 32;
 
                             end
+                            else
+                                loop_counter <= loop_counter + 7'b1;
                         end
-                        else
-                            loop_counter <= loop_counter + 7'b1;
                     end
 
-                    read_data: begin  //read the first 40 bits of the 64 bit data to read
+                    read_data: begin //Readonly mode
                         clk_en <= 1;
                         data_in_fifo_rd_en <= 0;
                         loop_counter <= loop_counter + 7'b1;
-                        data_out_fifo_data <= {data_out_fifo_data[62:0], spi_miso};
-                        if(loop_counter >= 39) // 40-1)
-                            state <= write_data;
+
+                        //Read 2 MISO bits
+                        data_out_fifo_data <= data_out_fifo_data[63:0] << 2 | spi_miso0 << 1 | spi_miso1;
+
+                        if(loop_counter >= 63)
+                            state <= ending;
                     end
 
-                    write_data: begin
+                    write_data: begin //RW mode
 
                         //Enable Clock
                         clk_en <= 1;
@@ -183,8 +192,8 @@ always @(posedge clock) begin
 
                         loop_counter <= loop_counter + 7'b1;
 
-                        //Shift-in MISO
-                        data_out_fifo_data <= {data_out_fifo_data[62:0], spi_miso};
+                        //Read 2 MISO bits
+                        data_out_fifo_data <= data_out_fifo_data[63:0] << 2 | spi_miso0 << 1 | spi_miso1;
 
                         //Shift-out MOSI
                         spi_mosi <= shift_data_in[31];
@@ -198,7 +207,7 @@ always @(posedge clock) begin
 
                     ending: begin
                         //Always write MISO stream to ReadFIFO
-                        data_out_fifo_wr_en <= 1;
+                        //data_out_fifo_wr_en <= 1;
 
                         //Disable spi_clock
                         clk_en <= 0;
@@ -207,14 +216,13 @@ always @(posedge clock) begin
                         spi_csb <= 1;
 
                         trigger <= 0;
-                        if(readback_en) begin //only write to output FIFO if data was requested
-                            if(~data_out_fifo_full) begin //wait for space in the FIFO
-                                data_out_fifo_wr_en <= 1;
-                                state <= idle;
-                            end
-                        end
-                        else
+
+                        if(~data_out_fifo_full) begin //wait for space in the FIFO
+                            data_out_fifo_wr_en <= 1;
                             state <= idle;
+                        end
+
+                        state <= idle;
                     end
                 endcase
             end

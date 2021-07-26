@@ -1,11 +1,11 @@
 `timescale 1 ns/1 ps
 
-module fifo (
+module fifo #(parameter WIDTH=32)(
     input  wire      clk,
     input wire enable,
     input wire reset,
-    input  wire[31:0] data_in,
-    output reg [31:0] data_out
+    input  wire[WIDTH-1:0] data_in,
+    output reg [WIDTH-1:0] data_out
 );  
 
 always @(posedge clk, negedge reset) begin
@@ -34,7 +34,8 @@ reg [31:0] tx_data;
 reg data_in_fifo_empty;
 
 wire spi_csb;
-reg spi_miso;
+reg spi_miso0;
+reg spi_miso1;
 wire spi_mosi;
 wire spi_sck;
 
@@ -51,12 +52,24 @@ reg spi_read_fifo_full;
 wire spi_read_fifo_wr_clk;
 wire spi_read_fifo_wr_en;
 
+wire [63:0] spi_out;
+
 fifo fifo_i(
     .clk(spi_write_fifo_rd_clk),
     .enable(spi_write_fifo_rd_en),
     .reset(reset),
     .data_in(tx_data),
     .data_out(spi_write_fifo_dout)
+);
+
+fifo #(
+    .WIDTH(64))
+fifo_o(
+    .clk(spi_read_fifo_wr_clk),
+    .enable(spi_read_fifo_wr_en),
+    .reset(reset),
+    .data_in(spi_read_fifo_din),
+    .data_out(spi_out)
 );
 
 spi_readout #(
@@ -72,9 +85,10 @@ spi_readout_i
     .spi_csb(spi_csb),
     .spi_clock(spi_sck),
     .spi_mosi(spi_mosi),
-    .spi_miso(spi_miso),
+    .spi_miso0(spi_miso0),
+    .spi_miso1(spi_miso1),
     
-    .readback_en(spi_config_readback_en),
+    .readback_en(readback_en),
     .data_in_fifo_data(spi_write_fifo_dout),
     .data_in_fifo_clock(spi_write_fifo_rd_clk),
     .data_in_fifo_rd_en(spi_write_fifo_rd_en),
@@ -88,15 +102,17 @@ spi_readout_i
     .trigger(spi_trigger)
 );
 initial
-    $monitor(spi_read_fifo_wr_en);
+    $monitor(spi_out);
 initial begin
 //Reset
 clk = 0;
 reset=1;
 clk_div=3;
-spi_miso=1'b1;
+spi_miso0=1'bz;
+spi_miso1=1'bz;
 readback_en=0;
 tx_data='h01020304;
+spi_read_fifo_full=0;
 
 //disable reset
 #10
@@ -104,11 +120,11 @@ reset=0;
 #30
 data_in_fifo_empty=0;
 #10
-wait((spi_csb==0) & (spi_sck == 1))
-#10
-spi_miso=1;
+wait((spi_csb==0))
+spi_miso0=1'b1;
+spi_miso1=1'b0;
 #2000
-spi_miso=1'bZ;
+spi_miso0=1'bZ;
 end
 
 always #2 clk = ~clk;

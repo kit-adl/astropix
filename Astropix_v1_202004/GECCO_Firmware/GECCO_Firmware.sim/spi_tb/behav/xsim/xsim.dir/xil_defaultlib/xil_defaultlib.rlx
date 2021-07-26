@@ -1,0 +1,7 @@
+0.7
+2020.1.1
+Aug  5 2020
+23:19:43
+C:/Users/nicolas/Documents/GitHub/astropix_github/Astropix_v1_202004/GECCO_Firmware/GECCO_Firmware.sim/spi_tb/behav/xsim/glbl.v,1590624368,verilog,,,,glbl,,,,,,,,
+C:/Users/nicolas/Documents/GitHub/astropix_github/Astropix_v1_202004/GECCO_Firmware/GECCO_Firmware.src/spi_readout.v,1627232382,verilog,,C:/Users/nicolas/Documents/GitHub/astropix_github/Astropix_v1_202004/GECCO_Firmware/GECCO_Firmware.srcs/spi_tb/new/spi.v,,spi_readout,,,../../../../GECCO_Firmware.src;../../../../GECCO_Firmware.src/ip/clk_wiz_0,,,,,
+C:/Users/nicolas/Documents/GitHub/astropix_github/Astropix_v1_202004/GECCO_Firmware/GECCO_Firmware.srcs/spi_tb/new/spi.v,1627224668,verilog,,,,spi_readout_test_tb,,,../../../../GECCO_Firmware.src;../../../../GECCO_Firmware.src/ip/clk_wiz_0,,,,,

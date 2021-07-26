@@ -106,7 +106,7 @@ always @( posedge clk ) begin
 
   /* register file writing */
   if (write) begin
-  	 casex ( addr[3:0] )
+  	 case ( addr[3:0] )
 	 	//4'b0xxx: begin
 		//	regfile[addr[2:0]] <= din;
 		//end

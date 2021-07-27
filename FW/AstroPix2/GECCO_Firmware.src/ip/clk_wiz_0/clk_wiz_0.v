@@ -56,12 +56,8 @@
 //  Output     Output      Phase    Duty Cycle   Pk-to-Pk     Phase
 //   Clock     Freq (MHz)  (degrees)    (%)     Jitter (ps)  Error (ps)
 //----------------------------------------------------------------------------
-// clk_out600p90__330.00000_____90.000______50.0______284.024____342.480
-// clk_out600__330.00000______0.000______50.0______284.024____342.480
-// clk_out150__82.50000______0.000______50.0______361.436____342.480
-// clk_out200__110.00000______0.000______50.0______341.671____342.480
-// clk_out_66slow__60.00000______0.000______50.0______386.449____342.480
-// clk_out_sampleclk__220.00000______0.000______50.0______302.982____342.480
+// clk_out_sampleclk__200.00000______0.000______50.0______129.604____128.132
+// clk_out_timestamp___5.00000______0.000______50.0______270.159____128.132
 //
 //----------------------------------------------------------------------------
 // Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -70,17 +66,13 @@
 
 `timescale 1ps/1ps
 
-(* CORE_GENERATION_INFO = "clk_wiz_0,clk_wiz_v6_0_5_0_0,{component_name=clk_wiz_0,use_phase_alignment=true,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=false,enable_axi=0,feedback_source=FDBK_AUTO,PRIMITIVE=MMCM,num_out_clk=6,clkin1_period=10.000,clkin2_period=10.000,use_power_down=false,use_reset=true,use_locked=true,use_inclk_stopped=false,feedback_type=SINGLE,CLOCK_MGR_TYPE=NA,manual_override=false}" *)
+(* CORE_GENERATION_INFO = "clk_wiz_0,clk_wiz_v6_0_5_0_0,{component_name=clk_wiz_0,use_phase_alignment=true,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=false,enable_axi=0,feedback_source=FDBK_AUTO,PRIMITIVE=MMCM,num_out_clk=2,clkin1_period=10.000,clkin2_period=10.000,use_power_down=false,use_reset=true,use_locked=true,use_inclk_stopped=false,feedback_type=SINGLE,CLOCK_MGR_TYPE=NA,manual_override=false}" *)
 
 module clk_wiz_0 
  (
   // Clock out ports
-  output        clk_out600p90,
-  output        clk_out600,
-  output        clk_out150,
-  output        clk_out200,
-  output        clk_out_66slow,
   output        clk_out_sampleclk,
+  output        clk_out_timestamp,
   // Status and control signals
   input         reset,
   output        locked,
@@ -91,12 +83,8 @@ module clk_wiz_0
   clk_wiz_0_clk_wiz inst
   (
   // Clock out ports  
-  .clk_out600p90(clk_out600p90),
-  .clk_out600(clk_out600),
-  .clk_out150(clk_out150),
-  .clk_out200(clk_out200),
-  .clk_out_66slow(clk_out_66slow),
   .clk_out_sampleclk(clk_out_sampleclk),
+  .clk_out_timestamp(clk_out_timestamp),
   // Status and control signals               
   .reset(reset), 
   .locked(locked),

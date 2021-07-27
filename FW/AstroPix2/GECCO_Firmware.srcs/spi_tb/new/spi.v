@@ -102,7 +102,7 @@ spi_readout_i
     .trigger(spi_trigger)
 );
 initial
-    $monitor(spi_out);
+    $monitor("spi_out.%b",spi_out);
 initial begin
 //Reset
 clk = 0;

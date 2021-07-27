@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="5040199fs"></ZoomEndTime>
+      <ZoomEndTime time="6936140fs"></ZoomEndTime>
       <Cursor1Time time="2000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="238"></NameColumnWidth>
+      <NameColumnWidth column_width="234"></NameColumnWidth>
       <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="29" />
+   <WVObjectSize size="27" />
    <wvobject fp_name="/spi_readout_test_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -43,10 +43,6 @@
    <wvobject fp_name="/spi_readout_test_tb/spi_csb" type="logic">
       <obj_property name="ElementShortName">spi_csb</obj_property>
       <obj_property name="ObjectShortName">spi_csb</obj_property>
-   </wvobject>
-   <wvobject fp_name="/spi_readout_test_tb/spi_miso" type="logic">
-      <obj_property name="ElementShortName">spi_miso</obj_property>
-      <obj_property name="ObjectShortName">spi_miso</obj_property>
    </wvobject>
    <wvobject fp_name="/spi_readout_test_tb/spi_mosi" type="logic">
       <obj_property name="ElementShortName">spi_mosi</obj_property>
@@ -92,17 +88,9 @@
       <obj_property name="ElementShortName">spi_read_fifo_wr_en</obj_property>
       <obj_property name="ObjectShortName">spi_read_fifo_wr_en</obj_property>
    </wvobject>
-   <wvobject fp_name="/spi_readout_test_tb/spi_config_readback_en" type="logic">
-      <obj_property name="ElementShortName">spi_config_readback_en</obj_property>
-      <obj_property name="ObjectShortName">spi_config_readback_en</obj_property>
-   </wvobject>
    <wvobject fp_name="/spi_readout_test_tb/spi_trigger" type="logic">
       <obj_property name="ElementShortName">spi_trigger</obj_property>
       <obj_property name="ObjectShortName">spi_trigger</obj_property>
-   </wvobject>
-   <wvobject fp_name="/spi_readout_test_tb/txdata" type="logic">
-      <obj_property name="ElementShortName">txdata</obj_property>
-      <obj_property name="ObjectShortName">txdata</obj_property>
    </wvobject>
    <wvobject fp_name="/spi_readout_test_tb/CPOL" type="array">
       <obj_property name="ElementShortName">CPOL[31:0]</obj_property>
@@ -119,6 +107,7 @@
    <wvobject fp_name="/spi_readout_test_tb/fifo_i/data_out" type="array">
       <obj_property name="ElementShortName">data_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/spi_readout_test_tb/fifo_i/reset" type="logic">
       <obj_property name="ElementShortName">reset</obj_property>
@@ -135,5 +124,9 @@
    <wvobject fp_name="/spi_readout_test_tb/fifo_i/data_in" type="array">
       <obj_property name="ElementShortName">data_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">data_in[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_out" type="array">
+      <obj_property name="ElementShortName">spi_out[63:0]</obj_property>
+      <obj_property name="ObjectShortName">spi_out[63:0]</obj_property>
    </wvobject>
 </wave_config>

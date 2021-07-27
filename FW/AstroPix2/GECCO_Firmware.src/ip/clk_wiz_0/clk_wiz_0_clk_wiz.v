@@ -98,7 +98,7 @@ wire clk_in2_clk_wiz_0;
   wire        clk_out_sampleclk_clk_wiz_0;
   wire        clk_out_timestamp_clk_wiz_0;
   wire        clk_out_patgen_clk_wiz_0;
-  wire        clk_out_sampleclk_clk_wiz_0;
+  wire        clk_out4_clk_wiz_0;
   wire        clk_out_66slow_clk_wiz_0;
   wire        clk_out_6_clk_wiz_0;
   wire        clk_out7_clk_wiz_0;

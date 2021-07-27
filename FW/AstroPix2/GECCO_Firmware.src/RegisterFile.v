@@ -404,18 +404,18 @@ assign cmd_wr_en = write & (address == 51);
 // Instances
 //---------------
 reg resfifo = 0;//ivan
-fifo_fastreadout fastreadout_fifo(
-    .rst(resfifo),//fastreadout_fifo_reset),//resfifo
-    .din(fastreadout_fifo_din),
-    .wr_en(fastreadout_fifo_wr_en),
-    .wr_clk(fastreadout_fifo_wr_clk),
-    .dout(fastreadout_fifo_dout),
-    .rd_en(fifo_rd_en | fastreadout_fifo_reset),
-    .rd_clk(clk),
-    .full(fastreadout_fifo_full),
-    .empty(fastreadout_fifo_empty),
-    .prog_full(fastreadout_fifo_progfull)
-);
+//fifo_fastreadout fastreadout_fifo(
+//    .rst(resfifo),//fastreadout_fifo_reset),//resfifo
+//    .din(fastreadout_fifo_din),
+//    .wr_en(fastreadout_fifo_wr_en),
+//    .wr_clk(fastreadout_fifo_wr_clk),
+//    .dout(fastreadout_fifo_dout),
+//    .rd_en(fifo_rd_en | fastreadout_fifo_reset),
+//    .rd_clk(clk),
+//    .full(fastreadout_fifo_full),
+//    .empty(fastreadout_fifo_empty),
+//    .prog_full(fastreadout_fifo_progfull)
+//);
 
 reg res_spi_write_fifo = 0;
 spi_write_fifo spi_write_fifo_i(
@@ -445,27 +445,27 @@ spi_read_fifo spi_read_fifo_i(
 );
 
 reg res_cmd_fifo = 0;
-cmd_fifo cmd_fifo_i(
-    .rst(res_cmd_fifo),
-    .din(cmd_datain),
-    .wr_en(cmd_wr_en),
-    .wr_clk(clk),
-    .full(cmd_fifo_full),
-    .dout(cmd_data),
-    .rd_clk(cmd_rd_clk),
-    .rd_en(cmd_rd_en),
-    .empty(cmd_fifo_empty),
-    .prog_empty(cmd_fifo_6entries)
-);
+//cmd_fifo cmd_fifo_i(
+//    .rst(res_cmd_fifo),
+//    .din(cmd_datain),
+//    .wr_en(cmd_wr_en),
+//    .wr_clk(clk),
+//    .full(cmd_fifo_full),
+//    .dout(cmd_data),
+//    .rd_clk(cmd_rd_clk),
+//    .rd_en(cmd_rd_en),
+//    .empty(cmd_fifo_empty),
+//    .prog_empty(cmd_fifo_6entries)
+//);
 
 //FIFO reset synchronisation:
-always @ clk begin
-    if((!res_n) | fastreadout_fifo_reset) begin
-        resfifo <= 1;
-    end
-    else begin
-        resfifo <= 0;
-    end
+always @ (posedge clk) begin
+//    if((!res_n) | fastreadout_fifo_reset) begin
+//        resfifo <= 1;
+//    end
+//    else begin
+//        resfifo <= 0;
+//    end
     if((!res_n) | spi_config_wr_fifo_reset) begin
         res_spi_write_fifo <= 1;
     end
@@ -478,12 +478,12 @@ always @ clk begin
     else begin
         res_spi_read_fifo <= 0;
     end
-    if((!res_n) | cmd_fifo_reset) begin
-        res_cmd_fifo <= 1;
-    end
-    else begin
-        res_cmd_fifo <= 0;
-    end
+//    if((!res_n) | cmd_fifo_reset) begin
+//        res_cmd_fifo <= 1;
+//    end
+//    else begin
+//        res_cmd_fifo <= 0;
+//    end
 end
 
 

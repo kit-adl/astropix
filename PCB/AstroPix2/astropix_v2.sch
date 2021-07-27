@@ -2062,4 +2062,15 @@ Wire Wire Line
 	800  7150 1450 7150
 Text Label 800  7150 0    50   ~ 0
 spi_right_clk
+$Comp
+L astropix:bonder H3
+U 1 1 6106C8E5
+P 1500 10400
+F 0 "H3" H 1350 10550 50  0000 L CNN
+F 1 "bonder" H 1350 10400 50  0000 L CNN
+F 2 "astropix:bonder" H 1500 10400 50  0001 C CNN
+F 3 "" H 1500 10400 50  0001 C CNN
+	1    1500 10400
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

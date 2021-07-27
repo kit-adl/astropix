@@ -281,6 +281,18 @@ X NC 9 -250 -400 100 U 50 50 1 1 N N
 ENDDRAW
 ENDDEF
 #
+# bonder
+#
+DEF bonder H 0 40 Y Y 1 F N
+F0 "H" -100 150 50 H V C CNN
+F1 "bonder" 0 0 50 H V C CNN
+F2 "astropix:bonder" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+S -150 100 150 -100 0 1 0 f
+ENDDRAW
+ENDDEF
+#
 # pcie_GECCO
 #
 DEF pcie_GECCO J 0 40 Y Y 1 F N

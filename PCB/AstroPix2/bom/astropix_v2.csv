@@ -1,31 +1,30 @@
-"ID";"Bezeichner";"Gehäuse";"Stückzahl";"Bezeichnung";"Anbieter und Referenz";
-1;"Logo2";"hv";1;"HV_logo";;;
-2;"Logo1";"logo";1;"KIT_logo";;;
-3;"R4,R3";"R_0402_1005Metric";2;"100";;;
-4;"U4";"AstroPix2";1;"AstroPix2_split";;;
-5;"R6";"R_0603_1608Metric";1;"22";;;
-6;"C7,C12,C13,C9,C2,C1";"C_0603_1608Metric";6;".1uF";;;
-7;"R5,R7";"R_0603_1608Metric";2;"10k";;;
-8;"R16,R15";"R_0603_1608Metric";2;"2.2k";;;
-9;"R9,R12,R11";"R_0603_1608Metric";3;"1k";;;
-10;"R1";"R_1206_3216Metric";1;"0";;;
-11;"JP1";"PinHeader_1x03_P2.54mm_Vertical";1;"VDD_JP";;;
-12;"U1";"SOT-23-6";1;"TLV333";;;
-13;"U3";"SOT-23-6";1;"OPA320S";;;
-14;"FID2,FID1";"Fiducial_1mm_Mask2mm";2;"Fiducial";;;
-15;"C6,C5";"C_1210_3225Metric";2;".1uF";;;
-16;"C4,C3";"C_1210_3225Metric";2;"1nF";;;
-17;"U2";"Texas_Instruments-SN65LVDS4RSET-0";1;"SN65LVDS4";;;
-18;"R2";"R_0603_1608Metric";1;"47";;;
-19;"J10";"PinHeader_1x06_P2.54mm_Vertical";1;"SPI_right";;;
-20;"J9";"PinHeader_1x06_P2.54mm_Vertical";1;"SPI_left";;;
-21;"J8";"PinHeader_1x03_P2.54mm_Vertical";1;"VBias";;;
-22;"J6";"SMA_Molex_73251-2200_Horizontal";1;"HV_in_external";;;
-23;"J5";"SMA_Molex_73251-2200_Horizontal";1;"sample_clock_out";;;
-24;"J4";"SMA_Molex_73251-2200_Horizontal";1;"SFOut";;;
-25;"J3";"SMA_Molex_73251-2200_Horizontal";1;"Vtemp1";;;
-26;"J1";"pcie_astropix";1;"pcie_GECCO";;;
-27;"H2,H1";"MountingHole_3.2mm_M3";2;"MountingHole";;;
-28;"C10,C14";"C_0603_1608Metric";2;"10uF";;;
-29;"C11";"C_0603_1608Metric";1;"1nF";;;
-30;"C8";"C_0603_1608Metric";1;"1n";;;
+Reference, Quantity, Value, Footprint, Datasheet, Voltage
+C8 C11 ,2,"1nF","Capacitor_SMD:C_0603_1608Metric","~"
+C1 C2 C7 C9 C12 C13 ,6,".1uF","Capacitor_SMD:C_0603_1608Metric","~"
+C10 C14 ,2,"10uF","Capacitor_SMD:C_0603_1608Metric","~"
+C3 C4 ,2,"1nF","Capacitor_SMD:C_1210_3225Metric","~","250V"
+C5 C6 ,2,".1uF","Capacitor_SMD:C_1210_3225Metric","~","250V"
+FID1 FID2 ,2,"Fiducial","Fiducial:Fiducial_1mm_Mask2mm","~"
+H1 H2 ,2,"MountingHole","MountingHole:MountingHole_3.2mm_M3","~"
+H3 ,1,"bonder","astropix:bonder",""
+J1 ,1,"pcie_GECCO","astropix:pcie_astropix",""
+J10 ,1,"SPI_right","Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical","~"
+J3 ,1,"Vtemp1","Connector_Coaxial:SMA_Horizontal"," ~"
+J4 ,1,"SFOut","Connector_Coaxial:SMA_Horizontal"," ~"
+J5 ,1,"sample_clock_out","Connector_Coaxial:SMA__Horizontal"," ~"
+J6 ,1,"HV_in_external","Connector_Coaxial:SMA_Horizontal"," ~"
+J9 ,1,"SPI_left","Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical","~"
+JP1 ,1,"VDD_JP","Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical","~"
+Logo1 ,1,"KIT_logo","astropix:logo",""
+Logo2 ,1,"HV_logo","astropix:hv",""
+R1 ,1,"0","Resistor_SMD:R_1206_3216Metric","~"
+R9 R11 R12 ,3,"1k","Resistor_SMD:R_0603_1608Metric","~"
+R15 R16 ,2,"2.2k","Resistor_SMD:R_0603_1608Metric","~"
+R2 R6 ,2,"47","Resistor_SMD:R_0603_1608Metric","~"
+R3 R4 ,2,"100","Resistor_SMD:R_0402_1005Metric","~"
+R5 R7 ,2,"10k","Resistor_SMD:R_0603_1608Metric","~"
+R8 R10 R13 R14 R17 R18 ,6,"22","Resistor_SMD:R_0402_1005Metric","~"
+U1 ,1,"TLV333","Package_TO_SOT_SMD:SOT-23-6",""
+U2 ,1,"SN65LVDS4","astropix:Texas_Instruments-SN65LVDS4RSET-0",""
+U3 ,1,"OPA320S","Package_TO_SOT_SMD:SOT-23-6",""
+U4 ,1,"AstroPix2_split","astropix:AstroPix2",""

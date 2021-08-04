@@ -209,15 +209,11 @@ NoConn ~ 1450 3650
 NoConn ~ 1450 3350
 NoConn ~ 1450 3450
 Wire Wire Line
-	9650 7800 9350 7800
-Wire Wire Line
 	9650 7900 9350 7900
 Wire Wire Line
 	9650 8000 9350 8000
 Wire Wire Line
 	9650 8100 9350 8100
-Text Label 9350 7800 0    50   ~ 0
-sr_ck1
 Text Label 9350 7900 0    50   ~ 0
 sr_ck2
 Text Label 9350 8000 0    50   ~ 0
@@ -969,12 +965,12 @@ Wire Wire Line
 Wire Wire Line
 	1400 1050 1400 1150
 Wire Wire Line
-	3200 5350 3900 5350
-Text Label 3900 5350 2    50   ~ 0
+	3200 5450 3900 5450
+Text Label 3900 5450 2    50   ~ 0
 res_n
 Wire Wire Line
-	3200 5250 3900 5250
-Text Label 3900 5250 2    50   ~ 0
+	3200 5350 3900 5350
+Text Label 3900 5350 2    50   ~ 0
 interrupt
 Text Label 3800 6350 2    50   ~ 0
 DAC_blpix
@@ -1019,15 +1015,14 @@ Text Label 3900 4950 2    50   ~ 0
 sample_clock_P
 Wire Wire Line
 	3200 4950 3900 4950
-Text Label 3900 5150 2    50   ~ 0
+Text Label 3900 5250 2    50   ~ 0
 timestamp_clk
 Wire Wire Line
-	3900 5150 3200 5150
-Text Label 3900 5450 2    50   ~ 0
+	3900 5250 3200 5250
+Text Label 3900 5150 2    50   ~ 0
 hold
 Wire Wire Line
-	3900 5450 3200 5450
-NoConn ~ 1450 5750
+	3900 5150 3200 5150
 NoConn ~ 1450 5850
 NoConn ~ 3200 5750
 NoConn ~ 3200 5850
@@ -1525,8 +1520,6 @@ Wire Wire Line
 Wire Wire Line
 	14550 3450 14100 3450
 Connection ~ 14100 3450
-NoConn ~ 1450 5350
-NoConn ~ 1450 5250
 Wire Wire Line
 	13600 3300 13600 2200
 Wire Wire Line
@@ -1697,8 +1690,6 @@ Connection ~ 3400 1050
 Wire Wire Line
 	3400 1550 3900 1550
 Connection ~ 3400 1550
-NoConn ~ 12050 7850
-NoConn ~ 1450 5450
 $Comp
 L Device:R R16
 U 1 1 6178CA71
@@ -1804,21 +1795,6 @@ Wire Wire Line
 Connection ~ 6900 1150
 Text Notes 5000 850  0    50   ~ 0
 GECCO HV Clearance?\n
-$Comp
-L power:GNDD #PWR0140
-U 1 1 611F5306
-P 9250 8250
-F 0 "#PWR0140" H 9250 8000 50  0001 C CNN
-F 1 "GNDD" H 9254 8095 50  0000 C CNN
-F 2 "" H 9250 8250 50  0001 C CNN
-F 3 "" H 9250 8250 50  0001 C CNN
-	1    9250 8250
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	9250 8250 9250 8200
-Wire Wire Line
-	9250 8200 9650 8200
 $Comp
 L astropix:pcie_GECCO J1
 U 1 1 61228AD2
@@ -2073,4 +2049,26 @@ F 3 "" H 1500 10400 50  0001 C CNN
 	1    1500 10400
 	1    0    0    -1  
 $EndComp
+NoConn ~ 1450 5250
+NoConn ~ 1450 5750
+Text Label 9350 7800 0    50   ~ 0
+sr_ck1
+Wire Wire Line
+	9650 7800 9350 7800
+Text Label 12350 7850 2    50   ~ 0
+sr_out
+Wire Wire Line
+	12350 7850 12050 7850
+Wire Wire Line
+	9650 8200 9350 8200
+Text Label 9350 8200 0    50   ~ 0
+sr_rb
+Text Label 1150 5350 0    50   ~ 0
+sr_out
+Wire Wire Line
+	1450 5350 1150 5350
+Wire Wire Line
+	1450 5450 1150 5450
+Text Label 1150 5450 0    50   ~ 0
+sr_rb
 $EndSCHEMATC

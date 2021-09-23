@@ -75,6 +75,7 @@ module main_top(
     //Astropix
 
     //Asic config SR
+    input        config_sout,
     output       config_sin_p, // ConfigCard 3-> C3
     output       config_sin_n, // ConfigCard 3-> C3
     output       config_ck1_p, // ConfigCard 3-> C4
@@ -83,6 +84,7 @@ module main_top(
     output       config_ck2_n, // ConfigCard 3-> C2
     output       config_ld_p, // ConfigCard 3-> C1
     output       config_ld_n, // ConfigCard 3-> C1
+    output       config_rb,
 
     //SPI left:
     output       spi_left_clk,
@@ -181,6 +183,7 @@ wire config_ck1;
 wire config_ck2;
 wire config_ld;
 wire config_res_n;
+wire config_rb;
 
 wire cmd;
 wire vb_clock;
@@ -221,6 +224,7 @@ ftdi_top ftdi_top_I(
     .ChipConfig_Data(config_sin),
     .ChipConfig_Load(config_ld),
     .ChipConfig_Res_n(config_res_n),
+    .ChipConfig_Readback(config_rb),
 
     .ChipConfig_LdDAC(),
     .ChipConfig_LdConfig(),

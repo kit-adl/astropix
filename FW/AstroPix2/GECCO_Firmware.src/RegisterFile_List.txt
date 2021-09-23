@@ -24,7 +24,9 @@ Address │ Bit(s)	Function
 		│ 1			Config Clock2
 		│ 2			Config Data
 		│ 3			Config Load
-		│ 4-7		
+		│ 4			Config Res_N
+		│ 5			Config Readback
+		│ 6-7
  1		│ 7-0		fastclockspeed
  2		│ 0			PatGen reset
 		│ 1-7		

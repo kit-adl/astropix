@@ -57,6 +57,7 @@ module RegisterFile (
     output wire        ChipConfig_Data,
     output wire        ChipConfig_Load,
     output wire        ChipConfig_Res_n,
+    output wire        ChipConfig_Readback,
 
     output wire        ChipConfig_LdDAC,
     output wire        ChipConfig_LdConfig,
@@ -280,11 +281,12 @@ wire         cmd_fifo_full;
 //---------------
 // Assigments
 //---------------
-assign ChipConfig_Clock1 	 = ChipConfig[0:0];
-assign ChipConfig_Clock2 	 = ChipConfig[1:1];
-assign ChipConfig_Data 		 = ChipConfig[2:2];
-assign ChipConfig_Load 		 = ChipConfig[3:3];
-assign ChipConfig_Res_n      = ChipConfig[4:4];
+assign ChipConfig_Clock1 	 = ChipConfig[0];
+assign ChipConfig_Clock2 	 = ChipConfig[1];
+assign ChipConfig_Data 		 = ChipConfig[2];
+assign ChipConfig_Load 		 = ChipConfig[3];
+assign ChipConfig_Res_n      = ChipConfig[4];
+assign ChipConfig_Readback   = ChipConfig[5];
 
 assign ChipConfig_LdDAC      = ChipConfig_Lds[0];
 assign ChipConfig_LdConfig   = ChipConfig_Lds[1];

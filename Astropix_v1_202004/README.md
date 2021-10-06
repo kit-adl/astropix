@@ -22,7 +22,7 @@ This allows easily writting scripts to run measurements.
 
 ## Building under windows
 
-- Install IVI Compliance Package (will be removed in a future release)
+- ~~Install IVI Compliance Package~~ (Not need with newest version)
 - Install QT and QT Creator from QT official website using the community download packages
 - Install QT 5 with Mingw 64bit runtime (no specific version, the latest 5.15.1 was tested)
 - Open the Project located in this folder "gecco_top.pro" in QT Creator, it should build and run out of the box 

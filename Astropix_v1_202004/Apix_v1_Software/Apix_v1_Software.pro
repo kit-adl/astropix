@@ -149,18 +149,18 @@ FORMS    += mainwindow.ui \
 
 win32 {
     LIBS     += -L$$PWD/libs -L./libs -L$$PWD/libs/ -lftd2xx
-    LIBS     += "C:/Windows/System32/visa32.dll"
-    INCLUDEPATH += "C:\Program Files\IVI Foundation\VISA\Win64\Include"
+    #LIBS     += "C:/Windows/System32/visa32.dll"
+    #INCLUDEPATH += "C:\Program Files\IVI Foundation\VISA\Win64\Include"
     INCLUDEPATH += "./includes"
     INCLUDEPATH += "./includes/QtHttpServer"
     INCLUDEPATH += "./includes/QtSslServer"
 }
 unix {
-LIBS += "/usr/lib/librsvisa.so"
+#LIBS += "/usr/lib/librsvisa.so"
 LIBS += "/usr/local/lib/libftd2xx.so"
 LIBS += "/usr/local/lib/libftd2xx.so"
 
-INCLUDEPATH += "/usr/include/rsvisa"
+#INCLUDEPATH += "/usr/include/rsvisa"
 }
 
 ## Add QTHTTP Server library

@@ -33,8 +33,8 @@
 //### for versioning, see header file                           ###
 //#################################################################
 
-NexysIO::NexysIO() : workeraddress(11), workerreadsize(232560), workersleep(10),
-    workerrunning(false), worker(nullptr), workerzerosuppressed(false)
+NexysIO::NexysIO() : numflushes(0), numreads(0), workeraddress(11), workerreadsize(232560),
+    workersleep(10), workerrunning(false), worker(nullptr), workerzerosuppressed(false)
 {
     this->ftdi = nullptr;
     FTDIBuffPos = 0;
@@ -97,13 +97,8 @@ bool NexysIO::AddBytes(unsigned char command, unsigned int clockdiv)
 {
     bool noneedtosend = true;
 
-     //printf("---> Adding command: %x\n",command);
-
-    if (FTDIBuffPos + clockdiv > FTDIBuffSize-1) {
-         Flush();
-
-    }
-
+    if (FTDIBuffPos + clockdiv > FTDIBuffSize-1)
+        Flush();
 
     for(unsigned int i = 0; i < clockdiv; ++i)
         FTDIBuff[FTDIBuffPos++] = command;
@@ -133,17 +128,15 @@ bool NexysIO::Flush()
     if(ftdi == nullptr)
         return false;
 
-    //std::cout << "Flushing" << std::endl;
-
     //std::cout << FTDIBuff[i]<< std::endl;
     bool ftStatus = false;
     unsigned long int BytesWritten = 0;
     //std::cout << "Bytes written to FTDI: " << BytesWritten << std::endl;
-    std::cout << "Number of Bytes in Buffer: " << FTDIBuffPos << std::endl;
     if (FTDIBuffPos > 0 )
       {
         ftStatus = ftdi->Write(static_cast<unsigned char*>(FTDIBuff), FTDIBuffPos, &BytesWritten );
         //std::cout << "Bytes written to FTDI: " << BytesWritten << std::endl;
+        ++numflushes;
       }
     //std::cout << "Bytes written to FTDI: " << BytesWritten << std::endl;
     FTDIBuffPos = 0;
@@ -163,6 +156,7 @@ std::string NexysIO::Read(int count)
     {
         //ftdi->Read(text, 63448, &readbytes);
         ftdi->Read(databuffer, 61200, &readbytes); //63448, &readbytes);
+        ++numreads;
         for (unsigned int i = 0; i < readbytes; ++i)
             data += char(databuffer[i]);
             //data += char(text[i]);
@@ -184,6 +178,7 @@ std::string NexysIO::Read(int count)
 
     //ftdi->Read(text, static_cast<unsigned int>(count), &readbytes);
     ftdi->Read(databuffer, static_cast<unsigned int>(count), &readbytes);
+    ++numreads;
     for (unsigned int i = 0; i < readbytes; i++)
         data += char(databuffer[i]);
         //data += char(text[i]);
@@ -197,6 +192,7 @@ std::string NexysIO::Read(int count)
         Timing::Sleep(100);
         count -= readbytes;
         ftdi->Read(databuffer, static_cast<unsigned int>(count), &readbytes);
+        ++numreads;
         for(unsigned int i = 0; i < readbytes; ++i)
             data += char(databuffer[i]);
         std::cout << "   reread received " << readbytes << " bytes." << std::endl;
@@ -297,6 +293,36 @@ bool NexysIO::Write(unsigned char address, std::vector<byte> values, bool flush,
     return true;
 }
 
+bool NexysIO::Write(unsigned char address, std::vector<byte>& values, unsigned int start, unsigned int end,
+                    bool flush, unsigned int clockdiv)
+{
+    if(ftdi == nullptr || end <= start || start >= values.size())
+        return false;
+
+    //get the length of the command to send
+    if(end > values.size())
+        end = values.size();
+    int size = int(end - start) * int(clockdiv);
+    //abort on too long commands:
+    //if(size >= 1 << 16)
+    //    return false;
+
+    //command header:
+    AddByte(NexysIO::HWrite);                       //Write Header
+    AddByte(address);                               //Address (Fast Readout Control)
+    AddByte(static_cast<unsigned char>(size >> 8)); //Length High Byte
+    AddByte(static_cast<unsigned char>(size));      //Length Low Byte
+
+
+    for(unsigned int i = start; i < end; ++i)
+        AddBytes(values[i], clockdiv);
+
+    if(flush)
+        Flush();
+
+    return true;
+}
+
 bool NexysIO::Write(std::vector<std::pair<byte, byte> > values, bool flush, unsigned int clockdiv)
 {
     bool returnval = true;
@@ -325,7 +351,7 @@ bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, NexysIO
     int length = int(values.size()) * 5 * clockdiv;
     if(sendload)
         length += 140 * clockdiv;  //(1 + 10 + 95 + 16*2 + 2) * clockdiv;
-    /*if (length > 64000)
+    if (length > 64000)
     {
         unsigned int index = 0;
         unsigned int bitspercommand = static_cast<unsigned int>(63800/ (5 * clockdiv));
@@ -353,7 +379,7 @@ bool NexysIO::WriteASIC(unsigned char address, std::vector<bool> values, NexysIO
         length = int(values.size()) * 5 * clockdiv;
         if(sendload)
             length += 115 * clockdiv;
-    }*/
+    }
     unsigned char pattern = 0;
 
     AddByte(NexysIO::HWrite);           //Send Header
@@ -488,17 +514,12 @@ bool NexysIO::WritePCB(unsigned char address, std::vector<bool> values, const un
 
     unsigned char pattern = 0x00;
 
-    // Write Protocol Header
-    // - Write byte
-    // - Address
-    // - Number of bytes written in series to the register
     AddByte(NexysIO::HWrite);                     //Send Header
     AddByte(address);                   //Send Address
     AddByte(static_cast<unsigned char>(length / 256));                   //Send Length
     AddByte(static_cast<unsigned char>(length % 256));
 
-    // Add Values for whole Shift Register Chain
-    //-----------
+    //Send Values:
     for (auto it = values.begin(); it != values.end(); ++it)
     {
         pattern = (*it)?PCB_SIN:0;
@@ -508,34 +529,20 @@ bool NexysIO::WritePCB(unsigned char address, std::vector<bool> values, const un
         AddBytes(pattern         , clockdiv);
     }
 
-    // Load Signal:
-    // The laod signals for the function cards are connected
-    // to an 8 bit SR first in the chain
-    //  - Toggle Load of the Loads SR to activate the appropriate Card load
-    //  - Send 8 bits 0 to the SR chain to reset the load signal
-    //  - Load again to set all loads back to 0
-    //------------------
-
     //activate Load signal (as output of Shift Register):
-    AddBytes(PCB_Ld, clockdiv); // 1 to PCB_Ld bit
-    AddBytes(0     , clockdiv); // 0 to the whole register
-
-
-    // Just clock 8 times
+    AddBytes(PCB_Ld, clockdiv);
+    AddBytes(0     , clockdiv);
     //fill shift register with '0':
     //  (clock for the 14bit DACs is halted internally during Load, and others don't care)
     //  (the shift register on the RegisterCard in edge sensitive on load signal input, so also ok)
     for(int i = 0; i < 8; ++i)
     {
-        AddBytes(PCB_Ck, clockdiv); // Ck -> 1 , others to 0
-        AddBytes(0     , clockdiv); // Ck -> 0
+        AddBytes(PCB_Ck, clockdiv);
+        AddBytes(0     , clockdiv);
     }
-
     //second load pulse to deactivate the load signals for the function cards:
     AddBytes(PCB_Ld, clockdiv);
     AddBytes(0     , clockdiv);
-
-    // Finished
 
     return (initialPosition < FTDIBuffPos);
 }
@@ -717,6 +724,22 @@ bool NexysIO::ClearFastReadBuffer()
     }
     else
         return false;
+}
+
+void NexysIO::ResetStatistics()
+{
+    numflushes = 0;
+    numreads   = 0;
+}
+
+int NexysIO::GetNumFlushes()
+{
+    return numflushes;
+}
+
+int NexysIO::GetNumReads()
+{
+    return numreads;
 }
 
 bool NexysIO::PatGenWrite(unsigned char patgenaddress, unsigned char patgenvalue)

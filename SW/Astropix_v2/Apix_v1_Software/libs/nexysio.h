@@ -87,7 +87,7 @@ public:
                 Ck2      = 0b00000010,
                 SinA     = 0b00000100,
                 Ld       = 0b00001000,
-                Res_n     = 0b00010000,
+                Res_n    = 0b00010000,
                 SinC     = 0b00100000,
                 SinD     = 0b01000000,
                 PCB_Ck   = 0b00000001,
@@ -140,7 +140,22 @@ public:
      * @param clockdiv  - reduces the transmission speed sending every data byte `clockdiv` times
      * @return          - false if values is to long for the write buffer
      */
-    bool Write(unsigned char address, std::vector<byte> values, bool flush = true, unsigned int clockdiv = 1);
+    bool Write(unsigned char address, std::vector<byte> values, bool flush = true,
+               unsigned int clockdiv = 1);
+    /**
+     * @brief Write writes only a part of a passed vector to remove the need of copying the content
+     *          to a new vector for this sole purpose
+     * @param address   - address to write the data to
+     * @param values    - vector containing the data to send
+     * @param start     - index of the first byte to send
+     * @param end       - first byte to not send any more (if bigger than vector, only the vector's
+     *                      content will be sent
+     * @param flush     - flushes the write buffer's contents if true, or not if false
+     * @param clockdiv  - reduces the transmission speed sending every data byte `clockdiv` times
+     * @return          - false on an error, true otherwise
+     */
+    bool Write(unsigned char address, std::vector<byte>& values, unsigned int start,
+               unsigned int end, bool flush, unsigned int clockdiv);
 
     bool Write(std::vector<std::pair<byte, byte> > values, bool flush = true, unsigned int clockdiv = 1);
 
@@ -167,6 +182,7 @@ public:
      * @return
      */
     bool ConfigureLoad(unsigned char address, std::vector<bool> values, bool sendload = true);
+
     /**
      * @brief SendLoad separate command to send a load signal to the chip for fast reconfigurations
      * @return          - true on succesful send false otherwise
@@ -187,7 +203,6 @@ public:
      * @return
      */
     bool WritePCB(unsigned char address, std::vector<bool> values, const unsigned int clockdiv);
-
 
     bool AddDelay(unsigned long usec);
 
@@ -231,8 +246,16 @@ public:
      */
     bool ClearFastReadBuffer();
 
+    /// -- methods for testing communication perfomance --
+    void ResetStatistics();
+    int GetNumFlushes();
+    int GetNumReads();
+
 private:
     FTDI* ftdi;
+
+    int numflushes;
+    int numreads;
 
     unsigned char FTDIBuff[FTDIBuffSize];
     unsigned int  FTDIBuffPos;

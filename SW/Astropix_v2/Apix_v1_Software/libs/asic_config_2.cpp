@@ -35,7 +35,7 @@ void ASIC_Config2::SetDeviceName(std::string name)
 
 ASIC_Config2& ASIC_Config2::AddParameter(std::string name, unsigned int bits, int shiftdirection, unsigned int initial, bool optional)
 {
-    if(bits <1 || bits > 1300) {
+    if(bits <1 || bits > 30) {
         throw std::runtime_error("Number of bits must be between 1 and 30");
     }
 

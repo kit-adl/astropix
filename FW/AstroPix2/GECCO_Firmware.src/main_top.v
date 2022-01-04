@@ -41,7 +41,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 /////////////Uncomment if LVDS Receivers are bypassed from IN_P to OUT////////////
-//`define config_singleended
+//`define se_clock //Uncomment if single-ended sampleclock output should be used
+`define se_clock_singleended //Uncomment if LVDS Receiver is not asembled on carrier pcb, remember to connect IN+ with Out
+
+`define config_singleended //Uncomment if GECCO Board has no lvds receivers for SR config
 
 
 module main_top(
@@ -88,14 +91,14 @@ module main_top(
 
     //SPI left:
     output       spi_left_clk,
-    input        spi_left_csn,
+    output       spi_left_csn,
     input        spi_left_miso0,
     input        spi_left_miso1,
     output       spi_left_mosi,
 
     //SPI right:
     input        spi_right_clk,
-    output       spi_right_csn,
+    input        spi_right_csn,
     output       spi_right_miso0,
     output       spi_right_miso1,
     input        spi_right_mosi,
@@ -103,7 +106,7 @@ module main_top(
     //Astropix Digital Pins
     input interrupt,
     output reg res_n,
-    input hold,
+    output hold,
 
     //Chip Config debug output
     output debug_spi_csn,
@@ -158,6 +161,10 @@ assign set_vadj[0]  = 1;
 
 assign prog_siwun = 1;   //important for reading from FPGA
 
+
+//Astropix2
+assign hold = 1'b0;
+
 // FTDI Communication / Order Sorter:
 // TODO: remove?
 wire        ordersorter_header0;
@@ -183,7 +190,6 @@ wire config_ck1;
 wire config_ck2;
 wire config_ld;
 wire config_res_n;
-wire config_rb;
 
 wire cmd;
 wire vb_clock;
@@ -205,7 +211,23 @@ wire        spi_read_fifo_full;
 wire        spi_config_readback_en;
 
 // Clocks
-reg sample_clk_se = 0;
+//assign sample_clk_se = 1'b0;
+//assign sample_clk_se_n = 1'b0;
+
+// assign fast_clk_sampleclk = 1'b0;
+
+assign config_rb = 1'b0;
+
+`ifdef se_clock
+    assign sample_clk_se = fast_clk;
+    assign fast_clk_sampleclk = 1'b0;
+`else
+    assign fast_clk_sampleclk = fast_clk;
+    assign sample_clk_se = 1'b0;
+    `ifdef se_clock_singleended
+        assign sample_clk_se_n = 1'b0;
+    `endif
+`endif
 
 // FTDI Configuration:
 ftdi_top ftdi_top_I(
@@ -224,7 +246,7 @@ ftdi_top ftdi_top_I(
     .ChipConfig_Data(config_sin),
     .ChipConfig_Load(config_ld),
     .ChipConfig_Res_n(config_res_n),
-    .ChipConfig_Readback(config_rb),
+    .ChipConfig_Readback(),//(config_rb),
 
     .ChipConfig_LdDAC(),
     .ChipConfig_LdConfig(),
@@ -349,7 +371,8 @@ ftdi_top ftdi_top_I(
     .ordersorter_data(ordersorter_data[7:0])
 );
 
-wire fast_clk_sampleclk;
+//wire fast_clk_sampleclk;
+//reg fast_clk_sampleclk = 0;
 //wire timestamp_clk;
 wire clockwiz_locked;
 
@@ -357,9 +380,20 @@ clk_wiz_0 I_clk_wiz_0(
     .clk_in1(clk),
     .reset(1'b0),
     .locked(clockwiz_locked),
-    .clk_out_sampleclk(fast_clk_sampleclk),
-    .clk_out_timestamp(timestamp_clk)
+    .clk_out_sampleclk(fast_clk),
+    .clk_out_timestamp(timestamp_int_clk)
 );
+
+reg timestamp_clk_div2;
+
+assign timestamp_clk = timestamp_clk_div2;
+
+always @(posedge timestamp_int_clk, negedge cpu_resetn) begin
+    if(!cpu_resetn)
+        timestamp_clk_div2 <= 0;
+    else
+        timestamp_clk_div2 <= ~timestamp_clk_div2;
+end
 
 
 // Pattern Generator
@@ -383,12 +417,15 @@ sync_async_patgen patgen(
     .done()
 );
 
-spi_readout spi_readout_i(
+assign spi_right_miso0 = 1'b0;
+assign spi_right_miso1 = 1'b0;
+
+spi_readout2 spi_readout_i(
     .clock(clk),
     .reset(~cpu_resetn | spi_config_reset),
     .clock_divider(spi_clock_divider),
 
-    .spi_csb(spi_right_csn),
+    .spi_csb(spi_left_csn),
     .spi_clock(spi_left_clk),
     .spi_mosi(spi_left_mosi),
     .spi_miso0(spi_left_miso0),
@@ -409,17 +446,17 @@ spi_readout spi_readout_i(
 );
 
 // Buffers:
-wire [5:0] obuf_p;
-wire [5:0] obuf_n;
-wire [5:0] obuf_i;
-assign obuf_i = {gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, fast_clk_sampleclk, sample_clk_se};
+wire [4:0] obuf_p;
+wire [4:0] obuf_n;
+wire [4:0] obuf_i;
+assign obuf_i = {gecco_inj_chopper, ~vb_clock, vb_data, ~vb_load, fast_clk_sampleclk};
             //vb_clock and vb_load are connected inverted to the receivers on GECCO board
-assign obuf_p = {gecco_inj_chopper_p, vb_clock_p, vb_data_p, vb_load_p, sample_clk_p, sample_clk_se_p};
-assign obuf_n = {gecco_inj_chopper_n, vb_clock_n, vb_data_n, vb_load_n, sample_clk_n, sample_clk_se_n};
+assign obuf_p = {gecco_inj_chopper_p, vb_clock_p, vb_data_p, vb_load_p, sample_clk_p};
+assign obuf_n = {gecco_inj_chopper_n, vb_clock_n, vb_data_n, vb_load_n, sample_clk_n};
 
 genvar i;
 generate
-    for (i = 0; i < 6; i = i + 1) begin
+    for (i = 0; i < 5; i = i + 1) begin
         OBUFDS #(
             .IOSTANDARD("LVDS_25")
         ) OBUFDS_I (
@@ -429,6 +466,24 @@ generate
         );
     end
 endgenerate
+
+`ifdef se_clock_singleended
+    OBUF #(
+        .IOSTANDARD("LVCMOS25")
+    ) OBUF_I (
+        .I(sample_clk_se),
+        .O(sample_clk_se_p)
+    );
+
+`else
+    OBUFDS #(
+            .IOSTANDARD("LVDS_25")
+        ) OBUFDS_I2 (
+            .I(sample_clk_se),
+            .O(sample_clk_se_p),
+            .OB(sample_clk_se_n)
+        );
+`endif
 
 //Clock
 
@@ -473,7 +528,7 @@ assign debug_spi_csn = spi_right_csn;
 assign debug_spi_sck = spi_left_clk;
 assign debug_spi_mosi = spi_left_mosi;
 assign debug_spi_miso0 = spi_left_miso0;
-assign debug_spi_miso1 = spi_left_miso0;
+assign debug_spi_miso1 = spi_left_miso1;
 
 //assign config_res_n_test = config_res_n ^ 1;
 
@@ -491,15 +546,14 @@ always@(posedge clk or posedge btnc) begin
     end
 end
 
-
 //LED contents:
 assign led[0] = res_n; //Reset_n
 assign led[1] = spi_config_reset; //SPI Reset
 assign led[2] = spi_write_fifo_empty; //SPI WR FIFO EMPTY
 assign led[3] = spi_read_fifo_full; //SPI READ FIFO EMPTY
 assign led[4] = spi_config_readback_en; //SPI READ-ONLY MODE;
-//assign led[5] = trigger_id[0];
-//assign led[6] = clockwiz_locked;
+assign led[5] = interrupt;
+assign led[6] = hold;
 //assign led[7] = fastreadout_control_enable;
 
 endmodule

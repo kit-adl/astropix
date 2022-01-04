@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="spi_readout_test_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="spi_readout_test_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="5000000fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="162"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="31" />
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/clock" type="logic">
+      <obj_property name="ElementShortName">clock</obj_property>
+      <obj_property name="ObjectShortName">clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/clock_divider" type="array">
+      <obj_property name="ElementShortName">clock_divider[7:0]</obj_property>
+      <obj_property name="ObjectShortName">clock_divider[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/spi_csb" type="logic">
+      <obj_property name="ElementShortName">spi_csb</obj_property>
+      <obj_property name="ObjectShortName">spi_csb</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/spi_clock" type="logic">
+      <obj_property name="ElementShortName">spi_clock</obj_property>
+      <obj_property name="ObjectShortName">spi_clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/spi_mosi" type="logic">
+      <obj_property name="ElementShortName">spi_mosi</obj_property>
+      <obj_property name="ObjectShortName">spi_mosi</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/spi_miso0" type="logic">
+      <obj_property name="ElementShortName">spi_miso0</obj_property>
+      <obj_property name="ObjectShortName">spi_miso0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/spi_miso1" type="logic">
+      <obj_property name="ElementShortName">spi_miso1</obj_property>
+      <obj_property name="ObjectShortName">spi_miso1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/readback_en" type="logic">
+      <obj_property name="ElementShortName">readback_en</obj_property>
+      <obj_property name="ObjectShortName">readback_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/data_in_fifo_data" type="array">
+      <obj_property name="ElementShortName">data_in_fifo_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in_fifo_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/data_in_fifo_empty" type="logic">
+      <obj_property name="ElementShortName">data_in_fifo_empty</obj_property>
+      <obj_property name="ObjectShortName">data_in_fifo_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/data_in_fifo_clock" type="logic">
+      <obj_property name="ElementShortName">data_in_fifo_clock</obj_property>
+      <obj_property name="ObjectShortName">data_in_fifo_clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/data_in_fifo_rd_en" type="logic">
+      <obj_property name="ElementShortName">data_in_fifo_rd_en</obj_property>
+      <obj_property name="ObjectShortName">data_in_fifo_rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/data_out_fifo_data" type="array">
+      <obj_property name="ElementShortName">data_out_fifo_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out_fifo_data[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/data_out_fifo_full" type="logic">
+      <obj_property name="ElementShortName">data_out_fifo_full</obj_property>
+      <obj_property name="ObjectShortName">data_out_fifo_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/data_out_fifo_clock" type="logic">
+      <obj_property name="ElementShortName">data_out_fifo_clock</obj_property>
+      <obj_property name="ObjectShortName">data_out_fifo_clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/data_out_fifo_wr_en" type="logic">
+      <obj_property name="ElementShortName">data_out_fifo_wr_en</obj_property>
+      <obj_property name="ObjectShortName">data_out_fifo_wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/trigger" type="logic">
+      <obj_property name="ElementShortName">trigger</obj_property>
+      <obj_property name="ObjectShortName">trigger</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/clock_div_counter" type="array">
+      <obj_property name="ElementShortName">clock_div_counter[6:0]</obj_property>
+      <obj_property name="ObjectShortName">clock_div_counter[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/shift_data_in" type="array">
+      <obj_property name="ElementShortName">shift_data_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">shift_data_in[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/loop_counter" type="array">
+      <obj_property name="ElementShortName">loop_counter[6:0]</obj_property>
+      <obj_property name="ObjectShortName">loop_counter[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/temp_clk" type="logic">
+      <obj_property name="ElementShortName">temp_clk</obj_property>
+      <obj_property name="ObjectShortName">temp_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/clk_en" type="logic">
+      <obj_property name="ElementShortName">clk_en</obj_property>
+      <obj_property name="ObjectShortName">clk_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/read_cnt" type="array">
+      <obj_property name="ElementShortName">read_cnt[4:0]</obj_property>
+      <obj_property name="ObjectShortName">read_cnt[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/state" type="array">
+      <obj_property name="ElementShortName">state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/CPOL" type="array">
+      <obj_property name="ElementShortName">CPOL[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CPOL[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/CPHA" type="array">
+      <obj_property name="ElementShortName">CPHA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CPHA[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/spi_readout_i/init_writebuffer" type="array">
+      <obj_property name="ElementShortName">init_writebuffer[2:0]</obj_property>
+      <obj_property name="ObjectShortName">init_writebuffer[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/fifo_o/mem" type="array">
+      <obj_property name="ElementShortName">mem[7:0][63:0]</obj_property>
+      <obj_property name="ObjectShortName">mem[7:0][63:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/fifo_o/ptr" type="array">
+      <obj_property name="ElementShortName">ptr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">ptr[2:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_readout_test_tb/fifo_o/data_in" type="array">
+      <obj_property name="ElementShortName">data_in[63:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[63:0]</obj_property>
+   </wvobject>
+</wave_config>

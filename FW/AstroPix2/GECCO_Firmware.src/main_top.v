@@ -360,6 +360,12 @@ ftdi_top ftdi_top_I(
     .spi_read_fifo_full(spi_read_fifo_full),
     .spi_config_readback_en(spi_config_readback_en),
 
+    .sr_readback_config_reset(sr_readback_config_reset),
+    .sr_readback_fifo_din(sr_readback_fifo_din),
+    .sr_readback_fifo_wr_clk(sr_readback_fifo_wr_clk),
+    .sr_readback_fifo_wr_en(sr_readback_fifo_wr_en),
+    .sr_readback_fifo_full(sr_readback_fifo_full),
+
     .cmd_enable(),
     .cmd_data(),
     .cmd_rd_clk(),
@@ -443,6 +449,19 @@ spi_readout2 spi_readout_i(
     .data_out_fifo_full(spi_read_fifo_full),
 
     .trigger(spi_trigger)
+);
+
+sr_readback u_sr_readback (
+    .clock                  (clk),
+    .reset                  (!cpu_resetn || sr_readback_config_reset),
+    .sr_ck1                 (config_ck1),
+    .sr_ck2                 (config_ck2),
+    .sr_ld                  (config_ld),
+    .sr_sout                (config_sout),
+    .data_out_fifo_data     (sr_readback_fifo_din),
+    .data_out_fifo_full     (sr_readback_fifo_full),
+    .data_out_fifo_clock    (sr_readback_fifo_wr_clk),
+    .data_out_fifo_wr_en    (sr_readback_fifo_wr_en)
 );
 
 // Buffers:

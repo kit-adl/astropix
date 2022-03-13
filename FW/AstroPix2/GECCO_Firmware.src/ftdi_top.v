@@ -151,6 +151,12 @@ module ftdi_top (
     output wire        spi_read_fifo_full,
     output wire        spi_config_readback_en,
     
+    output wire        sr_readback_config_reset,
+    input  wire [63:0] sr_readback_fifo_din,
+    input  wire        sr_readback_fifo_wr_clk,
+    input  wire        sr_readback_fifo_wr_en,
+    output wire        sr_readback_fifo_full,
+
     output wire        cmd_enable,
     output wire [7:0]  cmd_data,
     input  wire        cmd_rd_clk,
@@ -446,6 +452,13 @@ RegisterFile rfg_I (
     .spi_read_fifo_rd_en(ordersorter_read),
     .spi_config_readback_en(spi_config_readback_en),
     
+    .sr_readback_config_reset(sr_readback_config_reset),
+    .sr_readback_fifo_din(sr_readback_fifo_din),
+    .sr_readback_fifo_wr_clk(sr_readback_fifo_clk),
+    .sr_readback_fifo_wr_en(sr_readback_fifo_wr_en),
+    .sr_readback_fifo_full(sr_readback_fifo_full),
+    .sr_readback_fifo_rd_en(ordersorter_read),
+
     .cmd_enable(cmd_enable),    
     .cmd_data(cmd_data),
     .cmd_rd_clk(cmd_rd_clk),    

@@ -175,6 +175,13 @@ module RegisterFile (
     input  wire        spi_read_fifo_rd_en,  //connect to ordersorter_read
     output wire        spi_config_readback_en,
     
+    output wire        sr_readback_config_reset,
+    input  wire [63:0] sr_readback_fifo_din,
+    input  wire        sr_readback_fifo_wr_clk,
+    input  wire        sr_readback_fifo_wr_en,
+    output wire        sr_readback_fifo_full,
+    input  wire        sr_readback_fifo_rd_en,  //connect to ordersorter_read
+
     output wire        cmd_enable,
     output wire [7:0]  cmd_data,
     input  wire        cmd_rd_clk,
@@ -269,6 +276,15 @@ reg          spi_read_fifo_empty_at_start = 0;
 wire         spi_read_fifo_load_from_fifo;
 wire         spi_read_fifo_empty;
 wire         spi_read_fifo_rd_en_real;
+
+//  SR readback FIFO
+reg   [7:0]  sr_readback_config;
+wire  [7:0]  sr_readback_fifo_dout;
+reg   [2:0]  sr_readback_fifo_rdcount;
+reg          sr_readback_fifo_empty_at_start = 0;
+wire         sr_readback_fifo_load_from_fifo;
+wire         sr_readback_fifo_empty;
+wire         sr_readback_fifo_rd_en_real;
 
 //CMD decoder FIFO:
 reg   [7:0]  cmd_config;
@@ -396,6 +412,11 @@ assign spi_read_fifo_rd_en_real = spi_read_fifo_rd_en && address == 24 && spi_re
 assign spi_read_fifo_load_from_fifo = (!spi_read_fifo_empty_at_start && spi_read_fifo_rdcount != 0)
                                     || (!spi_read_fifo_empty && spi_read_fifo_rdcount == 0);
 
+assign sr_readback_config_rd_fifo_reset = sr_readback_config[0];
+assign spi_read_fifo_rd_en_real = sr_readback_fifo_rd_en && address == 60 && sr_readback_fifo_load_from_fifo;
+assign sr_readback_fifo_load_from_fifo = (!sr_readback_fifo_empty_at_start && sr_readback_fifo_rdcount != 0)
+                                    || (!sr_readback_fifo_empty && sr_readback_fifo_rdcount == 0);
+
 assign cmd_enable       = cmd_config[0];
 assign cmd_fifo_reset   = cmd_config[1];
 assign cmd_reset        = cmd_config[4];
@@ -446,6 +467,19 @@ spi_read_fifo spi_read_fifo_i(
     .empty(spi_read_fifo_empty)
 );
 
+reg res_sr_readback_fifo = 0;
+sr_readback_fifo sr_readback_fifo_i(
+    .rst(res_sr_readback_fifo),
+    .din(sr_readback_fifo_din),
+    .wr_en(sr_readback_fifo_wr_en),
+    .wr_clk(sr_readback_fifo_wr_clk),
+    .full(sr_readback_fifo_full),
+    .dout(sr_readback_fifo_dout),
+    .rd_clk(clk),
+    .rd_en(sr_readback_fifo_rd_en_real),
+    .empty(sr_readback_fifo_empty)
+);
+
 reg res_cmd_fifo = 0;
 //cmd_fifo cmd_fifo_i(
 //    .rst(res_cmd_fifo),
@@ -479,6 +513,13 @@ always @ (posedge clk) begin
     end
     else begin
         res_spi_read_fifo <= 0;
+    end
+
+    if(!res_n || sr_readback_config_rd_fifo_reset) begin
+        res_sr_readback_fifo <= 1;
+    end
+    else begin
+        res_sr_readback_fifo <= 0;
     end
 //    if((!res_n) | cmd_fifo_reset) begin
 //        res_cmd_fifo <= 1;
@@ -688,9 +729,23 @@ always @(posedge clk) begin
                 else
                     read_data[7:0] <= fastreadout_trigger_initdelay_reg[7:0];
             end
-            
+
             50: read_data[7:0] <= cmd_config_wire[7:0];
             //51: fifo only for writing
+            60: begin
+                sr_readback_fifo_rdcount <= sr_readback_fifo_rdcount + 3'd1;
+
+                //store empty state at beginning of the data set:
+                if(sr_readback_fifo_rdcount == 0)
+                    sr_readback_fifo_empty_at_start <= sr_readback_fifo_empty;
+
+                //load data if it was already present at beginning of the data set:
+                if(sr_readback_fifo_load_from_fifo)
+                    read_data <= sr_readback_fifo_dout;
+                else
+                    read_data <= 8'hff;
+            end
+            //61: SR readback config
             
             // Test Register
             80: read_data[7:0] <= 8'hAB;
@@ -756,6 +811,8 @@ always @(posedge clk) begin
         
         spi_config           <= 128;
         cmd_config           <= 0;
+
+        sr_readback_config   <= 0;
     end
     else begin
         if(write == 1) begin
@@ -808,6 +865,9 @@ always @(posedge clk) begin
                 
                 50: cmd_config[7:0]               <= write_data[7:0];
                 //51: writing CMD fifo done using assignments
+
+                //60: SR readback read-only
+                61: sr_readback_config            <= write_data[7:0];
             endcase
         end
     end

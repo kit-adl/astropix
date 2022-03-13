@@ -281,7 +281,7 @@ wire         spi_read_fifo_rd_en_real;
 reg   [7:0]  sr_readback_config;
 wire  [7:0]  sr_readback_fifo_dout;
 reg   [2:0]  sr_readback_fifo_rdcount;
-reg          sr_readback_fifo_empty_at_start = 0;
+reg          sr_readback_fifo_empty_at_start;
 wire         sr_readback_fifo_load_from_fifo;
 wire         sr_readback_fifo_empty;
 wire         sr_readback_fifo_rd_en_real;
@@ -559,6 +559,9 @@ always @(posedge clk) begin
 
         spi_read_fifo_rdcount        <= 0;
         spi_read_fifo_empty_at_start <= 0;
+        
+        sr_readback_fifo_rdcount <= 0;
+        sr_readback_fifo_empty_at_start <= 0;
     end
     else begin
     if (read == 1) begin

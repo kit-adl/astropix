@@ -188,7 +188,9 @@ module RegisterFile (
     input  wire        cmd_rd_en,
     output wire        cmd_fifo_empty,
     output wire        cmd_fifo_6entries,
-    output wire        cmd_reset
+    output wire        cmd_reset,
+    
+    input wire hit_interrupt
 );
 
 
@@ -293,6 +295,8 @@ wire         cmd_fifo_reset;
 wire  [7:0]  cmd_datain;
 wire         cmd_wr_en;
 wire         cmd_fifo_full;
+
+wire [7:0] interrupt_reg;
 
 //---------------
 // Assigments
@@ -402,18 +406,22 @@ assign spi_config_rd_fifo_reset = spi_config[3];
 assign spi_config_readback_en   = spi_config[6];
 assign spi_config_reset         = spi_config[7];
 assign spi_write_fifo_din = write_data;
+
+assign spi_clock_divider = spi_clock_divider_reg;
 assign spi_config_wire = {spi_config[7], spi_config[6],
                             spi_read_fifo_full, spi_read_fifo_empty, spi_config[3],
                             spi_write_fifo_full, spi_write_fifo_empty, spi_config[0]};
-assign spi_clock_divider = spi_clock_divider_reg;
-
 assign spi_write_fifo_wr_en = write & (address == 23);
 assign spi_read_fifo_rd_en_real = spi_read_fifo_rd_en && address == 24 && spi_read_fifo_load_from_fifo;
 assign spi_read_fifo_load_from_fifo = (!spi_read_fifo_empty_at_start && spi_read_fifo_rdcount != 0)
                                     || (!spi_read_fifo_empty && spi_read_fifo_rdcount == 0);
 
+
+wire [7:0] sr_readback_config_wire = {sr_readback_config[7], sr_readback_config[6],
+                            sr_readback_fifo_full, sr_readback_fifo_empty, sr_readback_config[3],
+                            sr_readback_fifo_full, sr_readback_fifo_empty, sr_readback_config[0]};
 assign sr_readback_config_rd_fifo_reset = sr_readback_config[0];
-assign spi_read_fifo_rd_en_real = sr_readback_fifo_rd_en && address == 60 && sr_readback_fifo_load_from_fifo;
+assign sr_readback_fifo_rd_en_real = sr_readback_fifo_rd_en && address == 60 && sr_readback_fifo_load_from_fifo;
 assign sr_readback_fifo_load_from_fifo = (!sr_readback_fifo_empty_at_start && sr_readback_fifo_rdcount != 0)
                                     || (!sr_readback_fifo_empty && sr_readback_fifo_rdcount == 0);
 
@@ -423,6 +431,8 @@ assign cmd_reset        = cmd_config[4];
 assign cmd_datain       = write_data[7:0];
 assign cmd_config_wire  = {cmd_config[7:5], cmd_config[4], cmd_fifo_full, cmd_fifo_empty, cmd_config[1], cmd_config[0]};
 assign cmd_wr_en = write & (address == 51);
+
+assign interrupt_reg = {7'b0, hit_interrupt};
 
 // Instances
 //---------------
@@ -748,7 +758,9 @@ always @(posedge clk) begin
                 else
                     read_data <= 8'hff;
             end
-            //61: SR readback config
+            61: read_data[7:0] <= sr_readback_config_wire;
+            
+            70: read_data[7:0] <= interrupt_reg;
             
             // Test Register
             80: read_data[7:0] <= 8'hAB;

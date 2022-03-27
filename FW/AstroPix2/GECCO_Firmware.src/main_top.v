@@ -44,7 +44,7 @@
 //`define se_clock //Uncomment if single-ended sampleclock output should be used
 //`define se_clock_singleended //Uncomment if LVDS Receiver is not asembled on carrier pcb, remember to connect IN+ with Out
 
-//`define config_singleended //Uncomment if GECCO Board has no lvds receivers for SR config
+`define config_singleended //Uncomment if GECCO Board has no lvds receivers for SR config
 
 
 module main_top(
@@ -216,7 +216,7 @@ wire        spi_config_readback_en;
 
 // assign fast_clk_sampleclk = 1'b0;
 
-assign config_rb = 1'b0;
+//assign config_rb = 1'b0;
 
 `ifdef se_clock
     assign sample_clk_se = fast_clk;
@@ -246,7 +246,7 @@ ftdi_top ftdi_top_I(
     .ChipConfig_Data(config_sin),
     .ChipConfig_Load(config_ld),
     .ChipConfig_Res_n(config_res_n),
-    .ChipConfig_Readback(),//(config_rb),
+    .ChipConfig_Readback(config_rb),
 
     .ChipConfig_LdDAC(),
     .ChipConfig_LdConfig(),
@@ -374,7 +374,9 @@ ftdi_top ftdi_top_I(
     .cmd_fifo_6entries(),
     .cmd_reset(),
 
-    .ordersorter_data(ordersorter_data[7:0])
+    .ordersorter_data(ordersorter_data[7:0]),
+    
+    .hit_interrupt(interrupt)
 );
 
 //wire fast_clk_sampleclk;
@@ -461,7 +463,8 @@ sr_readback u_sr_readback (
     .data_out_fifo_data     (sr_readback_fifo_din),
     .data_out_fifo_full     (sr_readback_fifo_full),
     .data_out_fifo_clock    (sr_readback_fifo_wr_clk),
-    .data_out_fifo_wr_en    (sr_readback_fifo_wr_en)
+    .data_out_fifo_wr_en    (sr_readback_fifo_wr_en),
+    .data_ready(data_ready)
 );
 
 // Buffers:
@@ -573,6 +576,6 @@ assign led[3] = spi_read_fifo_full; //SPI READ FIFO EMPTY
 assign led[4] = spi_config_readback_en; //SPI READ-ONLY MODE;
 assign led[5] = interrupt;
 assign led[6] = hold;
-//assign led[7] = fastreadout_control_enable;
+assign led[7] = data_ready;
 
 endmodule

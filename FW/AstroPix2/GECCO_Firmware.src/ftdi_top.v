@@ -165,7 +165,9 @@ module ftdi_top (
     output wire        cmd_fifo_6entries,
     output wire        cmd_reset,
     
-    output wire [7:0] 	ordersorter_data
+    output wire [7:0] 	ordersorter_data,
+    
+    input wire hit_interrupt
 );
     // Parametersrs
     //---------------
@@ -454,7 +456,7 @@ RegisterFile rfg_I (
     
     .sr_readback_config_reset(sr_readback_config_reset),
     .sr_readback_fifo_din(sr_readback_fifo_din),
-    .sr_readback_fifo_wr_clk(sr_readback_fifo_clk),
+    .sr_readback_fifo_wr_clk(sr_readback_fifo_wr_clk),
     .sr_readback_fifo_wr_en(sr_readback_fifo_wr_en),
     .sr_readback_fifo_full(sr_readback_fifo_full),
     .sr_readback_fifo_rd_en(ordersorter_read),
@@ -465,7 +467,9 @@ RegisterFile rfg_I (
     .cmd_rd_en(cmd_rd_en),
     .cmd_fifo_empty(cmd_fifo_empty),
     .cmd_fifo_6entries(cmd_fifo_6entries),
-    .cmd_reset(cmd_reset)
+    .cmd_reset(cmd_reset),
+    
+    .hit_interrupt(hit_interrupt)
 );
 
 

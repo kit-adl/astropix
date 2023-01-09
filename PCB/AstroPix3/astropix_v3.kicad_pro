@@ -419,7 +419,7 @@
         ],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.4,
+        "track_width": 0.125,
         "via_diameter": 0.45,
         "via_drill": 0.15,
         "wire_width": 6.0
@@ -437,8 +437,7 @@
         "nets": [
           "-HV",
           "/HV_in_ext",
-          "suba",
-          "subd"
+          "suba"
         ],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
@@ -462,7 +461,7 @@
         ],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
+        "track_width": 0.125,
         "via_diameter": 0.45,
         "via_drill": 0.15,
         "wire_width": 6.0
@@ -482,7 +481,7 @@
         ],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
+        "track_width": 0.125,
         "via_diameter": 0.45,
         "via_drill": 0.15,
         "wire_width": 6.0

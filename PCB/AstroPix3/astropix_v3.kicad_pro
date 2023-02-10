@@ -436,7 +436,6 @@
         "microvia_drill": 0.1,
         "name": "sub",
         "nets": [
-          "-HV",
           "/HV_in_ext",
           "suba"
         ],

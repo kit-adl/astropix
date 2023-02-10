@@ -1,4 +1,4 @@
-### Module positions - created on Wed Feb  1 10:57:13 2023 ###
+### Module positions - created on Fri Feb 10 19:28:05 2023 ###
 ### Printed by Pcbnew version (6.0.10)
 ## Unit = mm, Angle = deg.
 ## Side : top
@@ -30,8 +30,7 @@ J9        SPI_left          PinHeader_1x06_P2.54mm_Vertical   126.4920   -54.610
 J10       SPI_right         PinHeader_1x06_P2.54mm_Vertical   130.9370   -54.6100   90.0000  top
 JP1       VDD_JP            PinHeader_1x03_P2.54mm_Vertical   114.9096   -92.7100    0.0000  top
 Logo1     KIT_logo          logo                              136.9000   -96.0000    0.0000  top
-Logo2     HV_logo           hv                                109.4000   -93.4000    0.0000  top
-R1        0                 R_1206_3216Metric                 107.1880   -97.9424  -90.0000  top
+Logo2     HV_logo           hv                                109.1000   -93.0000    0.0000  top
 R2        2.2k              R_0603_1608Metric                 149.3000   -82.4000  -90.0000  top
 R3        100               R_0402_1005Metric                 126.1600   -92.6828    0.0000  top
 R4        100               R_0402_1005Metric                 131.3000   -89.3000    0.0000  top
@@ -41,7 +40,7 @@ R8        22                R_0402_1005Metric                 147.5000   -75.500
 R9        220k              R_0603_1608Metric                 118.9250   -66.8000    0.0000  top
 R10       22                R_0402_1005Metric                 118.8000   -77.3000   90.0000  top
 R11       0                 R_0603_1608Metric                 114.6500   -82.2500   90.0000  top
-R12       1k                R_0603_1608Metric                 107.3150   -88.9000   90.0000  top
+R12       1k                R_0603_1608Metric                 111.9000   -82.3000  -90.0000  top
 R13       22                R_0402_1005Metric                 120.1000   -77.3000   90.0000  top
 R14       22                R_0402_1005Metric                 117.5000   -77.3000   90.0000  top
 R15       220k              R_0603_1608Metric                 118.9250   -69.1000    0.0000  top

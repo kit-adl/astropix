@@ -1,0 +1,154 @@
+/*
+ * ATLASPix3_SoftAndFirmware
+ * Copyright (C) 2019  Rudolf Schimassek (rudolf.schimassek@kit.edu)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+Register List for GECCO Firmware for ATLASPix3:
+
+Address │ Bit(s)	Function
+────────┼──────────────────────────────────────────────────────────────────────────────────────────
+ 0		│ 0			Config Clock1
+		│ 1			Config Clock2
+		│ 2			Config Data
+		│ 3			Config Load
+		│ 4			Config Res_N
+		│ 5			Config Readback
+		│ 6-7
+ 1		│ 7-0		fastclockspeed
+ 2		│ 0			PatGen reset
+		│ 1-7		
+ 3		│ 0			PatGen Suspend
+		│ 1-7		
+ 4		│ 0			PatGen WriteStrobe
+		│ 1-7		
+ 5		│ 0			injection GECCO
+		│ 1			injection atlaspix3
+		│ 2			PatGen synced mode
+		│ 3			TS overflow sync
+		│ 4-7		
+ 6		│ 3-0		PatGen Address
+		│ 4-7		
+ 7		│ 7-0		PatGen Data
+		│
+ 8		│ 7-0		Read Counter (starts at 17) of this register
+		│
+ 9		│			Fast Readout Control
+		│ 0				enable
+		│ 1				fifoclear
+		│ 2				reset
+		│ 3				trigger
+		│ 4				debug output
+		│ 5				datamux enable
+		│ 6-7		
+10		│			useless
+11		│ 7-0		Fast Readout Data
+12		│			Voltage Board Control
+		│ 0				clock
+		│ 1				data
+		│ 2				load
+		│ 3-7		
+13		│ 7-0		Trigger Delay
+14		│ 7-0		Trigger Window (i.e. trigger length)
+15		│ 			Fast Readout Deser Delay
+		│ 2-0			Bit Clock Delay
+		│ 6-3			Phase Shift of Block Clock
+		│ 7
+		│
+16		│ 			Chip Config Loads
+		│ 0				LdDAC
+		│ 1				LdConfig
+		│ 2				LdVDAC
+		│ 3				LdTDAC
+		│ 4				LdRow
+		│ 5				LdColumn
+		│ 6			
+		│ 7				do not use shift register (output enable for the loads and WrRAMs)
+17		│			Chip Config Write RAM
+		│ 3-0			WrRAM[3:0]
+		│ 4-7			
+18		│ 			Chip Resets
+		│ 0				autoreset analog part (connects regulator safety reset to resetanalogB)
+		│ 1 			state of the regulator safety reset (read-only)
+		│ 2				resetanalogB output (write)
+		│ 3				autoreset digital part (connects por to resetdigitalB)
+		│ 4				state of por (read-only)
+		│ 5				resetdigitalB output (write)
+		│ 6				output of Power-On Reset test circuit (read-only)
+		│ 7             use por for resetanalogB, resetdigitalB and TrigRO_resetN if set to 1
+		│
+19		│ 			Configuration Mode
+		│ 0				useSPI
+		│ 1				bypassCMD
+		│ 2				EnCDR
+		│ 3				EnPLL
+		│ 4				CMD_ClockInvert
+		│ 5				Interface Speed 3
+		│ 6				TakeFast
+		│ 7
+20		│			Work Mode
+		│ 0				SelExt (external Clock)
+		│ 1				AlwaysEnableB
+		│ 2				untriggered RO Enable
+		│ 3				Triggered RO resetN
+		│ 4-7			
+21		│			SPI Configuration
+		│ 0 			Write FIFO reset
+		│ 1				Write FIFO empty flag (read-only)
+		│ 2				Write FIFO full flag (read-only)
+		│ 3				Read FIFO reset
+		│ 4				Read FIFO empty flag (read-only)
+		│ 5				Read FIFO full flag (read-only)
+		│ 6				SPI Readback Enable
+		│ 7				SPI module reset
+22		│ 7-0		SPI clock divider
+23		│ 7-0		SPI data writing (input)
+24		│ 7-0		SPI data reading (read-only)
+		│
+25		│ 7-0		FastReadout TSdiv
+26		│ 7-0		FastReadout TS2div
+27		│ 7-0		FastReadout TS Phase
+28		│ 7-0		Number of Skipped signals for synced injections to TS overflow
+		│
+30		│ 31-0		Ethernet IP address
+31		│ 15-0		Ethernet Port
+32		│ 47-0		Ethernet MAC address
+33		│ 7-0		Ethernet Configuration
+34		│ 15-0		Ethernet Interpackage Delay
+35		│ 23-0		Ethernet Timeout
+36		│ 31-0		Ethernet Subnet Mask
+		│
+40		│ 			Trigger Configuration
+		│ 0				Trigger Edge
+		│ 1				FTDI Trigger (direct trigger input)
+		│ 4-2			Trigger source selection
+		│ 7-5			Trigger Noise suppression
+41		│ 23-0		Trigger Delay after edge
+42		│ 23-0		Trigger Pulse duration
+43		│ 0			Trigger ID reset
+		│ 1-7		
+44		│ 15-0		triggered readout: number of trigger signals to send
+		│				put 0 for infinite
+45		│ 7-0		triggered readout: trigger signal length
+46		│ 15-0		triggered readout: distance between trigger signals (end to start)
+47		│ 15-0		triggered readout: delay before the first signal
+50		│ 			CMD Decoder Configuration
+		│ 0				enable
+		│ 1				FIFO reset
+		│ 2             FIFO empty
+		│ 3             FIFO full
+		│ 4             module reset
+		│ 5-7
+51		│ 7-0		CMD Data Write FIFO

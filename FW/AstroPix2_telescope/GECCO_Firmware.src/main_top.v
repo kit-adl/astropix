@@ -136,7 +136,7 @@ module main_top(
     //Injection:
     output       gecco_inj_chopper_p,
     output       gecco_inj_chopper_n,
-    output       chip_inj_chopper,
+    //output       chip_inj_chopper,
 
     //Voltage Boards:
     output       vb_clock_p,

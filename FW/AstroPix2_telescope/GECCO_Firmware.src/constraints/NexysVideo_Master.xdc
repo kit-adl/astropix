@@ -417,8 +417,8 @@ set_property -dict { PACKAGE_PIN H22   IOSTANDARD LVDS_25 } [get_ports { sample_
 set_property -dict { PACKAGE_PIN J22   IOSTANDARD LVDS_25 } [get_ports { sample_clk_p[1] }]; #IO_L7P_T1_AD2P_15 Sch=fmc_la_p[14]
 #set_property -dict { PACKAGE_PIN K16   IOSTANDARD LVCMOS25 } [get_ports { out_wr_ram2 }]; #IO_L23N_T3_FWE_B_15 Sch=fmc_la_n[15]
 #set_property -dict { PACKAGE_PIN L16   IOSTANDARD LVCMOS25 } [get_ports { out_ld_vdac }]; #IO_L23P_T3_FOE_B_15 Sch=fmc_la_p[15]
-#set_property -dict { PACKAGE_PIN G18   IOSTANDARD LVCMOS25 } [get_ports { out_ld_column }]; #IO_L4N_T0_15 Sch=fmc_la_n[16]
-set_property -dict {PACKAGE_PIN G17 IOSTANDARD LVCMOS25} [get_ports chip_inj_chopper]
+set_property -dict { PACKAGE_PIN G18   IOSTANDARD LVDS_25 } [get_ports { sample_clk_n[0] }]; #IO_L4N_T0_15 Sch=fmc_la_n[16]
+set_property -dict { PACKAGE_PIN G17 IOSTANDARD LVDS_25} [get_ports {sample_clk_p[0]}]
 set_property -dict {PACKAGE_PIN B18 IOSTANDARD LVCMOS25} [get_ports config_rb]
 set_property -dict {PACKAGE_PIN B17 IOSTANDARD LVCMOS25} [get_ports config_sout]
 #set_property -dict { PACKAGE_PIN C17   IOSTANDARD LVCMOS25 } [get_ports { sample_clk_n }]; #IO_L12N_T1_MRCC_16 Sch=fmc_la18_cc_n
@@ -462,8 +462,8 @@ set_property -dict {PACKAGE_PIN F20 IOSTANDARD LVCMOS25} [get_ports timestamp_cl
 set_property -dict {PACKAGE_PIN F19 IOSTANDARD LVCMOS25} [get_ports interrupt]; #IO_L18P_T2_16 Sch=fmc_la_p[20]
 set_property -dict {PACKAGE_PIN D17 IOSTANDARD LVCMOS25} [get_ports hold]; #IO_L12P_T1_MRCC_16 Sch=fmc_la18_cc_p
 
-set_property -dict {PACKAGE_PIN D21 IOSTANDARD LVDS_25} [get_ports sample_clk_n[0]]
-set_property -dict {PACKAGE_PIN E21 IOSTANDARD LVDS_25} [get_ports sample_clk_p[0]]
+#set_property -dict {PACKAGE_PIN D21 IOSTANDARD LVDS_25} [get_ports sample_clk_n[0]]
+#set_property -dict {PACKAGE_PIN E21 IOSTANDARD LVDS_25} [get_ports sample_clk_p[0]]
 
 # If singleended sample_clk_se
 #set_property -dict {PACKAGE_PIN B16 IOSTANDARD LVCMOS25} [get_ports sample_clk_se_n]

@@ -439,6 +439,8 @@ spi_readout2 spi_readout_i(
     .spi_miso0(spi_left_miso0),
     .spi_miso1(spi_left_miso1),
 
+    .interruptB(interrupt), //change name to interruptB
+
     .readback_en(spi_config_readback_en),
     .data_in_fifo_data(spi_write_fifo_dout),
     .data_in_fifo_clock(spi_write_fifo_rd_clk),
@@ -448,9 +450,7 @@ spi_readout2 spi_readout_i(
     .data_out_fifo_data(spi_read_fifo_din),
     .data_out_fifo_clock(spi_read_fifo_wr_clk),
     .data_out_fifo_wr_en(spi_read_fifo_wr_en),
-    .data_out_fifo_full(spi_read_fifo_full),
-
-    .trigger(spi_trigger)
+    .data_out_fifo_full(spi_read_fifo_full)
 );
 
 sr_readback u_sr_readback (

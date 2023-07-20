@@ -44,7 +44,7 @@
 //`define se_clock //Uncomment if single-ended sampleclock output should be used
 //`define se_clock_singleended //Uncomment if LVDS Receiver is not asembled on carrier pcb, remember to connect IN+ with Out
 
-`define config_singleended //Uncomment if GECCO Board has no lvds receivers for SR config
+//`define config_singleended //Uncomment if GECCO Board has no lvds receivers for SR config
 
 
 module main_top(

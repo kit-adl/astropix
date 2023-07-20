@@ -166,7 +166,6 @@ assign prog_siwun = 1;   //important for reading from FPGA
 assign hold = 1'b0;
 
 // FTDI Communication / Order Sorter:
-// TODO: remove?
 wire        ordersorter_header0;
 wire        ordersorter_read;
 wire [7:0]  ordersorter_address;
@@ -211,13 +210,6 @@ wire        spi_read_fifo_full;
 wire        spi_config_readback_en;
 
 // Clocks
-//assign sample_clk_se = 1'b0;
-//assign sample_clk_se_n = 1'b0;
-
-// assign fast_clk_sampleclk = 1'b0;
-
-//assign config_rb = 1'b0;
-
 `ifdef se_clock
     assign sample_clk_se = fast_clk;
     assign fast_clk_sampleclk = 1'b0;
@@ -248,37 +240,6 @@ ftdi_top ftdi_top_I(
     .ChipConfig_Res_n(config_res_n),
     .ChipConfig_Readback(config_rb),
 
-    .ChipConfig_LdDAC(),
-    .ChipConfig_LdConfig(),
-    .ChipConfig_LdVDAC(),
-    .ChipConfig_LdTDAC(),
-    .ChipConfig_LdRow(),
-    .ChipConfig_LdColumn(),
-    .ChipConfig_WrRAM(),
-    .ChipConfig_no_sr(),
-
-    .reset_autoreset_analog(),
-    .reset_regulator_reset_out(),
-    .reset_reset_analog_b(),
-    .reset_autoreset_digital(),
-    .reset_por(),
-    .reset_reset_digital_b(),
-    .reset_por_test_reset(),
-    .reset_autoreset_combine(),
-
-    .config_mode_use_spi(),
-    .config_mode_bypass_cmd(),
-    .config_mode_encdr(),
-    .config_mode_en_pll(),
-    .config_mode_cmd_clock_invert(),
-    .config_mode_interface_speed(),
-    .config_mode_take_fast(),
-
-    .work_mode_sel_ext(),
-    .work_mode_always_enable_b(),
-    .work_mode_untriggered_ro_en(),
-    .work_mode_trig_ro_reset_n(),
-
     .patgen_Reset(patgen_Reset),
     .patgen_Suspend(patgen_Suspend),
     .patgen_writeStrobe(patgen_writeStrobe),
@@ -290,62 +251,9 @@ ftdi_top ftdi_top_I(
     .patgen_tsoverflow_sync(patgen_tsoverflow_sync),
     .patgen_skipsignals(patgen_skipsignals),
 
-
-    .fastreadout_data(),
-    .fastreadout_control_enable(),
-    .fastreadout_control_fifoclear(),
-    .fastreadout_control_rst(),
-    .fastreadout_control_trigger(),
-    .fastreadout_control_debug(),
-    .fastreadout_control_datamux(),
-    .fastreadout_control_realign(),
-    .fastreadout_status_empty(),
-    .fastreadout_status_full(),
-    .fastreadout_status_Datasetstart(),
-    .fastreadout_status_hw_write(),
-    .fastreadout_fifo_reset(),
-    .fastreadout_fifo_din(),
-    .fastreadout_fifo_wr_en(),
-    .fastreadout_fifo_wr_clk(),
-    .fastreadout_fifo_dout(),   // debug output
-    .fastreadout_fifo_full(),
-    .fastreadout_fifo_empty(),
-    .fastreadout_fifo_progfull(),
-    .fastreadout_trig_delay(),
-    .fastreadout_trig_window(),
-    .fastreadout_clockspeed(),
-    .fastreadout_deser_delay(),
-    .fastreadout_tsdiv(),
-    .fastreadout_ts2div(),
-    .fastreadout_tsphase(),
-
-    .fastreadout_trigger_numsignals(),
-    .fastreadout_trigger_length(),
-    .fastreadout_trigger_distance(),
-    .fastreadout_trigger_initdelay(),
-    .fastreadout_trigger_synced(),
-
     .VoltageBoard_Clock(vb_clock),  // vbclk_wire
     .VoltageBoard_Data(vb_data),    // vboard_sin
     .VoltageBoard_Load(vb_load),    // vbld_wire
-
-
-    .ethernet_mac(),
-    .ethernet_ip(),
-    .ethernet_subnetmask(),
-    .ethernet_gateway(),
-    .ethernet_port(),
-    .ethernet_config(),
-    .ethernet_delay(),
-    .ethernet_timeout(),
-
-    .trigger_edge(),
-    .trigger_FTDI_trigger(),
-    .trigger_source(),
-    .trigger_noise_suppression(),
-    .trigger_delay(),
-    .trigger_duration(),
-    .triggerid_reset(),
 
     .spi_config_reset(spi_config_reset),
     .spi_clock_divider(spi_clock_divider),
@@ -366,22 +274,11 @@ ftdi_top ftdi_top_I(
     .sr_readback_fifo_wr_en(sr_readback_fifo_wr_en),
     .sr_readback_fifo_full(sr_readback_fifo_full),
 
-    .cmd_enable(),
-    .cmd_data(),
-    .cmd_rd_clk(),
-    .cmd_rd_en(),
-    .cmd_fifo_empty(),
-    .cmd_fifo_6entries(),
-    .cmd_reset(),
-
     .ordersorter_data(ordersorter_data[7:0]),
     
     .hit_interrupt(interrupt)
 );
 
-//wire fast_clk_sampleclk;
-//reg fast_clk_sampleclk = 0;
-//wire timestamp_clk;
 wire clockwiz_locked;
 
 clk_wiz_0 I_clk_wiz_0(
@@ -439,6 +336,8 @@ spi_readout2 spi_readout_i(
     .spi_miso0(spi_left_miso0),
     .spi_miso1(spi_left_miso1),
 
+    .interruptB(interrupt), //change name to interruptB
+
     .readback_en(spi_config_readback_en),
     .data_in_fifo_data(spi_write_fifo_dout),
     .data_in_fifo_clock(spi_write_fifo_rd_clk),
@@ -448,10 +347,7 @@ spi_readout2 spi_readout_i(
     .data_out_fifo_data(spi_read_fifo_din),
     .data_out_fifo_clock(spi_read_fifo_wr_clk),
     .data_out_fifo_wr_en(spi_read_fifo_wr_en),
-    .data_out_fifo_full(spi_read_fifo_full)//,
-
-    //.interruptB(interrupt),
-    //.interrupt_mode(1'b1)
+    .data_out_fifo_full(spi_read_fifo_full)
 );
 
 sr_readback u_sr_readback (

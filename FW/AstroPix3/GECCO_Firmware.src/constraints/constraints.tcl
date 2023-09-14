@@ -1,7 +1,7 @@
 #!/usr/bin/tclsh
 
 # Set chipversion
-set chipversion 2
+set chipversion 3
 
 # Set special defines
 # se_clock // if single-ended sampleclock output should be used

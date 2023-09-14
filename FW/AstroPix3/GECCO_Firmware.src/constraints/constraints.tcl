@@ -1,20 +1,24 @@
 #!/usr/bin/tclsh
 
 # Set chipversion
-set chipversion 3
+set chipversion 2
 
 # Set special defines
 # se_clock // if single-ended sampleclock output should be used
 # se_clock_singleended // if LVDS Receiver is not asembled on carrier pcb, remember to connect IN+ with Out
 # config_singleended // if GECCO Board has no lvds receivers for SR config
-set defines_list [list config_singleended]
+set defines_list [list]
 
 
 ################# Load Defines #################
-set_property verilog_define  [defines_list] [current_fileset]
+set length [llength $defines_list]
+puts "CONSTRAINTS.TCL: Load $length defines"
 
-puts "Loaded constraints for ASTROPIX Version $chipversion"
-puts "Set defines: $defines_list"
+if {[llength $defines_list] > 0} {
+    set_property verilog_define  $defines_list [current_fileset]
+    puts "CONSTRAINTS.TCL: Set defines: $defines_list"
+}
+puts "CONSTRAINTS.TCL: Load constraints for ASTROPIX Version $chipversion"
 
 
 ################# Constraints ##################
@@ -505,7 +509,7 @@ set_property -dict {PACKAGE_PIN L16 IOSTANDARD LVCMOS25} [get_ports spi_right_cl
 #set_property DIFF_TERM TRUE  [get_ports {data_n}];
 
 if {[lsearch -exact $defines_list config_singleended] >= 0} {
-    puts "Configure outputs for single-ended chip config"
+    puts "CONSTRAINTS.TCL: Configure outputs for single-ended chip config"
 
     ##If config_singleended
     ##IN1
@@ -521,7 +525,7 @@ if {[lsearch -exact $defines_list config_singleended] >= 0} {
     set_property -dict {PACKAGE_PIN E14 IOSTANDARD LVCMOS25} [get_ports config_ld_n]
     set_property -dict {PACKAGE_PIN E13 IOSTANDARD LVCMOS25} [get_ports config_ld_p]
 } else {
-    puts "Configure outputs for differential chip config"
+    puts "CONSTRAINTS.TCL: Configure outputs for differential chip config"
     #If !config_singleended
     #IN1
     set_property -dict { PACKAGE_PIN A16   IOSTANDARD LVDS_25 } [get_ports { config_ck1_n }]; #IO_L9N_T1_DQS_16 Sch=fmc_la_n[32]

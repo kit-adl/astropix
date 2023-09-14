@@ -1,8 +1,3 @@
-global chipversion
-global singleended
-set chipversion 3
-set singleended 1
-
 ## Clock Signal
 #set_property -dict {PACKAGE_PIN R4 IOSTANDARD LVCMOS33} [get_ports sysclk]
 #set_property -dict {PACKAGE_PIN R4 IOSTANDARD LVCMOS33} [get_ports {sysclk}]

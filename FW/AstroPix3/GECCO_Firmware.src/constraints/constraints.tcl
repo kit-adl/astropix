@@ -1,7 +1,23 @@
-global chipversion
-global singleended
+#!/usr/bin/tclsh
+
+# Set chipversion
 set chipversion 3
-set singleended 1
+
+# Set special defines
+# se_clock // if single-ended sampleclock output should be used
+# se_clock_singleended // if LVDS Receiver is not asembled on carrier pcb, remember to connect IN+ with Out
+# config_singleended // if GECCO Board has no lvds receivers for SR config
+set defines_list [list config_singleended]
+
+
+################# Load Defines #################
+set_property verilog_define  [defines_list] [current_fileset]
+
+puts "Loaded constraints for ASTROPIX Version $chipversion"
+puts "Set defines: $defines_list"
+
+
+################# Constraints ##################
 
 ## Clock Signal
 #set_property -dict {PACKAGE_PIN R4 IOSTANDARD LVCMOS33} [get_ports sysclk]
@@ -445,8 +461,13 @@ set_property -dict {PACKAGE_PIN C17 IOSTANDARD LVCMOS25} [get_ports res_n]
 set_property -dict {PACKAGE_PIN F20 IOSTANDARD LVCMOS25} [get_ports timestamp_clk]
 
 # Reverse hold <-> interrupt switch from V2
-set_property -dict {PACKAGE_PIN F19 IOSTANDARD LVCMOS25} [get_ports hold]; #IO_L18P_T2_16 Sch=fmc_la_p[20]
-set_property -dict {PACKAGE_PIN D17 IOSTANDARD LVCMOS25} [get_ports interrupt]; #IO_L12P_T1_MRCC_16 Sch=fmc_la18_cc_p
+if {$chipversion == 3} {
+    set_property -dict {PACKAGE_PIN F19 IOSTANDARD LVCMOS25} [get_ports hold]; #IO_L18P_T2_16 Sch=fmc_la_p[20]
+    set_property -dict {PACKAGE_PIN D17 IOSTANDARD LVCMOS25} [get_ports interrupt]; #IO_L12P_T1_MRCC_16 Sch=fmc_la18_cc_p
+} elseif {$chipversion == 2} {
+    set_property -dict {PACKAGE_PIN F19 IOSTANDARD LVCMOS25} [get_ports interrupt]; #IO_L18P_T2_16 Sch=fmc_la_p[20]
+    set_property -dict {PACKAGE_PIN D17 IOSTANDARD LVCMOS25} [get_ports hold]; #IO_L12P_T1_MRCC_16 Sch=fmc_la18_cc_p
+}
 
 set_property -dict {PACKAGE_PIN D21 IOSTANDARD LVDS_25} [get_ports sample_clk_n]
 set_property -dict {PACKAGE_PIN E21 IOSTANDARD LVDS_25} [get_ports sample_clk_p]
@@ -483,33 +504,38 @@ set_property -dict {PACKAGE_PIN L16 IOSTANDARD LVCMOS25} [get_ports spi_right_cl
 #set_property DIFF_TERM TRUE  [get_ports {data_p}];
 #set_property DIFF_TERM TRUE  [get_ports {data_n}];
 
-#If !config_singleended
-#IN1
-set_property -dict { PACKAGE_PIN A16   IOSTANDARD LVDS_25 } [get_ports { config_ck1_n }]; #IO_L9N_T1_DQS_16 Sch=fmc_la_n[32]
-set_property -dict { PACKAGE_PIN A15   IOSTANDARD LVDS_25 } [get_ports { config_ck1_p }]; #IO_L9P_T1_DQS_16 Sch=fmc_la_p[32]
-#IN2
-set_property -dict { PACKAGE_PIN F14   IOSTANDARD LVDS_25 } [get_ports { config_ck2_n }]; #IO_L1N_T0_16 Sch=fmc_la_n[33]
-set_property -dict { PACKAGE_PIN F13   IOSTANDARD LVDS_25 } [get_ports { config_ck2_p }]; #IO_L1P_T0_16 Sch=fmc_la_p[33]
-#IN3
-set_property -dict { PACKAGE_PIN A14   IOSTANDARD LVDS_25 } [get_ports { config_sin_n }]; #IO_L10N_T1_16 Sch=fmc_la_n[30]
-set_property -dict { PACKAGE_PIN A13   IOSTANDARD LVDS_25 } [get_ports { config_sin_p }]; #IO_L10P_T1_16 Sch=fmc_la_p[30]
-#IN4
-set_property -dict { PACKAGE_PIN E14   IOSTANDARD LVDS_25 } [get_ports { config_ld_n }]; #IO_L4N_T0_16 Sch=fmc_la_n[31]
-set_property -dict { PACKAGE_PIN E13   IOSTANDARD LVDS_25 } [get_ports { config_ld_p }]; #IO_L4P_T0_16 Sch=fmc_la_p[31]
+if {[lsearch -exact $defines_list config_singleended] >= 0} {
+    puts "Configure outputs for single-ended chip config"
 
-##If config_singleended
-##IN1
-#set_property -dict {PACKAGE_PIN A16 IOSTANDARD LVCMOS25} [get_ports config_ck1_n]
-#set_property -dict {PACKAGE_PIN A15 IOSTANDARD LVCMOS25} [get_ports config_ck1_p]
-##IN2
-#set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS25} [get_ports config_ck2_n]
-#set_property -dict {PACKAGE_PIN F13 IOSTANDARD LVCMOS25} [get_ports config_ck2_p]
-##IN3
-#set_property -dict {PACKAGE_PIN A14 IOSTANDARD LVCMOS25} [get_ports config_sin_n]
-#set_property -dict {PACKAGE_PIN A13 IOSTANDARD LVCMOS25} [get_ports config_sin_p]
-##IN4
-#set_property -dict {PACKAGE_PIN E14 IOSTANDARD LVCMOS25} [get_ports config_ld_n]
-#set_property -dict {PACKAGE_PIN E13 IOSTANDARD LVCMOS25} [get_ports config_ld_p]
+    ##If config_singleended
+    ##IN1
+    set_property -dict {PACKAGE_PIN A16 IOSTANDARD LVCMOS25} [get_ports config_ck1_n]
+    set_property -dict {PACKAGE_PIN A15 IOSTANDARD LVCMOS25} [get_ports config_ck1_p]
+    ##IN2
+    set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS25} [get_ports config_ck2_n]
+    set_property -dict {PACKAGE_PIN F13 IOSTANDARD LVCMOS25} [get_ports config_ck2_p]
+    ##IN3
+    set_property -dict {PACKAGE_PIN A14 IOSTANDARD LVCMOS25} [get_ports config_sin_n]
+    set_property -dict {PACKAGE_PIN A13 IOSTANDARD LVCMOS25} [get_ports config_sin_p]
+    ##IN4
+    set_property -dict {PACKAGE_PIN E14 IOSTANDARD LVCMOS25} [get_ports config_ld_n]
+    set_property -dict {PACKAGE_PIN E13 IOSTANDARD LVCMOS25} [get_ports config_ld_p]
+} else {
+    puts "Configure outputs for differential chip config"
+    #If !config_singleended
+    #IN1
+    set_property -dict { PACKAGE_PIN A16   IOSTANDARD LVDS_25 } [get_ports { config_ck1_n }]; #IO_L9N_T1_DQS_16 Sch=fmc_la_n[32]
+    set_property -dict { PACKAGE_PIN A15   IOSTANDARD LVDS_25 } [get_ports { config_ck1_p }]; #IO_L9P_T1_DQS_16 Sch=fmc_la_p[32]
+    #IN2
+    set_property -dict { PACKAGE_PIN F14   IOSTANDARD LVDS_25 } [get_ports { config_ck2_n }]; #IO_L1N_T0_16 Sch=fmc_la_n[33]
+    set_property -dict { PACKAGE_PIN F13   IOSTANDARD LVDS_25 } [get_ports { config_ck2_p }]; #IO_L1P_T0_16 Sch=fmc_la_p[33]
+    #IN3
+    set_property -dict { PACKAGE_PIN A14   IOSTANDARD LVDS_25 } [get_ports { config_sin_n }]; #IO_L10N_T1_16 Sch=fmc_la_n[30]
+    set_property -dict { PACKAGE_PIN A13   IOSTANDARD LVDS_25 } [get_ports { config_sin_p }]; #IO_L10P_T1_16 Sch=fmc_la_p[30]
+    #IN4
+    set_property -dict { PACKAGE_PIN E14   IOSTANDARD LVDS_25 } [get_ports { config_ld_n }]; #IO_L4N_T0_16 Sch=fmc_la_n[31]
+    set_property -dict { PACKAGE_PIN E13   IOSTANDARD LVDS_25 } [get_ports { config_ld_p }]; #IO_L4P_T0_16 Sch=fmc_la_p[31]
+}
 
 #set_property -dict { PACKAGE_PIN K19   IOSTANDARD LVCMOS25 } [get_ports { vboard_sin }];
 #set_property -dict { PACKAGE_PIN J21   IOSTANDARD LVCMOS25 } [get_ports { vboard_ld }];

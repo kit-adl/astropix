@@ -117,12 +117,14 @@ always @( posedge clk ) begin
 		4'b1010: runlen[15:8] <= din;
 		4'b1011: runlen[ 7:0] <= din;
 		4'b1100: idelay[15:8] <= din;
-		4'b1101: idelay[ 7:0] <= din;		
+		4'b1101: idelay[ 7:0] <= din;
 		4'b1110: clkfac[15:8] <= din;
 		4'b1111: clkfac[ 7:0] <= din;
-	 endcase	 
+	 endcase
   end
+end
   
+always @( posedge clk ) begin
   /*reset state values are taken on reset*/
     if (rst) begin
         runcnt      <= runlen-1'b1;

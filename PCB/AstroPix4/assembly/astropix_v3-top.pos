@@ -1,0 +1,53 @@
+### Module positions - created on Fri Feb 10 19:28:05 2023 ###
+### Printed by Pcbnew version (6.0.10)
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val               Package                               PosX       PosY       Rot  Side
+C1        1nF               C_0603_1608Metric                 117.5500   -88.1000  -90.0000  top
+C2        .1uF              C_0603_1608Metric                 120.8000   -88.1000  -90.0000  top
+C4        1nF               C_1210_3225Metric                 113.9952   -87.5030   90.0000  top
+C6        .1uF              C_1210_3225Metric                 110.6932   -87.5030   90.0000  top
+C7        .1uF              C_0603_1608Metric                 123.7978   -91.4128  -90.0000  top
+C8        1nF               C_0603_1608Metric                 120.7516   -92.0496  -90.0000  top
+C9        .1uF              C_0603_1608Metric                 119.1768   -92.0496  -90.0000  top
+C10       10uF              C_0603_1608Metric                 117.5512   -92.0496  -90.0000  top
+C11       1nF               C_0603_1608Metric                 120.7516   -96.0882   90.0000  top
+C12       .1uF              C_0603_1608Metric                 128.5730   -91.4128  -90.0000  top
+C13       .1uF              C_0603_1608Metric                 119.1514   -96.0882   90.0000  top
+C14       10uF              C_0603_1608Metric                 117.5766   -96.0882   90.0000  top
+C15       10uF              C_0603_1608Metric                 119.1500   -88.1000  -90.0000  top
+FID1      Fiducial          Fiducial_1mm_Mask2mm              111.3000   -56.3000    0.0000  top
+FID2      Fiducial          Fiducial_1mm_Mask2mm              154.3050  -100.3300    0.0000  top
+H3        bonder            bonder                            131.5000   -68.8000    0.0000  top
+J1        pcie_GECCO        pcie_astropix                     129.0320  -100.7110    0.0000  top
+J2        ChipRings         PinHeader_1x04_P2.54mm_Vertical   114.7000   -68.4000  -90.0000  top
+J3        TempSens          PinHeader_1x05_P2.54mm_Vertical   154.6000   -85.9600    0.0000  top
+J4        SFOut             SMA_Molex_73251-2200_Horizontal   152.8000   -76.0000  -90.0000  top
+J5        sample_clock_out  SMA_Molex_73251-2200_Horizontal   152.8000   -64.8000  -90.0000  top
+J6        HV_in_external    SMA_Molex_73251-2200_Horizontal   109.5200   -75.0000   90.0000  top
+J7        Conn_01x03        PinHeader_1x03_P2.54mm_Vertical   112.7000   -64.1000  -90.0000  top
+J9        SPI_left          PinHeader_1x06_P2.54mm_Vertical   126.4920   -54.6100  -90.0000  top
+J10       SPI_right         PinHeader_1x06_P2.54mm_Vertical   130.9370   -54.6100   90.0000  top
+JP1       VDD_JP            PinHeader_1x03_P2.54mm_Vertical   114.9096   -92.7100    0.0000  top
+Logo1     KIT_logo          logo                              136.9000   -96.0000    0.0000  top
+Logo2     HV_logo           hv                                109.1000   -93.0000    0.0000  top
+R2        2.2k              R_0603_1608Metric                 149.3000   -82.4000  -90.0000  top
+R3        100               R_0402_1005Metric                 126.1600   -92.6828    0.0000  top
+R4        100               R_0402_1005Metric                 131.3000   -89.3000    0.0000  top
+R5        10k               R_0603_1608Metric                 127.7000   -94.7250  -90.0000  top
+R6        220k              R_0603_1608Metric                 118.9250   -64.6000    0.0000  top
+R8        22                R_0402_1005Metric                 147.5000   -75.5000  -90.0000  top
+R9        220k              R_0603_1608Metric                 118.9250   -66.8000    0.0000  top
+R10       22                R_0402_1005Metric                 118.8000   -77.3000   90.0000  top
+R11       0                 R_0603_1608Metric                 114.6500   -82.2500   90.0000  top
+R12       1k                R_0603_1608Metric                 111.9000   -82.3000  -90.0000  top
+R13       22                R_0402_1005Metric                 120.1000   -77.3000   90.0000  top
+R14       22                R_0402_1005Metric                 117.5000   -77.3000   90.0000  top
+R15       220k              R_0603_1608Metric                 118.9250   -69.1000    0.0000  top
+R16       220k              R_0603_1608Metric                 118.9250   -71.3000    0.0000  top
+R17       22                R_0402_1005Metric                 146.3000   -75.5000  -90.0000  top
+R18       22                R_0402_1005Metric                 144.7000   -75.5000  -90.0000  top
+R19       220k              R_0603_1608Metric                 118.9250   -73.6000    0.0000  top
+U2        SN65LVDS4         Texas_R-PUQFN-N10                 126.1600   -90.6000   90.0000  top
+U5        AstroPix3_split   AstroPix3_power2                  123.4000   -80.4000    0.0000  top
+## End

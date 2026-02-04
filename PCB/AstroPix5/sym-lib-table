@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "astropix")(type "KiCad")(uri "${KIPRJMOD}/astropix.kicad_sym")(options "")(descr ""))
+)

@@ -37,9 +37,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.0,
-          "height": 0.2,
-          "width": 0.6
+          "drill": 1.5,
+          "height": 2.25,
+          "width": 2.25
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -59,7 +59,35 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        "lib_footprint_mismatch|183560000|129740000|fc290001-f7e6-4911-a0a2-20374c5fa9ee|00000000-0000-0000-0000-000000000000",
+        "lib_footprint_mismatch|184210000|99864121|53548983-f1d6-42fe-8654-ede84531e994|00000000-0000-0000-0000-000000000000",
+        "silk_edge_clearance|170460000|60014644|843ef9a6-217c-4b84-9fd2-621b6ca7915d|39c384b6-8f65-4ba4-a860-b870a851d052",
+        "silk_edge_clearance|171220000|60014375|843ef9a6-217c-4b84-9fd2-621b6ca7915d|7bac40c3-af9c-40d6-b1d0-17baa7fcf786",
+        "silk_edge_clearance|173000000|60013744|843ef9a6-217c-4b84-9fd2-621b6ca7915d|9d270062-8a5f-44f0-b56e-cd791faf3f03",
+        "silk_edge_clearance|173760000|60013475|843ef9a6-217c-4b84-9fd2-621b6ca7915d|a0d20c25-f621-4e60-8de9-72dee6edc53b",
+        "silk_edge_clearance|175540000|60012844|843ef9a6-217c-4b84-9fd2-621b6ca7915d|8a00f50e-4e4f-45da-9eeb-7af36ddbd690",
+        "silk_edge_clearance|176300000|60012574|843ef9a6-217c-4b84-9fd2-621b6ca7915d|594542f7-9c6a-4c95-b8b6-d9910be26894",
+        "silk_edge_clearance|178080000|60011943|843ef9a6-217c-4b84-9fd2-621b6ca7915d|36939907-d562-465d-b399-4f9a270a8953",
+        "silk_edge_clearance|178840000|60011674|843ef9a6-217c-4b84-9fd2-621b6ca7915d|79ba8eb2-3883-4c79-9513-8b5e270468a7",
+        "silk_edge_clearance|180620000|60011043|843ef9a6-217c-4b84-9fd2-621b6ca7915d|9912e3a1-0e31-4a7d-8ef2-79a44472c394",
+        "silk_edge_clearance|181380000|60010773|843ef9a6-217c-4b84-9fd2-621b6ca7915d|c2436f61-1c65-4ab5-bc58-31fd572718dc",
+        "silk_edge_clearance|183160000|60010142|843ef9a6-217c-4b84-9fd2-621b6ca7915d|9f3b2cb3-a458-486e-bad3-5d47627788f8",
+        "silk_edge_clearance|183920000|60009873|843ef9a6-217c-4b84-9fd2-621b6ca7915d|49598ec9-f960-41ad-9733-d4b82c015427",
+        "silk_edge_clearance|185700000|60009242|843ef9a6-217c-4b84-9fd2-621b6ca7915d|bc7b6e60-98e3-4daa-9c88-6ede02ecd7bb",
+        "silk_edge_clearance|186460000|60008973|843ef9a6-217c-4b84-9fd2-621b6ca7915d|a8c546af-91eb-426e-8578-a79d2e3bdaee",
+        "silk_edge_clearance|188240000|60008342|843ef9a6-217c-4b84-9fd2-621b6ca7915d|ee7fc67d-805c-4ab2-8ab5-eaf05503a87e",
+        "silk_edge_clearance|189000000|60008072|843ef9a6-217c-4b84-9fd2-621b6ca7915d|2317851c-db2f-4123-be83-73d14f3b6f74",
+        "silk_edge_clearance|190780000|60007441|843ef9a6-217c-4b84-9fd2-621b6ca7915d|0a7265d8-d5a4-431e-84ed-4004dafe013a",
+        "silk_edge_clearance|191540000|60007172|843ef9a6-217c-4b84-9fd2-621b6ca7915d|f3d222f8-dff4-4b2f-9603-acb357bc58f3",
+        "silk_edge_clearance|193320000|60006541|843ef9a6-217c-4b84-9fd2-621b6ca7915d|46fb68d6-1966-4c29-87db-88402538ccdd",
+        "silk_edge_clearance|194080000|60006271|843ef9a6-217c-4b84-9fd2-621b6ca7915d|4c4f2e1a-1c95-4614-a0ac-eafcd9a6a23d",
+        "silk_edge_clearance|195860000|60005640|843ef9a6-217c-4b84-9fd2-621b6ca7915d|3a7a69bb-cd7e-40f9-8b19-92fa2d9007a5",
+        "silk_edge_clearance|196620000|60005371|843ef9a6-217c-4b84-9fd2-621b6ca7915d|20b9b64b-b5f2-41ec-9c05-15d3ec70a1e2",
+        "silk_edge_clearance|198400000|60004740|843ef9a6-217c-4b84-9fd2-621b6ca7915d|ce510289-cf88-499a-a9bf-5015fd912849",
+        "silk_edge_clearance|199160000|60004471|843ef9a6-217c-4b84-9fd2-621b6ca7915d|34300ff8-e32e-4ec6-b8d5-c82a015f62db",
+        "silk_over_copper|184038095|99774819|65bb39a9-dd87-44ec-904e-5b6f29c12372|00000000-0000-0000-0000-000000000000"
+      ],
       "meta": {
         "filename": "board_design_settings.json",
         "version": 2
@@ -504,7 +532,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.2,
+        "clearance": 0.125,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -514,9 +542,111 @@
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.125,
+        "via_diameter": 0.45,
+        "via_drill": 0.25,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.15,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "analog_bias",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.25,
+        "via_diameter": 0.5,
+        "via_drill": 0.25,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.15,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "digital_ctrl",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.2,
-        "via_diameter": 0.6,
-        "via_drill": 0.3,
+        "via_diameter": 0.45,
+        "via_drill": 0.2,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.25,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "gnd",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.5,
+        "via_diameter": 0.7,
+        "via_drill": 0.25,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.3,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "hv_substrate",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.8,
+        "via_diameter": 0.8,
+        "via_drill": 0.4,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.15,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "lvds_diff",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
+        "via_diameter": 0.45,
+        "via_drill": 0.2,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.15,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "power_lv",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.5,
+        "via_diameter": 0.7,
+        "via_drill": 0.35,
         "wire_width": 6
       }
     ],
@@ -525,7 +655,152 @@
     },
     "net_colors": null,
     "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_patterns": [
+      {
+        "netclass": "gnd",
+        "pattern": "*GND*"
+      },
+      {
+        "netclass": "power_lv",
+        "pattern": "*VDD*"
+      },
+      {
+        "netclass": "power_lv",
+        "pattern": "*VSSA*"
+      },
+      {
+        "netclass": "power_lv",
+        "pattern": "*vminuspix*"
+      },
+      {
+        "netclass": "power_lv",
+        "pattern": "*vminusref*"
+      },
+      {
+        "netclass": "power_lv",
+        "pattern": "*vminusout*"
+      },
+      {
+        "netclass": "hv_substrate",
+        "pattern": "*HV*"
+      },
+      {
+        "netclass": "hv_substrate",
+        "pattern": "*sub*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*VGateComp*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*VPBias*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*pamp*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*blpix*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*pload*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*ThPix*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*VCasc2*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*cascpix*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*vpDel*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*ampout*"
+      },
+      {
+        "netclass": "analog_bias",
+        "pattern": "*Vtemp*"
+      },
+      {
+        "netclass": "lvds_diff",
+        "pattern": "*SPI_*_N*"
+      },
+      {
+        "netclass": "lvds_diff",
+        "pattern": "*Clk20*"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*res_n*"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*syncres*"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*hold*"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*Enable_SPI_diff"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*timestamp_clk"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*interrupt"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*DigInj"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*SR_*"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*SPI_left_*"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*SPI_right_*"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*HBOut"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "*pll_clk"
+      },
+      {
+        "netclass": "lvds_diff",
+        "pattern": "*SPI_*_P"
+      },
+      {
+        "netclass": "power_lv",
+        "pattern": "VDDA*"
+      },
+      {
+        "netclass": "digital_ctrl",
+        "pattern": "/Inj"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {

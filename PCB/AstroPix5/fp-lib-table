@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name astropix)(type KiCad)(uri ${KIPRJMOD}/astropix.pretty)(options "")(descr ""))
+)
